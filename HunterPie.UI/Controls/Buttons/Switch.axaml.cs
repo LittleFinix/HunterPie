@@ -1,5 +1,5 @@
-﻿using HunterPie.UI.Architecture;
-using System.Windows;
+﻿using Avalonia;
+using HunterPie.UI.Architecture;
 
 namespace HunterPie.UI.Controls.Buttons;
 
@@ -13,8 +13,8 @@ public partial class Switch : ClickableControl
         get => (bool)GetValue(IsActiveProperty);
         set => SetValue(IsActiveProperty, value);
     }
-    public static readonly DependencyProperty IsActiveProperty =
-        DependencyProperty.Register("IsActive", typeof(bool), typeof(Switch), new PropertyMetadata(false));
+    public static readonly StyledProperty<bool> IsActiveProperty =
+        AvaloniaProperty.Register<Switch, bool>(nameof(IsActive), false);
 
     public Switch()
     {

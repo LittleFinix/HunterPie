@@ -1,13 +1,14 @@
 ﻿<UserControl x:Class="HunterPie.UI.Overlay.Widgets.Monster.Views.BossMonsterSeverablePartView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:HunterPie.UI.Overlay.Widgets.Monster.Views"
-             xmlns:converters="clr-namespace:HunterPie.UI.Architecture.Converters"
-             xmlns:overlay="clr-namespace:HunterPie.UI.Overlay.Controls"
-             xmlns:vm="clr-namespace:HunterPie.UI.Overlay.Widgets.Monster.ViewModels"
-             d:DataContext="{d:DesignData Type=vm:MonsterPartViewModel}"
+             xmlns:local="using:HunterPie.UI.Overlay.Widgets.Monster.Views"
+             xmlns:converters="using:HunterPie.UI.Architecture.Converters"
+             xmlns:overlay="using:HunterPie.UI.Overlay.Controls"
+             xmlns:vm="using:HunterPie.UI.Overlay.Widgets.Monster.ViewModels"
+             Classes.isPartBroken="{Binding IsPartBroken}"
+             Classes.isPartSevered="{Binding IsPartSevered}"
              mc:Ignorable="d" 
              d:DesignWidth="200">
     <UserControl.Resources>
@@ -25,7 +26,7 @@
             <TextBlock.Effect>
                 <DropShadowEffect Color="Black"
                                       BlurRadius="4" 
-                                      ShadowDepth="0"/>
+                                      />
             </TextBlock.Effect>
         </TextBlock>
 
@@ -50,24 +51,20 @@
                         <TranslateTransform/>
                     </TransformGroup>
                 </overlay:Bar.RenderTransform>
-                <overlay:Bar.Style>
-                    <Style TargetType="overlay:Bar">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsPartBroken}" Value="True">
-                                <Setter Property="Foreground" Value="{StaticResource MonsterHealthUnenraged}"/>
-                                <Setter Property="ForegroundDelayed" Value="{StaticResource MonsterHealthUnenragedDelayed}"/>
-                                <Setter Property="MaxValue" Value="{Binding MaxFlinch, Mode=OneWay}"/>
-                                <Setter Property="Value" Value="{Binding Flinch, Mode=OneWay}"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding IsPartBroken}" Value="False">
-                                <Setter Property="Foreground" Value="{StaticResource MONSTER_PART_BREAKABLE_FOREGROUND}"/>
-                                <Setter Property="ForegroundDelayed" Value="#FFFFE1AC"/>
-                                <Setter Property="MaxValue" Value="{Binding MaxHealth, Mode=OneWay}"/>
-                                <Setter Property="Value" Value="{Binding Health, Mode=OneWay}"/>
-                            </DataTrigger>
-                        </Style.Triggers>
+                <overlay:Bar.Styles>
+                    <Style Selector="overlay|Bar">
+                        <Setter Property="Foreground" Value="{StaticResource MONSTER_PART_BREAKABLE_FOREGROUND}"/>
+                        <Setter Property="ForegroundDelayed" Value="#FFFFE1AC"/>
+                        <Setter Property="MaxValue" Value="{Binding MaxHealth, Mode=OneWay}"/>
+                        <Setter Property="Value" Value="{Binding Health, Mode=OneWay}"/>
                     </Style>
-                </overlay:Bar.Style>
+                    <Style Selector="local|BossMonsterSeverablePartView.isPartBroken overlay|Bar">
+                        <Setter Property="Foreground" Value="{StaticResource MonsterHealthUnenraged}"/>
+                        <Setter Property="ForegroundDelayed" Value="{StaticResource MonsterHealthUnenragedDelayed}"/>
+                        <Setter Property="MaxValue" Value="{Binding MaxFlinch, Mode=OneWay}"/>
+                        <Setter Property="Value" Value="{Binding Flinch, Mode=OneWay}"/>
+                    </Style>
+                </overlay:Bar.Styles>
             </overlay:Bar>
             
             <!-- Sever bar -->
@@ -88,20 +85,16 @@
                         <SkewTransform AngleX="-45"/>
                     </TransformGroup>
                 </overlay:Bar.RenderTransform>
-                <overlay:Bar.Style>
-                    <Style TargetType="overlay:Bar">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsPartSevered}" Value="False">
-                                <Setter Property="Foreground" Value="{StaticResource MONSTER_PART_SEVERABLE_FOREGROUND}"/>
-                                <Setter Property="ForegroundDelayed" Value="#FFFF8F8F"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding IsPartSevered}" Value="True">
-                                <Setter Property="Foreground" Value="{StaticResource MONSTER_PART_BROKEN_FOREGROUND}"/>
-                                <Setter Property="ForegroundDelayed" Value="#c4c4c4"/>
-                            </DataTrigger>
-                        </Style.Triggers>
+                <overlay:Bar.Styles>
+                    <Style Selector="overlay|Bar">
+                        <Setter Property="Foreground" Value="{StaticResource MONSTER_PART_SEVERABLE_FOREGROUND}"/>
+                        <Setter Property="ForegroundDelayed" Value="#FFFF8F8F"/>
                     </Style>
-                </overlay:Bar.Style>
+                    <Style Selector="local|BossMonsterSeverablePartView.isPartSevered overlay|Bar">
+                        <Setter Property="Foreground" Value="{StaticResource MONSTER_PART_BROKEN_FOREGROUND}"/>
+                        <Setter Property="ForegroundDelayed" Value="#c4c4c4"/>
+                    </Style>
+                </overlay:Bar.Styles>
             </overlay:Bar>
 
             <Label Foreground="{StaticResource HUNTERPIE_FOREGROUND_PRIMARY}"
@@ -114,80 +107,61 @@
                 <Label.Effect>
                     <DropShadowEffect Color="Black"
                                       BlurRadius="2"
-                                      ShadowDepth="0"/>
+                                      />
                 </Label.Effect>
-                <Label.Style>
-                    <Style TargetType="Label">
-                        <Style.Triggers>
-                            <!-- When part is severed but not broken -->
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding IsPartSevered}" Value="True"/>
-                                    <Condition Binding="{Binding IsPartBroken}" Value="False"/>
-                                </MultiDataTrigger.Conditions>
-                                <MultiDataTrigger.Setters>
-                                    <Setter Property="Content">
-                                        <Setter.Value>
-                                            <TextBlock>
-                                           <Run Text="{Binding Health, StringFormat=\{0:F1\}}"
-                                                d:Text="2000.0"/><!--
+                <Label.Styles>
+                    <Style Selector="local|BossMonsterSeverablePartView.isPartSevered:not(.isPartBroken) Label">
+                        <Setter Property="Content">
+                            <Template>
+                                <TextBlock>
+                                    <Run Text="{Binding Health, StringFormat=\{0:F1\}}"
+                                         d:Text="2000.0"/><!--
                                         --><Run Text="/"
-                                                Foreground="{StaticResource HUNTERPIE_FOREGROUND_SECONDARY}"
-                                                FontWeight="Light"/><!--
+                                        Foreground="{StaticResource HUNTERPIE_FOREGROUND_SECONDARY}"
+                                        FontWeight="Light"/><!--
                                         --><Run Text="{Binding MaxHealth, StringFormat=\{0:F1\}}"
-                                                Foreground="{StaticResource HUNTERPIE_FOREGROUND_SECONDARY}"
-                                                FontWeight="Light"
-                                                d:Text="2000.0"/>
-                                            </TextBlock>
-                                        </Setter.Value>
-                                    </Setter>
-                                </MultiDataTrigger.Setters>
-                            </MultiDataTrigger>
-                            <!-- When part is severed and broken -->
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding IsPartSevered}" Value="True"/>
-                                    <Condition Binding="{Binding IsPartBroken}" Value="True"/>
-                                </MultiDataTrigger.Conditions>
-                                <MultiDataTrigger.Setters>
-                                    <Setter Property="Content">
-                                        <Setter.Value>
-                                            <TextBlock>
-                                           <Run Text="{Binding Flinch, StringFormat=\{0:F1\}}"
-                                                d:Text="2000.0"/><!--
-                                        --><Run Text="/"
-                                                Foreground="{StaticResource HUNTERPIE_FOREGROUND_SECONDARY}"
-                                                FontWeight="Light"/><!--
-                                        --><Run Text="{Binding MaxFlinch, StringFormat=\{0:F1\}}"
-                                                Foreground="{StaticResource HUNTERPIE_FOREGROUND_SECONDARY}"
-                                                FontWeight="Light"
-                                                d:Text="2000.0"/>
-                                            </TextBlock>
-                                        </Setter.Value>
-                                    </Setter>
-                                </MultiDataTrigger.Setters>
-                            </MultiDataTrigger>
-                            <DataTrigger Binding="{Binding IsPartSevered}" Value="False">
-                                <Setter Property="Content">
-                                    <Setter.Value>
-                                        <TextBlock>
-                                           <Run Text="{Binding Sever, StringFormat=\{0:F1\}}"
-                                                d:Text="2000.0"/><!--
-                                        --><Run Text="/"
-                                                Foreground="{StaticResource HUNTERPIE_FOREGROUND_SECONDARY}"
-                                                FontWeight="Light"/><!--
-                                        --><Run Text="{Binding MaxSever, StringFormat=\{0:F1\}}"
-                                                Foreground="{StaticResource HUNTERPIE_FOREGROUND_SECONDARY}"
-                                                FontWeight="Light"
-                                                d:Text="2000.0"/>
-                                        </TextBlock>
-                                    </Setter.Value>
-                                </Setter>
-                            </DataTrigger>
-                        </Style.Triggers>
+                                        Foreground="{StaticResource HUNTERPIE_FOREGROUND_SECONDARY}"
+                                        FontWeight="Light"
+                                        d:Text="2000.0"/>
+                                </TextBlock>
+                            </Template>
+                        </Setter>
                     </Style>
-                </Label.Style>
-                
+                    <Style Selector="local|BossMonsterSeverablePartView.isPartSevered.isPartBroken Label">
+                        <Setter Property="Content">
+                            <Template>
+                                <TextBlock>
+                                    <Run Text="{Binding Flinch, StringFormat=\{0:F1\}}"
+                                         d:Text="2000.0"/><!--
+                                        --><Run Text="/"
+                                        Foreground="{StaticResource HUNTERPIE_FOREGROUND_SECONDARY}"
+                                        FontWeight="Light"/><!--
+                                        --><Run Text="{Binding MaxFlinch, StringFormat=\{0:F1\}}"
+                                        Foreground="{StaticResource HUNTERPIE_FOREGROUND_SECONDARY}"
+                                        FontWeight="Light"
+                                        d:Text="2000.0"/>
+                                </TextBlock>
+                            </Template>
+                        </Setter>
+                    </Style>
+                    <Style Selector="local|BossMonsterSeverablePartView:not(.isPartSevered) Label">
+                        <Setter Property="Content">
+                            <Template>
+                                <TextBlock>
+                                    <Run Text="{Binding Sever, StringFormat=\{0:F1\}}"
+                                         d:Text="2000.0"/><!--
+                                        --><Run Text="/"
+                                        Foreground="{StaticResource HUNTERPIE_FOREGROUND_SECONDARY}"
+                                        FontWeight="Light"/><!--
+                                        --><Run Text="{Binding MaxSever, StringFormat=\{0:F1\}}"
+                                        Foreground="{StaticResource HUNTERPIE_FOREGROUND_SECONDARY}"
+                                        FontWeight="Light"
+                                        d:Text="2000.0"/>
+                                </TextBlock>
+                            </Template>
+                        </Setter>
+                    </Style>
+                </Label.Styles>
             </Label>
         </Grid>
     </Grid>

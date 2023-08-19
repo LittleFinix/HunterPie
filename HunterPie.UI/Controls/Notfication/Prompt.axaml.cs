@@ -1,6 +1,5 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
+﻿using Avalonia;
+using Avalonia.Controls;
 
 namespace HunterPie.UI.Controls.Notfication;
 /// <summary>
@@ -15,8 +14,8 @@ public partial class Prompt : UserControl
     }
 
     // Using a DependencyProperty as the backing store for IconMargin.  This enables animation, styling, binding, etc...
-    public static readonly DependencyProperty IconMarginProperty =
-        DependencyProperty.Register(nameof(IconMargin), typeof(Thickness), typeof(Prompt), new PropertyMetadata(new Thickness(3)));
+    public static readonly StyledProperty<Thickness> IconMarginProperty =
+        AvaloniaProperty.Register<Prompt, Thickness>(nameof(IconMargin), new Thickness(3));
 
     public ImageSource Icon
     {
@@ -25,8 +24,8 @@ public partial class Prompt : UserControl
     }
 
     // Using a DependencyProperty as the backing store for Icon.  This enables animation, styling, binding, etc...
-    public static readonly DependencyProperty IconProperty =
-        DependencyProperty.Register(nameof(Icon), typeof(ImageSource), typeof(Prompt));
+    public static readonly StyledProperty<ImageSource> IconProperty =
+        AvaloniaProperty.Register<Prompt, ImageSource>(nameof(Icon));
 
     public string Message
     {
@@ -35,8 +34,8 @@ public partial class Prompt : UserControl
     }
 
     // Using a DependencyProperty as the backing store for Message.  This enables animation, styling, binding, etc...
-    public static readonly DependencyProperty MessageProperty =
-        DependencyProperty.Register(nameof(Message), typeof(string), typeof(Prompt), new PropertyMetadata(string.Empty));
+    public static readonly StyledProperty<string> MessageProperty =
+        AvaloniaProperty.Register<Prompt, string>(nameof(Message));
 
 
 

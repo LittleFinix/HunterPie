@@ -1,6 +1,6 @@
-﻿using HunterPie.UI.Controls.Settings.Custom.Abnormality;
+﻿using Avalonia.Controls;
+using HunterPie.UI.Controls.Settings.Custom.Abnormality;
 using System;
-using System.Windows.Controls;
 
 namespace HunterPie.UI.Controls.Settings.Custom;
 
@@ -14,7 +14,7 @@ public partial class AbnormalityView : UserControl
         InitializeComponent();
     }
 
-    private void OnClick(object sender, EventArgs e)
+    private void OnClick()
     {
         if (DataContext is AbnormalityViewModel vm)
         {

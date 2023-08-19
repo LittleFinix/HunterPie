@@ -1,11 +1,10 @@
-﻿using HunterPie.Core.Client.Configuration.Overlay;
+﻿using Avalonia.Interactivity;
+using HunterPie.Core.Client.Configuration.Overlay;
 using HunterPie.Core.Settings;
 using HunterPie.UI.Architecture;
 using HunterPie.UI.Overlay.Enums;
 using HunterPie.UI.Overlay.Widgets.Abnormality.ViewModel;
 using System;
-using System.Windows;
-using System.Windows.Media;
 
 namespace HunterPie.UI.Overlay.Widgets.Abnormality.View;
 
@@ -43,7 +42,7 @@ public partial class AbnormalityBarView : View<AbnormalityBarViewModel>, IWidget
         frameCounter++;
     }
 
-    private void OnLoad(object sender, RoutedEventArgs e) => CompositionTarget.Rendering += OnRender;
+    private void OnLoad(object sender, RoutedEventArgs e) {} // => CompositionTarget.Rendering += OnRender;
 
-    private void OnUnload(object sender, RoutedEventArgs e) => CompositionTarget.Rendering -= OnRender;
+    private void OnUnload(object sender, RoutedEventArgs e) {} // => CompositionTarget.Rendering -= OnRender;
 }

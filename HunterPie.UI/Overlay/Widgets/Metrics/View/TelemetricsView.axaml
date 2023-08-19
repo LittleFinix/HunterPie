@@ -1,16 +1,18 @@
 ﻿<arch:View x:Class="HunterPie.UI.Overlay.Widgets.Metrics.View.TelemetricsView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:arch="clr-namespace:HunterPie.UI.Architecture"
-             xmlns:local="clr-namespace:HunterPie.UI.Overlay.Widgets.Metrics.View"
-             xmlns:viewmodels="clr-namespace:HunterPie.UI.Overlay.Widgets.Metrics.ViewModel"
+             xmlns:arch="using:HunterPie.UI.Architecture"
+             xmlns:local="using:HunterPie.UI.Overlay.Widgets.Metrics.View"
+             xmlns:viewmodels="using:HunterPie.UI.Overlay.Widgets.Metrics.ViewModel"
              xmlns:core="clr-namespace:HunterPie.Core.Domain;assembly=HunterPie.Core"
-             xmlns:controls="clr-namespace:HunterPie.UI.Overlay.Controls"
-             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-             xmlns:native="clr-namespace:HunterPie.UI.Controls.Buttons"
-             d:DataContext="{d:DesignInstance Type=viewmodels:TelemetricsViewModel}"
+             xmlns:controls="using:HunterPie.UI.Overlay.Controls"
+             xmlns:lvca="using:LiveChartsCore.SkiaSharpView.Avalonia"
+             xmlns:lvc="using:LiveChartsCore.SkiaSharpView"
+             xmlns:lcc="using:LiveChartsCore"
+             
+             
              x:TypeArguments="viewmodels:TelemetricsViewModel"
              mc:Ignorable="d"
              BorderBrush="{StaticResource HUNTERPIE_ACCENT_COLOR}"
@@ -67,25 +69,23 @@
                  FontWeight="Medium"/>
         </TextBlock>
 
-        <lvc:CartesianChart Height="100"
-                            Series="{Binding CPUSeries}"
-                            DisableAnimations="True">
-            <lvc:CartesianChart.AxisY>
-                <lvc:Axis MinValue="0"
-                          LabelFormatter="{Binding PercentageFormatter}"/>
-            </lvc:CartesianChart.AxisY>
-        </lvc:CartesianChart>
-        <lvc:CartesianChart Height="100"
-                            Series="{Binding RAMSeries}"
-                            DisableAnimations="True">
-            <lvc:CartesianChart.AxisY>
-                <lvc:Axis MinValue="0"
-                          LabelFormatter="{Binding BytesFormatter}"/>
-            </lvc:CartesianChart.AxisY>
-        </lvc:CartesianChart>
+        <lvca:CartesianChart Height="100"
+                            Series="{Binding CPUSeries}">
+            <!-- <lvca:CartesianChart.YAxes> -->
+            <!--     <lvc:Axis MinLimit="0" -->
+            <!--               Labeler="{Binding PercentageFormatter}"/> -->
+            <!-- </lvca:CartesianChart.YAxes> -->
+        </lvca:CartesianChart>
+        <lvca:CartesianChart Height="100"
+                            Series="{Binding RAMSeries}">
+            <!-- <lvca:CartesianChart.YAxes> -->
+            <!--     <lvc:Axis MinLimit="0" -->
+            <!--               Labeler="{Binding BytesFormatter}"/> -->
+            <!-- </lvca:CartesianChart.YAxes> -->
+        </lvca:CartesianChart>
 
-        <native:Button Content="Execute GC"
-                       OnClick="OnGCClick"/>
+        <!-- <native:Button Content="Execute GC" -->
+        <!--                OnClick="OnGCClick"/> -->
 
         <TextBlock FontFamily="{StaticResource HUNTERPIE_DEFAULT_FONT}"
                    Foreground="{StaticResource HUNTERPIE_FOREGROUND_DARK}"

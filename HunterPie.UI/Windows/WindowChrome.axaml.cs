@@ -1,9 +1,10 @@
-﻿using HunterPie.UI.Architecture.Extensions;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using HunterPie.UI.Architecture.Extensions;
 using System;
 using System.ComponentModel;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace HunterPie.UI.Windows;
 
@@ -31,8 +32,9 @@ public partial class WindowChrome : UserControl, INotifyPropertyChanged
         get => GetValue(ContainerProperty);
         set => SetValue(ContainerProperty, value);
     }
-    public static readonly DependencyProperty ContainerProperty =
-        DependencyProperty.Register("Container", typeof(object), typeof(WindowChrome));
+    
+    public static readonly StyledProperty<object> ContainerProperty =
+        AvaloniaProperty.Register<WindowChrome, object>(nameof(Container));
 
     public event PropertyChangedEventHandler PropertyChanged;
 
@@ -45,7 +47,7 @@ public partial class WindowChrome : UserControl, INotifyPropertyChanged
 
     private void OnMinimizeButtonClick(object sender, EventArgs e) => Owner.WindowState = WindowState.Minimized;
 
-    private void OnLeftMouseDown(object sender, MouseButtonEventArgs e) => Owner.DragMove();
+    private void OnLeftMouseDown(object sender, PointerPressedEventArgs e) => Owner.BeginMoveDrag(e);
 
-    private void OnLoaded(object sender, RoutedEventArgs e) => Owner = Window.GetWindow(this);
+    private void OnLoaded(object sender, RoutedEventArgs e) => Owner = (Window) Window.GetTopLevel(this);
 }

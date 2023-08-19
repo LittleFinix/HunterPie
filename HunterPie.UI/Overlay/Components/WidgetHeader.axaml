@@ -1,12 +1,11 @@
 ﻿<UserControl x:Class="HunterPie.UI.Overlay.Components.WidgetHeader"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:HunterPie.UI.Overlay.Components"
-             xmlns:buttons="clr-namespace:HunterPie.UI.Controls.Buttons"
-             xmlns:converters="clr-namespace:HunterPie.UI.Architecture.Converters"
-             xmlns:image="clr-namespace:HunterPie.UI.Controls.Image"
+             xmlns:local="clr-namespace:HunterPie.UI.Overlay.Components;assembly=HunterPie.UI"
+             xmlns:converters="using:HunterPie.UI.Architecture.Converters"
+             xmlns:image="using:HunterPie.UI.Controls.Image"
              mc:Ignorable="d"
              Height="30"
              Loaded="OnLoaded">
@@ -44,46 +43,34 @@
                            Margin="0,0,5,0">
                     <Run Text="x:"/>
                     <Run d:Text="1000"
-                         Text="{Binding Left, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WidgetBase}}, StringFormat=\{0:F0\}}"
+                         Text="{Binding $parent[local:WidgetBase].Left, StringFormat=\{0:F0\}}"
                          Foreground="{StaticResource WHITE_100}"/>
                     <Run Text="y:"/>
                     <Run d:Text="800"
-                         Text="{Binding Top, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WidgetBase}}, StringFormat=\{0:F0\}}"
+                         Text="{Binding $parent[local:WidgetBase].Top, StringFormat=\{0:F0\}}"
                          Foreground="{StaticResource WHITE_100}"/>
                 </TextBlock>
-                <buttons:Button Width="20"
+                <Button Width="20"
                                 HorizontalContentAlignment="Stretch"
                                 VerticalContentAlignment="Stretch"
                                 Margin="2,0"
                                 Click="OnHideButtonClick">
                     <image:Icon d:Image="{StaticResource ICON_EYE}"
                                 d:Foreground="{StaticResource GREEN_100}">
-                        <image:Icon.Style>
-                            <Style TargetType="image:Icon">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Widget.Settings.Enabled.Value, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WidgetBase}}}"
-                                                 Value="False">
-                                        <Setter Property="Image" Value="{StaticResource ICON_EYE_INVISIBLE}"/>
-                                        <Setter Property="Foreground" Value="{StaticResource RED_100}"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding Widget.Settings.Enabled.Value, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WidgetBase}}}"
-                                                 Value="True">
-                                        <Setter Property="Image" Value="{StaticResource ICON_EYE}"/>
-                                        <Setter Property="Foreground" Value="{StaticResource GREEN_100}"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
+                        <image:Icon.Styles>
+                            <Style Selector="image|Icon">
                             </Style>
-                        </image:Icon.Style>
+                        </image:Icon.Styles>
                     </image:Icon>
-                </buttons:Button>
-                <buttons:Button Width="20"
+                </Button>
+                <Button Width="20"
                                 HorizontalContentAlignment="Stretch"
                                 VerticalContentAlignment="Stretch"
                                 Margin="2,0"
                                 Click="OnCloseButtonClick">
                     <image:Icon Image="{StaticResource ICON_TRASH}"
                                 Foreground="{StaticResource RED_100}"/>
-                </buttons:Button>
+                </Button>
             </StackPanel>
         </Grid>
     </Border>

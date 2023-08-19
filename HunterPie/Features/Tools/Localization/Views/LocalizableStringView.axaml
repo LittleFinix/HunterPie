@@ -1,9 +1,9 @@
 ﻿<UserControl x:Class="HunterPie.Features.Tools.Localization.Views.LocalizableStringView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:HunterPie.Features.Tools.Localization.Views"
+             xmlns:local="using:HunterPie.Features.Tools.Localization.Views"
              mc:Ignorable="d" 
              d:DesignHeight="50" 
              d:DesignWidth="750">

@@ -1,6 +1,6 @@
-﻿using HunterPie.GUI.Parts.Backup.ViewModels;
-using System.Windows;
-using System.Windows.Controls;
+﻿using Avalonia.Controls;
+using Avalonia.Interactivity;
+using HunterPie.GUI.Parts.Backup.ViewModels;
 
 namespace HunterPie.GUI.Parts.Backup.Views;
 /// <summary>

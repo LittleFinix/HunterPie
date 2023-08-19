@@ -1,8 +1,9 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
-using TB = System.Windows.Controls.TextBox;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Data;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using TB = Avalonia.Controls.TextBox;
 
 namespace HunterPie.UI.Controls.Sliders;
 
@@ -17,32 +18,36 @@ public partial class Range : UserControl
         get => (double)GetValue(ValueProperty);
         set => SetValue(ValueProperty, value);
     }
-    public static readonly DependencyProperty ValueProperty =
-        DependencyProperty.Register("Value", typeof(double), typeof(Range), new PropertyMetadata(0.0));
+    
+    public static readonly StyledProperty<double> ValueProperty =
+        AvaloniaProperty.Register<Range, double>(nameof(Value), 0.0);
 
     public double Maximum
     {
         get => (double)GetValue(MaximumProperty);
         set => SetValue(MaximumProperty, value);
     }
-    public static readonly DependencyProperty MaximumProperty =
-        DependencyProperty.Register("Maximum", typeof(double), typeof(Range), new PropertyMetadata(0.0));
+    
+    public static readonly StyledProperty<double> MaximumProperty =
+        AvaloniaProperty.Register<Range, double>(nameof(Maximum), 0.0);
 
     public double Minimum
     {
         get => (double)GetValue(MinimumProperty);
         set => SetValue(MinimumProperty, value);
     }
-    public static readonly DependencyProperty MinimumProperty =
-        DependencyProperty.Register("Minimum", typeof(double), typeof(Range), new PropertyMetadata(0.0));
+    
+    public static readonly StyledProperty<double> MinimumProperty =
+        AvaloniaProperty.Register<Range, double>(nameof(Minimum), 0.0);
 
     public double Change
     {
         get => (double)GetValue(ChangeProperty);
         set => SetValue(ChangeProperty, value);
     }
-    public static readonly DependencyProperty ChangeProperty =
-        DependencyProperty.Register("Change", typeof(double), typeof(Range), new PropertyMetadata(1.0));
+    
+    public static readonly StyledProperty<double> ChangeProperty =
+        AvaloniaProperty.Register<Range, double>(nameof(Change), 1.0);
 
     public Range()
     {
@@ -61,7 +66,8 @@ public partial class Range : UserControl
 
     private static void UpdateBinding(TB textbox)
     {
-        BindingExpression binding = textbox.GetBindingExpression(TB.TextProperty);
-        binding.UpdateSource();
+        // @TODO figure this out
+        // var binding = textbox.Bind(TB.TextProperty, new Binding("."));
+        // binding.Dispose();
     }
 }

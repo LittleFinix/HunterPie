@@ -1,6 +1,6 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+﻿using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
 
 namespace HunterPie.UI.Overlay.Components;
 
@@ -21,11 +21,12 @@ public partial class WidgetHeader : UserControl
     private void OnHideButtonClick(object sender, RoutedEventArgs e) =>
         Owner.Widget.Settings.Enabled.Value = !Owner.Widget.Settings.Enabled.Value;
 
-    private void OnLoaded(object sender, RoutedEventArgs e) => Owner = (WidgetBase)Window.GetWindow(this);
+    // private void OnLoaded(object sender, RoutedEventArgs e) => Owner = (WidgetBase)Window.GetWindow(this);
+    private void OnLoaded(object sender, RoutedEventArgs e) => Owner = (WidgetBase)Window.GetTopLevel(this);
 
-    protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+    protected override void OnPointerPressed(PointerPressedEventArgs e)
     {
-        base.OnMouseLeftButtonDown(e);
-        Owner.DragMove();
+        base.OnPointerPressed(e);
+        Owner.BeginMoveDrag(e);
     }
 }

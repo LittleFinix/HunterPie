@@ -1,4 +1,5 @@
-﻿using HunterPie.Core.Client.Configuration.Overlay.Class;
+﻿using Avalonia.Threading;
+using HunterPie.Core.Client.Configuration.Overlay.Class;
 using HunterPie.Core.Settings;
 using HunterPie.UI.Architecture;
 using HunterPie.UI.Architecture.Extensions;
@@ -49,7 +50,7 @@ public partial class ClassView : View<ClassViewModel>, IWidget<ClassWidgetConfig
         if (e.PropertyName != nameof(ClassViewModel.CurrentSettings))
             return;
 
-        Dispatcher.Invoke(() => Settings = ViewModel.CurrentSettings);
+        Dispatcher.UIThread.Invoke(() => Settings = ViewModel.CurrentSettings);
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

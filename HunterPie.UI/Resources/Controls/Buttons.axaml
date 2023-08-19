@@ -1,0 +1,54 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:windows="clr-namespace:HunterPie.UI.Windows">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+
+    <Style Selector="RepeatButton">
+        
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="Template">
+            <ControlTemplate TargetType="RepeatButton">
+                <Border  Background="{StaticResource GRAY}" 
+                         Height="1"/>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="RepeatButton">
+        <Setter Property="Template">
+            <ControlTemplate TargetType="RepeatButton">
+                <Border   
+                        BorderThickness="0" 
+                        Height="1"
+                        Background="{StaticResource HUNTERPIE_ACCENT_COLOR}"/>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    
+    <Style Selector="windows|WindowHeader /template/ Button">
+        <Setter Property="Foreground" Value="{StaticResource GRAY}" />
+        <Setter Property="Width" Value="{Binding $self.Height}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Bottom" />
+    </Style>
+    
+    <Style Selector="windows|WindowHeader Button">
+        <Setter Property="Foreground" Value="{StaticResource GRAY}" />
+        <Setter Property="Width" Value="{Binding $self.Height}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Bottom" />
+    </Style>
+</Styles>

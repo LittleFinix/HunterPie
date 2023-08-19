@@ -1,11 +1,11 @@
 ﻿<arch:View x:Class="HunterPie.GUI.Parts.Account.Views.AccountRegisterFlowView"
-           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+           xmlns="https://github.com/avaloniaui"
            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-           xmlns:local="clr-namespace:HunterPie.GUI.Parts.Account.Views"
+           xmlns:local="using:HunterPie.GUI.Parts.Account.Views"
            xmlns:arch="clr-namespace:HunterPie.UI.Architecture;assembly=HunterPie.UI"
-           xmlns:vm="clr-namespace:HunterPie.GUI.Parts.Account.ViewModels"
+           xmlns:vm="using:HunterPie.GUI.Parts.Account.ViewModels"
            xmlns:validation="clr-namespace:HunterPie.UI.Architecture.Validation;assembly=HunterPie.UI"
            xmlns:textbox="clr-namespace:HunterPie.UI.Controls.TextBox;assembly=HunterPie.UI"
            xmlns:buttons="clr-namespace:HunterPie.UI.Controls.Buttons;assembly=HunterPie.UI"
@@ -13,8 +13,7 @@
            mc:Ignorable="d" 
            d:DesignHeight="400" 
            d:DesignWidth="300"
-           d:DataContext="{d:DesignInstance vm:AccountRegisterFlowViewModel}"
-           PreviewKeyDown="OnPreviewKeyDown">
+           KeyDown="OnPreviewKeyDown">
     <StackPanel>
         <!-- Username -->
         <StackPanel Orientation="Vertical"
@@ -25,14 +24,7 @@
             <TextBox Height="35">
                 <TextBox.Text>
                     <Binding Path="Username"
-                             Mode="TwoWay"
-                             UpdateSourceTrigger="PropertyChanged"
-                             ValidatesOnDataErrors="True"
-                             ValidatesOnNotifyDataErrors="True"
-                             NotifyOnValidationError="True">
-                        <Binding.ValidationRules>
-                            <validation:UsernameValidationRule ValidatesOnTargetUpdated="True"/>
-                        </Binding.ValidationRules>
+                             Mode="TwoWay">
                     </Binding>
                 </TextBox.Text>
             </TextBox>
@@ -47,14 +39,7 @@
             <TextBox Height="35">
                 <TextBox.Text>
                     <Binding Path="Email"
-                             Mode="TwoWay"
-                             UpdateSourceTrigger="PropertyChanged"
-                             ValidatesOnDataErrors="True"
-                             ValidatesOnNotifyDataErrors="True"
-                             NotifyOnValidationError="True">
-                        <Binding.ValidationRules>
-                            <validation:EmailValidationRule ValidatesOnTargetUpdated="True"/>
-                        </Binding.ValidationRules>
+                             Mode="TwoWay">
                     </Binding>
                 </TextBox.Text>
             </TextBox>
@@ -70,7 +55,7 @@
                                    Text="{Binding Password, Mode=TwoWay}"/>
         </StackPanel>
 
-        <buttons:Button Content="Register"
+        <Button Content="Register"
                         FontSize="15"
                         Padding="20,5,20,5"
                         BorderThickness="1"

@@ -1,9 +1,9 @@
 ﻿<UserControl x:Class="HunterPie.GUI.Parts.Debug.Views.EventTrackerView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:HunterPie.GUI.Parts.Debug.Views"
+             xmlns:local="using:HunterPie.GUI.Parts.Debug.Views"
              xmlns:events="clr-namespace:HunterPie.Core.Architecture.Events;assembly=HunterPie.Core"
              xmlns:viewer="clr-namespace:HunterPie.UI.Controls.Viewer;assembly=HunterPie.UI"
              mc:Ignorable="d" 
@@ -14,8 +14,7 @@
             <ItemsControl.Template>
                 <ControlTemplate>
                     <viewer:SmoothScrollViewer>
-                        <VirtualizingStackPanel IsItemsHost="True"
-                                                VirtualizationMode="Recycling"/>
+                        <VirtualizingStackPanel  />
                     </viewer:SmoothScrollViewer>
                 </ControlTemplate>
             </ItemsControl.Template>
@@ -30,11 +29,10 @@
                               Padding="5"
                               Cursor="Hand"
                               Background="{StaticResource GRAY_200}">
-                        <ItemsControl ItemsSource="{Binding References, Mode=OneTime}"
-                                      d:DataContext="{d:DesignInstance events:ISmartEvent}">
+                        <ItemsControl ItemsSource="{Binding References, Mode=OneTime}">
                             <ItemsControl.Template>
                                 <ControlTemplate>
-                                    <StackPanel IsItemsHost="True"/>
+                                    <StackPanel />
                                 </ControlTemplate>
                             </ItemsControl.Template>
 

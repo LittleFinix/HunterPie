@@ -1,27 +1,50 @@
-﻿using HunterPie.UI.Architecture.Utils;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Templates;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using Avalonia.Markup.Xaml.Templates;
+using Avalonia.VisualTree;
+using HunterPie.Core.Architecture;
+using HunterPie.Core.Logger;
+using HunterPie.UI.Architecture.Utils;
+using System;
 using System.Collections;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace HunterPie.UI.Controls.Buttons;
 /// <summary>
 /// Interaction logic for ComboButton.xaml
 /// </summary>
-public partial class ComboButton : UserControl
+public partial class ComboButton : UserControl, ICommandSource
 {
+    public static readonly StyledProperty<ICommand> CommandProperty = AvaloniaProperty.Register<ComboButton, ICommand>(
+        "Command");
+
+    public ICommand Command
+    {
+        get => GetValue(CommandProperty);
+        set => SetValue(CommandProperty, value);
+    }
+
+    public static readonly StyledProperty<object> CommandParameterProperty = AvaloniaProperty.Register<ComboButton, object>(
+        "CommandParameter");
+
+    public object CommandParameter
+    {
+        get => GetValue(CommandParameterProperty);
+        set => SetValue(CommandParameterProperty, value);
+    }
+    
     public new object Content
     {
         get => (object)GetValue(ContentProperty);
         set => SetValue(ContentProperty, value);
     }
 
-    public static new readonly DependencyProperty ContentProperty =
-        DependencyProperty.Register(
-            nameof(Content),
-            typeof(object),
-            typeof(ComboButton)
-        );
+    public static new readonly StyledProperty<object> ContentProperty =
+        AvaloniaProperty.Register<ComboButton, object>(nameof(Content));
 
     public bool IsDropDownOpen
     {
@@ -29,25 +52,17 @@ public partial class ComboButton : UserControl
         set => SetValue(IsDropDownOpenProperty, value);
     }
 
-    public static readonly DependencyProperty IsDropDownOpenProperty =
-        DependencyProperty.Register(
-            nameof(IsDropDownOpen),
-            typeof(bool),
-            typeof(ComboButton),
-            new PropertyMetadata(
-                false,
-                new PropertyChangedCallback(OnIsDropDownOpenChanged)
-            )
-        );
-
+    public static new readonly StyledProperty<bool> IsDropDownOpenProperty =
+        ComboBox.IsDropDownOpenProperty.AddOwner<ComboButton>();
+    
     public IEnumerable ItemsSource
     {
         get => (IEnumerable)GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
     }
 
-    public static readonly DependencyProperty ItemsSourceProperty =
-        DependencyProperty.Register(nameof(ItemsSource), typeof(IEnumerable), typeof(ComboButton));
+    public static new readonly StyledProperty<IEnumerable> ItemsSourceProperty =
+        ComboBox.ItemsSourceProperty.AddOwner<ComboButton>();
 
     public object SelectedValue
     {
@@ -55,71 +70,50 @@ public partial class ComboButton : UserControl
         set => SetValue(SelectedValueProperty, value);
     }
 
-    public static readonly DependencyProperty SelectedValueProperty =
-        DependencyProperty.Register(nameof(SelectedValue), typeof(object), typeof(ComboButton));
+    public static new readonly StyledProperty<object> SelectedValueProperty =
+        ComboBox.SelectedValueProperty.AddOwner<ComboButton>();
 
-    public DataTemplate ItemTemplate
+    public IDataTemplate? ItemTemplate
     {
-        get => (DataTemplate)GetValue(ItemTemplateProperty);
+        get => GetValue(ItemTemplateProperty);
         set => SetValue(ItemTemplateProperty, value);
     }
 
-    public static readonly DependencyProperty ItemTemplateProperty =
-        DependencyProperty.Register(nameof(ItemTemplate), typeof(DataTemplate), typeof(ComboButton));
-
-    public static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent(nameof(Click), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ComboButton));
-
-    public event RoutedEventHandler Click
-    {
-        add => AddHandler(ClickEvent, value);
-        remove => RemoveHandler(ClickEvent, value);
-    }
+    public static new readonly StyledProperty<IDataTemplate?> ItemTemplateProperty =
+        ComboBox.ItemTemplateProperty.AddOwner<ComboButton>();
 
     public ComboButton()
     {
         InitializeComponent();
     }
 
-    private void OnExpandPopupClick(object sender, RoutedEventArgs e)
+    public void CanExecuteChanged(object sender, EventArgs e) {}
+
+    private void Control_OnLoaded(object? sender, RoutedEventArgs e)
     {
-        IsDropDownOpen = !IsDropDownOpen;
-    }
-
-    private static void OnIsDropDownOpenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        var comboButton = (ComboButton)d;
-
-        bool isDropDownOpen = (bool)e.NewValue;
-
-        if (isDropDownOpen)
-            Mouse.Capture(comboButton, CaptureMode.SubTree);
-        else
-            Mouse.Capture(null);
-    }
-
-    private void OnMouseDown(object sender, MouseButtonEventArgs e)
-    {
-        if (Mouse.Captured is null)
-            return;
-
-        Point buttonDistance = e.GetPosition(PART_ExpandButton);
-        bool wasClickedOnExpander = buttonDistance.IsWithinBounds(PART_ExpandButton);
-
-        if (wasClickedOnExpander)
-            return;
-
-        IsDropDownOpen = false;
-    }
-
-    private void OnLoaded(object sender, RoutedEventArgs e)
-    {
-        var parentWindow = Window.GetWindow(this);
-
+        var parentWindow = Window.GetTopLevel(this);
+        
         if (parentWindow is null)
             return;
 
-        parentWindow.Deactivated += (_, _) => IsDropDownOpen = false;
+        IsDropDownOpen = false;
+        parentWindow.LostFocus += (_, _) => IsDropDownOpen = false;
     }
 
-    private void OnClick(object sender, RoutedEventArgs e) => RaiseEvent(new RoutedEventArgs(ClickEvent, this));
+    protected override Size ArrangeOverride(Size finalSize)
+    {
+        finalSize = base.ArrangeOverride(finalSize);
+        InnerWidth = finalSize.Width - 10;
+
+        return finalSize;
+    }
+    
+    public static readonly StyledProperty<double> InnerWidthProperty = AvaloniaProperty.Register<ComboButton, double>(
+        "InnerWidth");
+
+    public double InnerWidth
+    {
+        get => GetValue(InnerWidthProperty);
+        set => SetValue(InnerWidthProperty, value);
+    }
 }

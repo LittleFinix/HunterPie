@@ -1,5 +1,6 @@
-﻿using System.Windows;
-using System.Windows.Input;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Input;
 
 namespace HunterPie.Update.Presentation;
 
@@ -8,24 +9,24 @@ namespace HunterPie.Update.Presentation;
 /// </summary>
 public partial class UpdateView : Window
 {
+    public static readonly StyledProperty<bool> IsMouseDownProperty = AvaloniaProperty.Register<UpdateView, bool>(
+        nameof(IsMouseDown), false);
 
     public bool IsMouseDown
     {
-        get => (bool)GetValue(IsMouseDownProperty);
+        get => GetValue(IsMouseDownProperty);
         set => SetValue(IsMouseDownProperty, value);
     }
-    public static readonly DependencyProperty IsMouseDownProperty =
-        DependencyProperty.Register("IsMouseDown", typeof(bool), typeof(UpdateView), new PropertyMetadata(false));
 
     public UpdateView()
     {
         InitializeComponent();
     }
-
-    private void OnMouseDown(object sender, MouseButtonEventArgs e)
+    
+    private void InputElement_OnPointerPressed(object? sender, PointerPressedEventArgs e)
     {
         IsMouseDown = true;
-        DragMove();
+        BeginMoveDrag(e);
         IsMouseDown = false;
     }
 }

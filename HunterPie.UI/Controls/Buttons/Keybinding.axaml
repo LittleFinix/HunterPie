@@ -1,18 +1,18 @@
 ﻿<UserControl x:Class="HunterPie.UI.Controls.Buttons.Keybinding"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:HunterPie.UI.Controls.Buttons"
+             xmlns:local="using:HunterPie.UI.Controls.Buttons"
              mc:Ignorable="d" 
              d:DesignHeight="35" d:DesignWidth="200"
-             PreviewKeyDown="OnKeyDown"
+             KeyDown="InputElement_OnKeyDown"
              Focusable="True" 
              Loaded="OnLoaded">
-    <local:Button OnClick="OnClick"
+    <Button Command="{Binding $parent[local:Keybinding].OnClick}"
                   Cursor="Hand"
                   HorizontalContentAlignment="Right">
-        <local:Button.Content>
+        <Button.Content>
             <ItemsControl ItemsSource="{Binding Keys, RelativeSource={RelativeSource FindAncestor, AncestorType=local:Keybinding}}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -37,24 +37,6 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-        </local:Button.Content>
-        <local:Button.Style>
-            <Style TargetType="local:Button">
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding IsFocused, RelativeSource={RelativeSource AncestorType={x:Type local:Keybinding}}}" Value="True">
-                        <DataTrigger.Setters>
-                            <Setter Property="BorderBrush" Value="{StaticResource HUNTERPIE_ACCENT_COLOR}"/>
-                            <Setter Property="BorderThickness" Value="1"/>
-                        </DataTrigger.Setters>
-                    </DataTrigger>
-
-                    <DataTrigger Binding="{Binding IsFocused, RelativeSource={RelativeSource AncestorType={x:Type local:Keybinding}}}" Value="False">
-                        <DataTrigger.Setters>
-                            <Setter Property="Background" Value="Transparent"/>
-                        </DataTrigger.Setters>
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </local:Button.Style>
-    </local:Button>
+        </Button.Content>
+    </Button>
 </UserControl>

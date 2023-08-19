@@ -1,18 +1,18 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<Styles xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Style x:Key="HUNTERPIE_LOGO_TEXT" TargetType="Label">
+    <Style Selector="Label.logoText">
         <Setter Property="Content">
-            <Setter.Value>
+            <Template>
                 <TextBlock>
                     <Run Text="Hunter"
                          FontWeight="Medium"/><!--
                          --><Run Text="Pie"
                         FontWeight="ExtraLight"/>
                 </TextBlock>
-            </Setter.Value>
+            </Template>
         </Setter>
         <Setter Property="Foreground" Value="{StaticResource WHITE_50}"/>
         <Setter Property="FontSize" Value="40"/>
         <Setter Property="FontFamily" Value="{StaticResource HUNTERPIE_DEFAULT_FONT}"/>
     </Style>
-</ResourceDictionary>
+</Styles>

@@ -1,4 +1,6 @@
-﻿using HunterPie.Core.Domain.Interfaces;
+﻿using Avalonia;
+using Avalonia.Interactivity;
+using HunterPie.Core.Domain.Interfaces;
 using HunterPie.Core.Extensions;
 using HunterPie.Features.Account;
 using HunterPie.Features.Account.Event;
@@ -6,8 +8,6 @@ using HunterPie.GUI.Parts.Account.ViewModels;
 using HunterPie.UI.Architecture;
 using System;
 using System.ComponentModel;
-using System.Windows;
-using System.Windows.Media.Animation;
 
 namespace HunterPie.GUI.Parts.Account.Views;
 
@@ -16,7 +16,6 @@ namespace HunterPie.GUI.Parts.Account.Views;
 /// </summary>
 public partial class AccountSignFlowView : View<AccountSignFlowViewModel>, IEventDispatcher, IDisposable
 {
-    private Storyboard SlideOutAnimation;
     public event EventHandler<EventArgs> OnFormClose;
 
     public AccountSignFlowView()
@@ -24,13 +23,11 @@ public partial class AccountSignFlowView : View<AccountSignFlowViewModel>, IEven
         HookEvents();
 
         InitializeComponent();
-
     }
 
     public override void EndInit()
     {
         base.EndInit();
-        SlideOutAnimation = FindResource("SB_SLIDE_OUT") as Storyboard;
     }
 
     private void CloseForm()
@@ -70,16 +67,9 @@ public partial class AccountSignFlowView : View<AccountSignFlowViewModel>, IEven
     private void AnimateSlide(int index)
     {
         Thickness[] positions = { new Thickness(12, 12, 0, 10), new Thickness(198, 12, 0, 10) };
-        ThicknessAnimation animation = new(positions[index], TimeSpan.FromMilliseconds(200), FillBehavior.HoldEnd)
-        {
-            EasingFunction = new QuadraticEase(),
-            DecelerationRatio = 1,
-        };
-
-        PART_SelectedSignFlowHighlight.BeginAnimation(FrameworkElement.MarginProperty, animation);
     }
 
-    private void AnimateSlideOut() => SlideOutAnimation.Begin(PART_Border);
+    private void AnimateSlideOut() {}
 
     private void OnSlideOutCompleted(object sender, EventArgs e) => CloseForm();
 }

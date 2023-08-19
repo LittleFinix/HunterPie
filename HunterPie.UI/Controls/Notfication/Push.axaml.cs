@@ -1,6 +1,6 @@
-﻿using HunterPie.UI.Architecture;
-using System.Windows;
-using System.Windows.Media;
+﻿using Avalonia;
+using Avalonia.Media;
+using HunterPie.UI.Architecture;
 
 namespace HunterPie.UI.Controls.Notfication;
 
@@ -15,8 +15,8 @@ public partial class Push : ClickableControl
         set => SetValue(BackgroundProperty, value);
     }
 
-    public static new readonly DependencyProperty BackgroundProperty =
-        DependencyProperty.Register(nameof(Background), typeof(Brush), typeof(Push));
+    public static new readonly StyledProperty<Brush> BackgroundProperty =
+        AvaloniaProperty.Register<Push, Brush>(nameof(Background));
 
     public new Brush Foreground
     {
@@ -24,8 +24,9 @@ public partial class Push : ClickableControl
         set => SetValue(ForegroundProperty, value);
     }
 
-    public static new readonly DependencyProperty ForegroundProperty =
-        DependencyProperty.Register(nameof(Foreground), typeof(Brush), typeof(Push));
+    public static new readonly StyledProperty<Brush> ForegroundProperty =
+        AvaloniaProperty.Register<Push, Brush>(nameof(Foreground));
+
 
     public string Message
     {
@@ -33,18 +34,18 @@ public partial class Push : ClickableControl
         set => SetValue(MessageProperty, value);
     }
 
-    public static readonly DependencyProperty MessageProperty =
-        DependencyProperty.Register(nameof(Message), typeof(string), typeof(Push));
+    public static readonly StyledProperty<string> MessageProperty =
+        AvaloniaProperty.Register<Push, string>(nameof(Message));
 
-    public ImageSource Icon
+    public IImage Icon
     {
-        get => (ImageSource)GetValue(IconProperty);
+        get => (IImage)GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
 
     // Using a DependencyProperty as the backing store for Icon.  This enables animation, styling, binding, etc...
-    public static readonly DependencyProperty IconProperty =
-        DependencyProperty.Register(nameof(Icon), typeof(ImageSource), typeof(Push));
+    public static readonly StyledProperty<IImage> IconProperty =
+        AvaloniaProperty.Register<Push, IImage>(nameof(Icon));
 
     public Push()
     {

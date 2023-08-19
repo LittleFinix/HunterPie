@@ -1,6 +1,6 @@
-﻿using HunterPie.GUI.Parts.Account.ViewModels;
-using System.Windows;
-using System.Windows.Controls;
+﻿using Avalonia.Controls;
+using Avalonia.Interactivity;
+using HunterPie.GUI.Parts.Account.ViewModels;
 
 namespace HunterPie.GUI.Parts.Account.Views.Components;
 /// <summary>

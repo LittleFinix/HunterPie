@@ -1,6 +1,6 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Media;
 
 namespace HunterPie.UI.Controls.Misc;
 
@@ -16,8 +16,8 @@ public partial class Badge : UserControl
     }
 
     // Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
-    public static readonly DependencyProperty TextProperty =
-        DependencyProperty.Register("Text", typeof(string), typeof(Badge), new PropertyMetadata("New"));
+    public static readonly StyledProperty<string> TextProperty =
+        AvaloniaProperty.Register<Badge, string>(nameof(Text), "New");
 
     public new Brush Foreground
     {
@@ -26,8 +26,8 @@ public partial class Badge : UserControl
     }
 
     // Using a DependencyProperty as the backing store for Foreground.  This enables animation, styling, binding, etc...
-    public static new readonly DependencyProperty ForegroundProperty =
-        DependencyProperty.Register("Foreground", typeof(Brush), typeof(Badge), new PropertyMetadata(new SolidColorBrush(Color.FromArgb(0xCC, 0x70, 0x00, 0x00))));
+    public static readonly StyledProperty<Brush> ForegroundProperty =
+        AvaloniaProperty.Register<Badge, Brush>(nameof(Foreground), new SolidColorBrush(Color.FromArgb(0xCC, 0x70, 0x00, 0x00)));
 
     public new Brush Background
     {
@@ -36,8 +36,8 @@ public partial class Badge : UserControl
     }
 
     // Using a DependencyProperty as the backing store for Background.  This enables animation, styling, binding, etc...
-    public static new readonly DependencyProperty BackgroundProperty =
-        DependencyProperty.Register("Background", typeof(Brush), typeof(Badge), new PropertyMetadata(new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xA8, 0xA8))));
+    public static readonly StyledProperty<Brush> BackgroundProperty =
+        AvaloniaProperty.Register<Badge, Brush>(nameof(Background), new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xA8, 0xA8)));
 
     public Badge()
     {

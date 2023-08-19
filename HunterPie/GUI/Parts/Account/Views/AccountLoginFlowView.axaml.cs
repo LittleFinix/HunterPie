@@ -1,8 +1,8 @@
-﻿using HunterPie.GUI.Parts.Account.ViewModels;
+﻿using Avalonia.Input;
+using Avalonia.Interactivity;
+using HunterPie.GUI.Parts.Account.ViewModels;
 using HunterPie.UI.Architecture;
 using System;
-using System.Windows;
-using System.Windows.Input;
 
 namespace HunterPie.GUI.Parts.Account.Views;
 /// <summary>
@@ -15,7 +15,7 @@ public partial class AccountLoginFlowView : View<AccountLoginFlowViewModel>
         InitializeComponent();
     }
 
-    private async void OnSignInClick(object sender, EventArgs e)
+    private async void OnSignInClick(object sender, RoutedEventArgs e)
     {
         if (!await ViewModel.SignIn())
             return;

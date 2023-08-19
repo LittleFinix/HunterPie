@@ -1,9 +1,10 @@
-﻿using HunterPie.Core.Architecture;
+﻿using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using HunterPie.Core.Architecture;
 using HunterPie.UI.Controls.TextBox.Events;
 using System;
-using System.Windows.Controls;
-using System.Windows.Input;
-using TB = System.Windows.Controls.TextBox;
+using TB = Avalonia.Controls.TextBox;
 
 namespace HunterPie.UI.Controls.TextBox;
 
@@ -41,18 +42,26 @@ public partial class SearchTextBox : UserControl
             OnSearchTextChanged?.Invoke(this, new(SearchText));
     }
 
-    private void OnSearchClick(object sender, EventArgs e)
+    private void OnSearchClick()
     {
         if (!IsPlaceholderVisible)
             OnSearch?.Invoke(this, new(SearchText));
     }
     private void OnKeyUp(object sender, KeyEventArgs e)
     {
-        if (e.KeyboardDevice.IsKeyDown(Key.Enter))
-            OnSearch?.Invoke(this, new(SearchText));
+        // if (e.Key .IsKeyDown(Key.Enter))
+        //    OnSearch?.Invoke(this, new(SearchText));
     }
 
-    private void OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+    private void OnGotKeyboardFocus(object sender, GotFocusEventArgs e)
+    {
+    }
+
+    private void OnLostKeyboardFocus(object sender, GotFocusEventArgs e)
+    {
+    }
+
+    private void InputElement_OnGotFocus(object? sender, GotFocusEventArgs e)
     {
         if (sender is not TB tb)
             return;
@@ -63,7 +72,7 @@ public partial class SearchTextBox : UserControl
         tb.Text = string.Empty;
     }
 
-    private void OnLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+    private void InputElement_OnLostFocus(object? sender, RoutedEventArgs e)
     {
         if (sender is not TB tb)
             return;

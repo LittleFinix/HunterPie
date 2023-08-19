@@ -1,12 +1,12 @@
 ﻿<UserControl x:Class="HunterPie.UI.Overlay.Widgets.Damage.View.DamageBarView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:converters="clr-namespace:HunterPie.UI.Architecture.Converters"
+             xmlns:converters="using:HunterPie.UI.Architecture.Converters"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:HunterPie.UI.Overlay.Widgets.Damage.View"
-             xmlns:viewmodels="clr-namespace:HunterPie.UI.Overlay.Widgets.Damage.ViewModels"
-             d:DataContext="{d:DesignInstance Type=viewmodels:DamageBarViewModel}"
+             xmlns:local="using:HunterPie.UI.Overlay.Widgets.Damage.View"
+             xmlns:viewmodels="using:HunterPie.UI.Overlay.Widgets.Damage.ViewModels"
+             
              mc:Ignorable="d" 
              d:DesignHeight="40" 
              d:DesignWidth="200">

@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 
 namespace HunterPie.UI.Overlay.Widgets.Monster.Views;
 
@@ -13,16 +13,18 @@ public partial class BossMonsterAilmentView : UserControl
         get => (double)GetValue(CurrentProperty);
         set => SetValue(CurrentProperty, value);
     }
-    public static readonly DependencyProperty CurrentProperty =
-        DependencyProperty.Register("Current", typeof(double), typeof(BossMonsterAilmentView), new PropertyMetadata(0.0));
+    
+    public static readonly StyledProperty<double> CurrentProperty =
+        AvaloniaProperty.Register<BossMonsterAilmentView, double>(nameof(Current), 0.0);
 
     public double Max
     {
         get => (double)GetValue(MaxProperty);
         set => SetValue(MaxProperty, value);
     }
-    public static readonly DependencyProperty MaxProperty =
-        DependencyProperty.Register("Max", typeof(double), typeof(BossMonsterAilmentView), new PropertyMetadata(0.0));
+    
+    public static readonly StyledProperty<double> MaxProperty =
+        AvaloniaProperty.Register<BossMonsterAilmentView, double>(nameof(Max), 0.0);
 
     public BossMonsterAilmentView()
     {

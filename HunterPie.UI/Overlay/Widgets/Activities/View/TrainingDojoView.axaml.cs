@@ -1,6 +1,6 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
+using System;
 
 namespace HunterPie.UI.Overlay.Widgets.Activities.View;
 
@@ -15,13 +15,13 @@ public partial class TrainingDojoView : UserControl
         set => SetValue(ShouldShowBuddiesProperty, value);
     }
 
-    public static readonly DependencyProperty ShouldShowBuddiesProperty =
-        DependencyProperty.Register("ShouldShowBuddies", typeof(bool), typeof(TrainingDojoView), new PropertyMetadata(false));
+    public static readonly StyledProperty<bool> ShouldShowBuddiesProperty =
+        AvaloniaProperty.Register<TrainingDojoView, bool>(nameof(ShouldShowBuddies), false);
 
     public TrainingDojoView()
     {
         InitializeComponent();
     }
 
-    private void OnClick(object sender, EventArgs e) => ShouldShowBuddies = !ShouldShowBuddies;
+    private void OnClick() => ShouldShowBuddies = !ShouldShowBuddies;
 }

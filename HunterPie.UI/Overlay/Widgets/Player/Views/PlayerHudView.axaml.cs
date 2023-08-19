@@ -1,9 +1,10 @@
-﻿using HunterPie.Core.Client.Configuration.Overlay;
+﻿using Avalonia.Animation;
+using Avalonia.Media;
+using HunterPie.Core.Client.Configuration.Overlay;
 using HunterPie.Core.Extensions;
 using HunterPie.Core.Game.Enums;
 using HunterPie.Core.Settings;
 using HunterPie.UI.Architecture;
-using HunterPie.UI.Architecture.Animation;
 using HunterPie.UI.Overlay.Controls;
 using HunterPie.UI.Overlay.Enums;
 using HunterPie.UI.Overlay.Widgets.Player.ViewModels;
@@ -11,9 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
 using ResourcesService = HunterPie.UI.Assets.Application.Resources;
 
 namespace HunterPie.UI.Overlay.Widgets.Player.Views;
@@ -23,10 +21,6 @@ namespace HunterPie.UI.Overlay.Widgets.Player.Views;
 /// </summary>
 public partial class PlayerHudView : View<PlayerHudViewModel>, IWidget<PlayerHudWidgetConfig>, IWidgetWindow
 {
-    private readonly BrushAnimation _currentHealthBarAnimation = new BrushAnimation();
-    private readonly BrushAnimation _currentStaminaBarAnimation = new BrushAnimation();
-    private readonly BrushAnimation _currentHealthRecoverableAnimation = new BrushAnimation();
-
     private readonly Brush _defaultHealthBrush = ResourcesService.Get<Brush>("WIDGET_PLAYER_HEALTH_FOREGROUND");
     private readonly Brush _defaultStaminaBrush = ResourcesService.Get<Brush>("WIDGET_PLAYER_STAMINA_FOREGROUND");
     private readonly Brush _defaultRecoverableBrush = ResourcesService.Get<Brush>("WIDGET_PLAYER_RECOVERABLE_FOREGROUND");
@@ -82,19 +76,14 @@ public partial class PlayerHudView : View<PlayerHudViewModel>, IWidget<PlayerHud
         ViewModel.ActiveAbnormalities.CollectionChanged -= OnActiveAbnormalitiesCollectionChanged;
     }
 
-    private void ResetAnimation(Bar bar, BrushAnimation animation, Brush defaultBrush) =>
-        bar.BeginAnimation(Bar.ForegroundProperty, BuildBarAnimation(animation, defaultBrush), HandoffBehavior.SnapshotAndReplace);
-
-    private void AnimateBar(Bar bar, BrushAnimation animation, Brush brush)
+    private void ResetAnimation(Bar bar, Brush defaultBrush)
     {
-        if (animation.To == brush)
-            return;
-
-        bar.BeginAnimation(
-            Bar.ForegroundProperty,
-            BuildBarAnimation(animation, brush),
-            HandoffBehavior.SnapshotAndReplace
-        );
+        bar.Foreground = defaultBrush;
+    }
+    
+    private void AnimateBar(Bar bar, Brush brush)
+    {
+        bar.Foreground = brush;
     }
 
     private void HandleAbnormalityCategoryChange() =>
@@ -108,31 +97,23 @@ public partial class PlayerHudView : View<PlayerHudViewModel>, IWidget<PlayerHud
             AbnormalityCategory recoverableAbnormality = categories.FindPriority(_recoverableCategoriesPriority);
 
             if (healthAbnormality == AbnormalityCategory.None)
-                ResetAnimation(PART_HealthBar, _currentHealthBarAnimation, _defaultHealthBrush);
+                ResetAnimation(PART_HealthBar, _defaultHealthBrush);
             else
-                AnimateBar(PART_HealthBar, _currentHealthBarAnimation, _abnormalityColors[healthAbnormality]);
+                AnimateBar(PART_HealthBar, _abnormalityColors[healthAbnormality]);
 
             if (staminaAbnormality == AbnormalityCategory.None)
-                ResetAnimation(PART_StaminaBar, _currentStaminaBarAnimation, _defaultStaminaBrush);
+                ResetAnimation(PART_StaminaBar, _defaultStaminaBrush);
             else
-                AnimateBar(PART_StaminaBar, _currentStaminaBarAnimation, _abnormalityColors[staminaAbnormality]);
+                AnimateBar(PART_StaminaBar, _abnormalityColors[staminaAbnormality]);
 
             if (recoverableAbnormality == AbnormalityCategory.None)
-                ResetAnimation(PART_RecoverableHealthBar, _currentHealthRecoverableAnimation, _defaultRecoverableBrush);
+                ResetAnimation(PART_RecoverableHealthBar, _defaultRecoverableBrush);
             else
-                AnimateBar(PART_RecoverableHealthBar, _currentHealthRecoverableAnimation, _abnormalityColors[recoverableAbnormality]);
+                AnimateBar(PART_RecoverableHealthBar, _abnormalityColors[recoverableAbnormality]);
 
         });
 
     private void OnActiveAbnormalitiesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => HandleAbnormalityCategoryChange();
-
-    private BrushAnimation BuildBarAnimation(BrushAnimation animation, Brush brush)
-    {
-        animation.To = brush;
-        animation.Duration = new Duration(TimeSpan.FromMilliseconds(500));
-
-        return animation;
-    }
 
     public override void Dispose()
     {

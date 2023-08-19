@@ -1,7 +1,7 @@
-﻿using HunterPie.GUI.Parts.Statistics.Details.ViewModels;
+﻿using Avalonia.Controls;
+using Avalonia.Interactivity;
+using HunterPie.GUI.Parts.Statistics.Details.ViewModels;
 using HunterPie.UI.Architecture;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace HunterPie.GUI.Parts.Statistics.Details.Views;
 /// <summary>
@@ -19,7 +19,7 @@ public partial class MonsterDetailsView : UserControl, IView<MonsterDetailsViewM
     public void InitializeView()
     {
         // HACK: LiveCharts has a pretty awful support for sections
-        PART_Graph.AxisX[0].Sections?.Clear();
+        // PART_Graph.AxisX[0].Sections?.Clear();
 
         ViewModel.SetupView();
     }
@@ -50,6 +50,6 @@ public partial class MonsterDetailsView : UserControl, IView<MonsterDetailsViewM
     private void ForceGraphRender()
     {
         // HACK: For some reason adding Sections to the collection will not update the graph
-        PART_Graph.Update(true);
+        PART_Graph.InvalidateVisual();
     }
 }

@@ -1,10 +1,10 @@
 ﻿<UserControl x:Class="HunterPie.UI.Windows.WindowChrome"
              x:Name="PART_WndContainer"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:HunterPie.UI.Windows"
+             xmlns:local="using:HunterPie.UI.Windows"
              mc:Ignorable="d"
              d:DesignWidth="300"
              d:DesignHeight="150"
@@ -37,28 +37,14 @@
                                 HorizontalAlignment="Stretch"/>
         </Grid>
     </Border>
-    <UserControl.Style>
-        <Style TargetType="{x:Type UserControl}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding IsMouseDown, ElementName=PART_Header}" Value="True">
-                    <DataTrigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard Storyboard.TargetProperty="Opacity">
-                                <DoubleAnimation Duration="0:0:0.15"
-                                                 To="0.8"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </DataTrigger.EnterActions>
-                    <DataTrigger.ExitActions>
-                        <BeginStoryboard>
-                            <Storyboard Storyboard.TargetProperty="Opacity">
-                                <DoubleAnimation Duration="0:0:0.15"
-                                                 To="1"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </DataTrigger.ExitActions>
-                </DataTrigger>
-            </Style.Triggers>
+    <UserControl.Transitions>
+        <Transitions>
+            <DoubleTransition Property="Opacity" Duration="0.15" />
+        </Transitions>
+    </UserControl.Transitions>
+    <UserControl.Styles>
+        <Style Selector="local|WindowHeader#PART_Header[IsMouseDown=True]">
+            <Setter Property="Opacity" Value="0.8" />
         </Style>
-    </UserControl.Style>
+    </UserControl.Styles>
 </UserControl>

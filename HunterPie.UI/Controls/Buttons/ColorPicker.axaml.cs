@@ -1,9 +1,7 @@
-﻿using HunterPie.Core.Extensions;
+﻿using Avalonia.Controls;
+using HunterPie.Core.Domain.Dialog;
 using HunterPie.Core.Settings.Types;
 using System;
-using System.Windows.Controls;
-using ColorDialog = System.Windows.Forms.ColorDialog;
-using DialogResult = System.Windows.Forms.DialogResult;
 
 namespace HunterPie.UI.Controls.Buttons;
 
@@ -17,14 +15,14 @@ public partial class ColorPicker : UserControl
         InitializeComponent();
     }
 
-    private void OnButtonClick(object sender, EventArgs e)
+    private void PickColor()
     {
-        using ColorDialog colorDialog = new();
-
-        if (colorDialog.ShowDialog() != DialogResult.OK)
-            return;
-
-        if (DataContext is Color color)
-            color.Value = colorDialog.Color.ToHexString();
+        // using ColorDialog colorDialog = new();
+        //
+        // if (colorDialog.ShowDialog() != NativeDialogResult.OK)
+        //     return;
+        //
+        // if (DataContext is Color color)
+        //     color.Value = Avalonia.Media.Color.ToHexString();
     }
 }

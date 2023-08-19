@@ -1,0 +1,7 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:HunterPie.UI.Architecture.Converters;assembly=HunterPie.UI">
+    <converters:CrownToIconConverter x:Key="CrownToIconConverter"/>
+    <converters:CrownToVisibilityConverter x:Key="CrownToVisibilityConverter"/>
+    <converters:OrientationConverter x:Key="OrientationConverter"/>
+</ResourceDictionary>

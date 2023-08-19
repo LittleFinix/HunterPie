@@ -1,4 +1,4 @@
-﻿using System.Windows.Controls;
+﻿using Avalonia.Controls;
 
 namespace HunterPie.GUI.Parts.Console;
 

@@ -15,9 +15,9 @@ using System.Linq;
 using System.Threading;
 
 #nullable enable
-namespace HunterPie.Core.System.Windows;
+namespace HunterPie.Core.System.Common;
 
-internal abstract class WindowsProcessManager : IProcessManager, IEventDispatcher
+internal abstract class ProcessManagerBase : IProcessManager, IEventDispatcher
 {
 
     protected Thread? _pooler;
@@ -129,13 +129,10 @@ internal abstract class WindowsProcessManager : IProcessManager, IEventDispatche
             // We want to retrieve process exit code, so force Process to call OpenProcess by explicitly retrieving its SafeHandle.
             // Otherwise there will be InvalidOperationException: Process was not started by this object, so requested information cannot be determined.
             _ = Process.SafeHandle;
-            pHandle = Kernel32.OpenProcess(Kernel32.PROCESS_ALL_ACCESS, false, ProcessId);
-
-            if (pHandle == IntPtr.Zero)
-                throw new Win32Exception();
 
             IsRunning = true;
 
+            if 
             _memory = new WindowsMemory(pHandle);
 
             AddressMap.Add("BASE", (long)Process.MainModule.BaseAddress);

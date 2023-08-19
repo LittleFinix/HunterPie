@@ -1,4 +1,5 @@
-﻿using HunterPie.Core.Client.Configuration.Overlay;
+﻿using Avalonia.Controls;
+using HunterPie.Core.Client.Configuration.Overlay;
 using HunterPie.Core.Domain.Interfaces;
 using HunterPie.Core.Extensions;
 using HunterPie.Core.Settings;
@@ -6,7 +7,6 @@ using HunterPie.UI.Architecture;
 using HunterPie.UI.Overlay.Enums;
 using HunterPie.UI.Overlay.Widgets.Chat.ViewModels;
 using System;
-using System.Windows.Controls;
 
 namespace HunterPie.UI.Overlay.Widgets.Chat.Views;
 
@@ -48,9 +48,9 @@ public partial class ChatView : View<ChatViewModel>, IWidget<ChatWidgetConfig>, 
     {
         if (sender is ScrollViewer scrollViewer)
         {
-            double scrollableSize = scrollViewer.ViewportHeight;
-            double scrollPosition = scrollViewer.VerticalOffset;
-            double extentHeight = scrollViewer.ExtentHeight;
+            double scrollableSize = scrollViewer.Height;
+            double scrollPosition = scrollViewer.Offset.Y;
+            double extentHeight = scrollViewer.Height;
 
             if (scrollableSize + scrollPosition == extentHeight || extentHeight < scrollableSize)
                 scrollViewer.ScrollToEnd();

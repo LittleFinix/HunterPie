@@ -1,8 +1,8 @@
-﻿using HunterPie.Features.Account;
+﻿using Avalonia.Controls;
+using Avalonia.Interactivity;
+using HunterPie.Features.Account;
 using HunterPie.Features.Account.UseCase;
 using System.Diagnostics;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace HunterPie.GUI.Parts.Account.Views.Promotional;
 /// <summary>
@@ -27,9 +27,9 @@ public partial class AccountPromotionalView : UserControl
 
     private void OnCloseClick(object sender, RoutedEventArgs e) => Close();
 
-    private void Close()
+    public void Close()
     {
-        Visibility = Visibility.Collapsed;
+        IsVisible = false;
         AccountPromotionalUseCase.MarkAsSeen();
     }
 }

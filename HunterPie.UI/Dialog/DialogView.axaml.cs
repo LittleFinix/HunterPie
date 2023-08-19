@@ -1,9 +1,13 @@
-﻿using HunterPie.Core.Domain.Dialog;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Media.Imaging;
+using Avalonia.Styling;
+using HunterPie.Core.Domain.Dialog;
 using HunterPie.UI.Architecture.Extensions;
 using System;
 using System.ComponentModel;
-using System.Windows;
-using System.Windows.Media;
+using System.Threading.Tasks;
 
 namespace HunterPie.UI.Dialog;
 
@@ -69,40 +73,55 @@ public partial class DialogView : Window, INativeDialog, INotifyPropertyChanged
 
     public void Error(string title, string description, NativeDialogButtons buttons) => SetDialogInfo(title, description, "ICON_ERROR", buttons);
 
+    private TaskCompletionSource<NativeDialogResult>? result;
+    
     private void SetDialogInfo(string title, string description, string icon, NativeDialogButtons buttons)
     {
         DialogTitle = title;
         Description = description;
-        Icon = FindResource(icon) as ImageSource;
+        
+        if (TryGetResource(icon, ThemeVariant.Default, out object? bmp))
+            Icon = new WindowIcon((Bitmap)bmp);
+
         Buttons = buttons;
-        _ = ShowDialog();
+
+        result?.SetCanceled();
+        result = new();
+            
+        if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop &&
+            desktop.MainWindow is not null)
+            ShowDialog(desktop.MainWindow);
+        else
+            Show();
     }
 
-    NativeDialogResult INativeDialog.DialogResult() => DialogResult;
+    Task<NativeDialogResult> INativeDialog.DialogResult() => result?.Task ?? Task.FromResult(NativeDialogResult.NotFinished);
 
-    private void OnAccept(object sender, EventArgs e)
+    public void OnAccept()
     {
         DialogResult = NativeDialogResult.Accept;
         Close();
     }
 
-    private void OnReject(object sender, EventArgs e)
+    public void OnReject()
     {
         DialogResult = NativeDialogResult.Reject;
         Close();
     }
 
-    private void OnCancel(object sender, EventArgs e)
+    public void OnCancel()
     {
         DialogResult = NativeDialogResult.Cancel;
         Close();
     }
 
-    protected override void OnClosing(CancelEventArgs e)
+    protected override void OnClosing(WindowClosingEventArgs e)
     {
         base.OnClosing(e);
-
+        
         if (DialogResult == NativeDialogResult.NotFinished)
             DialogResult = NativeDialogResult.Cancel;
+        
+        result?.SetResult(DialogResult);
     }
 }

@@ -1,4 +1,7 @@
-﻿using HunterPie.Features.Account;
+﻿using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using HunterPie.Features.Account;
 using HunterPie.Features.Account.Config;
 using HunterPie.GUI.Parts.Account.ViewModels;
 using HunterPie.GUI.Parts.Settings.ViewModels;
@@ -6,9 +9,6 @@ using HunterPie.GUI.Parts.Settings.Views;
 using HunterPie.UI.Architecture;
 using HunterPie.UI.Architecture.Navigator;
 using HunterPie.UI.Controls.Settings.ViewModel;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace HunterPie.GUI.Parts.Account.Views;
 
@@ -27,21 +27,11 @@ public partial class AccountView : View<AccountViewModel>
         ViewModel.FetchAccountDetails();
     }
 
-    private void OnAvatarGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) => ViewModel.IsAvatarClicked = true;
-    private void OnAvatarLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) => ViewModel.IsAvatarClicked = false;
+    private void OnAvatarGotKeyboardFocus(object sender, GotFocusEventArgs e) => ViewModel.IsAvatarClicked = true;
+    private void OnAvatarLostKeyboardFocus(object sender, RoutedEventArgs e) => ViewModel.IsAvatarClicked = false;
 
     private void OnAvatarClick(object sender, RoutedEventArgs e)
     {
-        if (sender is UserControl obj)
-        {
-            IInputElement wasFocused = Keyboard.FocusedElement;
-
-            if (wasFocused == sender)
-                Keyboard.ClearFocus();
-            else
-                _ = obj.Focus();
-        }
-
         ViewModel.OpenAccountPreferences();
     }
 

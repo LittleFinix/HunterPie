@@ -1,7 +1,7 @@
-﻿using HunterPie.Core.System;
+﻿using Avalonia.Interactivity;
+using HunterPie.Core.System;
 using HunterPie.GUI.Parts.Statistics.ViewModels;
 using HunterPie.UI.Architecture;
-using System.Windows;
 
 namespace HunterPie.GUI.Parts.Statistics.Views;
 

@@ -1,18 +1,19 @@
-﻿using HunterPie.Core.Architecture;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.Metadata;
+using Avalonia.Input;
+using HunterPie.Core.Architecture;
 using HunterPie.GUI.Parts.Sidebar.Service;
 using HunterPie.GUI.Parts.Sidebar.ViewModels;
 using HunterPie.UI.Architecture.Extensions;
 using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media.Animation;
 
 namespace HunterPie.GUI.Parts.Sidebar;
 
 /// <summary>
 /// Interaction logic for SideBarContainer.xaml
 /// </summary>
+[PseudoClasses(":expanded")]
 public partial class SideBarContainer : UserControl
 {
     // TODO: Make a ViewModel for this
@@ -21,23 +22,22 @@ public partial class SideBarContainer : UserControl
     public ObservableCollection<ISideBarElement> Elements => _elements;
 
     public Observable<bool> IsMouseInside { get; } = false;
-    private readonly Storyboard _selectSlideAnimation;
 
     public double ItemsHeight
     {
         get => (double)GetValue(ItemsHeightProperty);
         set => SetValue(ItemsHeightProperty, value);
     }
-    public static readonly DependencyProperty ItemsHeightProperty =
-        DependencyProperty.Register("ItemsHeight", typeof(double), typeof(SideBarContainer), new PropertyMetadata(40.0));
+    public static readonly StyledProperty<double> ItemsHeightProperty =
+        AvaloniaProperty.Register<SideBarContainer, double>(nameof(ItemsHeight), 40.0);
 
     public Thickness SelectedButton
     {
         get => (Thickness)GetValue(SelectedButtonProperty);
         set => SetValue(SelectedButtonProperty, value);
     }
-    public static readonly DependencyProperty SelectedButtonProperty =
-        DependencyProperty.Register("SelectedButton", typeof(Thickness), typeof(SideBarContainer));
+    public static readonly StyledProperty<Thickness> SelectedButtonProperty =
+        AvaloniaProperty.Register<SideBarContainer, Thickness>(nameof(SelectedButton));
 
     public SideBarContainer()
     {
@@ -45,7 +45,6 @@ public partial class SideBarContainer : UserControl
 
         InitializeComponent();
 
-        _selectSlideAnimation = this.FindResource<Storyboard>("PART_SelectionAnimation");
         DataContext = this;
 
         if (SideBarService.CurrentlySelected is not null)
@@ -62,18 +61,6 @@ public partial class SideBarContainer : UserControl
             _elements.Add(element);
     }
 
-    private void OnMouseEnter(object sender, MouseEventArgs e)
-    {
-        IsMouseInside.Value = true;
-        PART_ButtonsContainer.IsHitTestVisible = true;
-    }
-
-    private void OnMouseLeave(object sender, MouseEventArgs e)
-    {
-        IsMouseInside.Value = false;
-        PART_ButtonsContainer.IsHitTestVisible = false;
-    }
-
     private void NavigateTo(ISideBarElement element)
     {
         if (!element.IsActivable || !element.IsEnabled)
@@ -81,8 +68,22 @@ public partial class SideBarContainer : UserControl
 
         int idx = Elements.IndexOf(element);
 
-        ((ThicknessAnimation)_selectSlideAnimation.Children[0]).To = new Thickness(0, idx * ItemsHeight, 0, 0);
+        // ((ThicknessAnimation)_selectSlideAnimation.Children[0]).To = new Thickness(0, idx * ItemsHeight, 0, 0);
 
-        PART_Selection.BeginStoryboard(_selectSlideAnimation);
+        // PART_Selection.BeginStoryboard(_selectSlideAnimation);
+    }
+
+    private void InputElement_OnPointerEntered(object? sender, PointerEventArgs e)
+    {
+        IsMouseInside.Value = true;
+        PART_ButtonsContainer.IsHitTestVisible = true;
+        PseudoClasses.Add(":expanded");
+    }
+
+    private void PART_ButtonsContainer_OnPointerExited(object? sender, PointerEventArgs e)
+    {
+        IsMouseInside.Value = false;
+        PART_ButtonsContainer.IsHitTestVisible = false;
+        PseudoClasses.Remove(":expanded");
     }
 }

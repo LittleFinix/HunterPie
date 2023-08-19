@@ -1,18 +1,22 @@
 ﻿<UserControl x:Class="HunterPie.UI.Overlay.Widgets.Classes.Views.DualBladesView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:HunterPie.UI.Overlay.Widgets.Classes.Views"
-             xmlns:options="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
-             xmlns:image="clr-namespace:HunterPie.UI.Controls.Image"
-             xmlns:converters="clr-namespace:HunterPie.UI.Architecture.Converters"
-             xmlns:viewModels="clr-namespace:HunterPie.UI.Overlay.Widgets.Classes.ViewModels"
-             xmlns:animation="clr-namespace:HunterPie.UI.Architecture.Animation"
-             mc:Ignorable="d" 
+             xmlns:local="using:HunterPie.UI.Overlay.Widgets.Classes.Views"
+             xmlns:options="https://github.com/avaloniaui/options"
+             xmlns:image="using:HunterPie.UI.Controls.Image"
+             xmlns:converters="using:HunterPie.UI.Architecture.Converters"
+             xmlns:viewModels="using:HunterPie.UI.Overlay.Widgets.Classes.ViewModels"
+             mc:Ignorable="d"
+             
+             Classes.isDemon="{Binding InDemonMode}"
+             Classes.isArch="{Binding InArchDemonMode}"
              Height="82" 
-             Width="295"
-             d:DataContext="{d:DesignInstance viewModels:DualBladesViewModel}">
+             Width="295">
+    
+    <!-- Classes.isMax="{MultiBinding Bindings=DemonBuildUp DemonMaxBuildUp, Converter={StaticResource EqualityToBooleanConverter}}" -->
+             
     <UserControl.Resources>
         <converters:PercentageToRelativeSizeConverter x:Key="PercentageToRelativeSizeConverter"/>
         <converters:SecondsToTimeString x:Key="SecondsToTimeString"/>
@@ -104,7 +108,7 @@
                 <MultiBinding Converter="{StaticResource PercentageToRelativeSizeConverter}">
                     <Binding Path="PiercingBindTimer" Mode="OneWay"/>
                     <Binding Path="PiercingBindMaxTimer" Mode="OneWay"/>
-                    <Binding Path="ActualWidth" ElementName="PART_PiercingBindGauge" Mode="OneWay"/>
+                    <Binding Path="Width" ElementName="PART_PiercingBindGauge" Mode="OneWay"/>
                 </MultiBinding>
             </Border.Width>
         </Border>
@@ -161,6 +165,7 @@
                 Grid.Column="1"
                 Background="{StaticResource DualBladesDemonBrushBackground}"
                 BorderBrush="{StaticResource DualBladesDemonBrushBorder}"
+                BorderThickness="1,1,0,1"
                 d:BorderThickness="1,1,0,1"
                 Height="{Binding Height, ElementName=PART_DemonGauge, Mode=OneWay}"
                 VerticalAlignment="Top"
@@ -174,62 +179,35 @@
                 <MultiBinding Converter="{StaticResource PercentageToRelativeSizeConverter}">
                     <Binding Path="DemonBuildUp" Mode="OneWay"/>
                     <Binding Path="DemonMaxBuildUp" Mode="OneWay"/>
-                    <Binding Path="ActualWidth" ElementName="PART_DemonGauge" Mode="OneWay"/>
+                    <Binding Path="Width" ElementName="PART_DemonGauge" Mode="OneWay"/>
                 </MultiBinding>
             </Border.Width>
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Style.Triggers>
-                        <DataTrigger Value="True">
-                            <DataTrigger.Binding>
-                                <MultiBinding Converter="{StaticResource EqualityToBooleanConverter}">
-                                    <Binding Path="DemonBuildUp" Mode="OneWay"/>
-                                    <Binding Path="DemonMaxBuildUp" Mode="OneWay"/>
-                                </MultiBinding>
-                            </DataTrigger.Binding>
-                            <Setter Property="BorderThickness" Value="1"/>
-                        </DataTrigger>
-
-                        <DataTrigger Value="False">
-                            <DataTrigger.Binding>
-                                <MultiBinding Converter="{StaticResource EqualityToBooleanConverter}">
-                                    <Binding Path="DemonBuildUp" Mode="OneWay"/>
-                                    <Binding Path="DemonMaxBuildUp" Mode="OneWay"/>
-                                </MultiBinding>
-                            </DataTrigger.Binding>
-                            <Setter Property="BorderThickness" Value="1,1,0,1"/>
-                        </DataTrigger>
-
-                        <DataTrigger Binding="{Binding InArchDemonMode, Mode=OneWay}"
-                                     Value="True">
-                            <DataTrigger.EnterActions>
-                                <BeginStoryboard Name="ArchDemonBlinkAnimation">
-                                    <Storyboard RepeatBehavior="Forever"
-                                                Duration="0:0:1.6">
-                                        <animation:BrushAnimation To="{StaticResource DUAL_BLADES_ARCH_DEMON_BLINK_BACKGROUND_BRUSH}"
-                                                                  Storyboard.TargetProperty="Background"
-                                                                  Duration="0:0:0.4"
-                                                                  AutoReverse="True"/>
-                                        <animation:BrushAnimation To="{StaticResource DUAL_BLADES_ARCH_DEMON_BLINK_BRUSH}"
-                                                                  Storyboard.TargetProperty="BorderBrush"
-                                                                  Duration="0:0:0.4"
-                                                                  AutoReverse="True"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </DataTrigger.EnterActions>
-                            <DataTrigger.ExitActions>
-                                <RemoveStoryboard BeginStoryboardName="ArchDemonBlinkAnimation"/>
-                            </DataTrigger.ExitActions>
-                        </DataTrigger>
-                    </Style.Triggers>
+            <Border.Styles>
+                <Style Selector="local|DualBladesView.isMax Border">
+                    <Setter Property="BorderThickness" Value="1" />
                 </Style>
-            </Border.Style>
+                <Style Selector="local|DualBladesView.isArch Border">
+                    <Style.Animations>
+                        <Animation IterationCount="INFINITE">
+                            <KeyFrame KeyTime="0.4">
+                                <Setter Property="Background" Value="{StaticResource DUAL_BLADES_ARCH_DEMON_BLINK_BACKGROUND_BRUSH}" />
+                                <Setter Property="BorderBrush" Value="{StaticResource DUAL_BLADES_ARCH_DEMON_BLINK_BRUSH}" />
+                            </KeyFrame>
+                            <KeyFrame KeyTime="0.8">
+                                <Setter Property="Background" Value="{x:Static AvaloniaProperty.UnsetValue}" />
+                                <Setter Property="BorderBrush" Value="{x:Static AvaloniaProperty.UnsetValue}" />
+                            </KeyFrame>
+                        </Animation>
+                    </Style.Animations>
+                    <Setter Property="BorderThickness" Value="1" />
+                </Style>
+            </Border.Styles>
         </Border>
 
         <Border Grid.Column="0" 
                 Grid.Row="0"
                 Grid.RowSpan="2"
-                Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                Width="{Binding Height, RelativeSource={RelativeSource Self}}"
                 HorizontalAlignment="Left"
                 Margin="15" 
                 RenderTransformOrigin="0.5,0.5"
@@ -251,52 +229,40 @@
                     </TransformGroup>
                 </image:Icon.RenderTransform>
 
-                <image:Icon.Style>
-                    <Style TargetType="image:Icon">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding InDemonMode, Mode=OneWay}"
-                                         Value="True">
-                                <Setter Property="Foreground" Value="{StaticResource DUAL_BLADES_DEMON_BRUSH}"/>
-                                <Setter Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect ShadowDepth="0"
-                                                          BlurRadius="2"
-                                                          Color="{StaticResource DUAL_BLADES_DEMON_COLOR}"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding InDemonMode, Mode=OneWay}"
-                                         Value="False">
-                                <Setter Property="Foreground" Value="{StaticResource GRAY_50}"/>
-                                <Setter Property="Effect">
-                                    <Setter.Value>
-                                        <DropShadowEffect ShadowDepth="0"
-                                                          BlurRadius="2"
-                                                          Color="{Binding Color, Source={StaticResource WHITE_600}}"/>
-                                    </Setter.Value>
-                                </Setter>
-                            </DataTrigger>
-                        </Style.Triggers>
+                <image:Icon.Styles>
+                    <Style Selector="local|DualBladesView:not(.isDemon) image|Icon">
+                        <Setter Property="Foreground" Value="{StaticResource GRAY_50}"/>
+                        <Setter Property="Effect">
+                            <Template>
+                                <DropShadowEffect 
+                                    BlurRadius="2"
+                                    Color="{Binding Color, Source={StaticResource WHITE_600}}"/>
+                            </Template>
+                        </Setter>
                     </Style>
-                </image:Icon.Style>
+                    <Style Selector="local|DualBladesView.isDemon image|Icon">
+                        <Setter Property="Foreground" Value="{StaticResource DUAL_BLADES_DEMON_BRUSH}"/>
+                        <Setter Property="Effect">
+                            <Template>
+                                <DropShadowEffect 
+                                    BlurRadius="2"
+                                    Color="{StaticResource DUAL_BLADES_DEMON_COLOR}"/>
+                            </Template>
+                        </Setter>
+                    </Style>
+                </image:Icon.Styles>
             </image:Icon>
 
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding InDemonMode, Mode=OneWay}"
-                                     Value="True">
-                            <Setter Property="Background" Value="{StaticResource DUAL_BLADES_DEMON_MODE_ACTIVE}"/>
-                            <Setter Property="BorderBrush" Value="{StaticResource DUAL_BLADES_DEMON_BRUSH}"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding InDemonMode, Mode=OneWay}"
-                                     Value="False">
-                            <Setter Property="Background" Value="{StaticResource COMMON_CLASS_HELPER_BACKGROUND}"/>
-                            <Setter Property="BorderBrush" Value="{StaticResource GRAY_50}"/>
-                        </DataTrigger>
-                    </Style.Triggers>
+            <Border.Styles>
+                <Style Selector="local|DualBladesView:not(.isDemon) Border">
+                    <Setter Property="Background" Value="{StaticResource COMMON_CLASS_HELPER_BACKGROUND}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource GRAY_50}"/>
                 </Style>
-            </Border.Style>
+                <Style Selector="local|DualBladesView.isDemon Border">
+                    <Setter Property="Background" Value="{StaticResource DUAL_BLADES_DEMON_MODE_ACTIVE}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource DUAL_BLADES_DEMON_BRUSH}"/>
+                </Style>
+            </Border.Styles>
         </Border>
 
         

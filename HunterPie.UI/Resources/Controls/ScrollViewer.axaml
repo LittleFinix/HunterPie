@@ -1,0 +1,23 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <ScrollViewer Width="100" Height="100" />
+        </Border>
+    </Design.PreviewWith>
+    
+    <Style Selector=":is(ScrollViewer)">
+        <Setter Property="Template">
+            <ControlTemplate TargetType="ScrollViewer">
+                <Grid ColumnDefinitions="Auto,*" RowDefinitions="*,Auto">
+                    <ScrollContentPresenter Grid.Column="1"/>
+                    <ScrollBar Grid.Row="0" Grid.Column="0" Name="PART_VerticalScrollBar"
+                               IsVisible="{TemplateBinding VerticalScrollBarVisibility}" />
+                    <ScrollBar Grid.Row="1" Grid.Column="1" Name="PART_HorizontalScrollBar"
+                               Orientation="Horizontal"
+                               IsVisible="{TemplateBinding HorizontalScrollBarVisibility}" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

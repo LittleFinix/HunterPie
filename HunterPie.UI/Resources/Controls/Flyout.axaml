@@ -1,0 +1,24 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <!-- Add Controls for Previewer Here -->
+        </Border>
+    </Design.PreviewWith>
+
+    <Style Selector="ToolTip">
+        <Setter Property="FontFamily" Value="{StaticResource HUNTERPIE_DEFAULT_FONT}"/>
+        <Setter Property="Background" Value="{StaticResource GRAY_50}"/>
+        <Setter Property="Foreground" Value="{StaticResource WHITE_100}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource GRAY}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="MaxWidth" Value="350"/>
+    </Style>
+    
+    <Style Selector="FlyoutPresenter">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Background" Value="{StaticResource GRAY_100}" />
+        <Setter Property="BorderBrush" Value="{StaticResource GRAY}" />
+    </Style>
+</Styles>

@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using System;
 using System.Collections.ObjectModel;
 using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace HunterPie.UI.Controls.Buttons;
 
@@ -20,19 +21,32 @@ public partial class Keybinding : UserControl
         set => SetValue(HotKeyProperty, value);
     }
 
-    public static readonly DependencyProperty HotKeyProperty =
-        DependencyProperty.Register(nameof(HotKey), typeof(string), typeof(Keybinding));
+    public static readonly StyledProperty<string> HotKeyProperty =
+        AvaloniaProperty.Register<Keybinding, string>(nameof(HotKey));
 
     public Keybinding()
     {
         InitializeComponent();
     }
 
-    private void OnKeyDown(object sender, KeyEventArgs e)
+    private void OnClick() => Focus();
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        Keys.Clear();
+
+        if (HotKey is null)
+            return;
+
+        foreach (string key in HotKey.Split("+"))
+            Keys.Add(key);
+    }
+
+    private void InputElement_OnKeyDown(object? sender, KeyEventArgs e)
     {
         e.Handled = true;
 
-        Key key = e.Key == Key.System ? e.SystemKey : e.Key;
+        Key key = e.Key;
 
         if (key is Key.LeftShift or Key.RightShift
             or Key.LeftCtrl or Key.RightCtrl
@@ -50,19 +64,19 @@ public partial class Keybinding : UserControl
         }
 
         var shortcutText = new StringBuilder();
-        if ((Keyboard.Modifiers & ModifierKeys.Control) != 0)
+        if (e.KeyModifiers.HasFlag(KeyModifiers.Control))
         {
             Keys.Add("Ctrl");
             _ = shortcutText.Append("Ctrl+");
         }
-
-        if ((Keyboard.Modifiers & ModifierKeys.Shift) != 0)
+        
+        if (e.KeyModifiers.HasFlag(KeyModifiers.Shift))
         {
             Keys.Add("Shift");
             _ = shortcutText.Append("Shift+");
         }
 
-        if ((Keyboard.Modifiers & ModifierKeys.Alt) != 0)
+        if (e.KeyModifiers.HasFlag(KeyModifiers.Alt))
         {
             Keys.Add("Alt");
             _ = shortcutText.Append("Alt+");
@@ -71,18 +85,5 @@ public partial class Keybinding : UserControl
         Keys.Add(key.ToString());
         _ = shortcutText.Append(key.ToString());
         SetValue(HotKeyProperty, shortcutText.ToString());
-    }
-
-    private void OnClick(object sender, EventArgs e) => Focus();
-
-    private void OnLoaded(object sender, RoutedEventArgs e)
-    {
-        Keys.Clear();
-
-        if (HotKey is null)
-            return;
-
-        foreach (string key in HotKey.Split("+"))
-            Keys.Add(key);
     }
 }

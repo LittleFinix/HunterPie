@@ -1,3 +1,8 @@
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Media;
+using Avalonia.Threading;
 using HunterPie.Core.Architecture.Events;
 using HunterPie.Core.Client;
 using HunterPie.Core.Client.Configuration.Enums;
@@ -23,10 +28,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Threading;
 
 namespace HunterPie;
 
@@ -43,11 +44,11 @@ public partial class App : Application
 
     public static MainWindow? UI { get; private set; }
 
-    protected override async void OnStartup(StartupEventArgs e)
+    public override async void Initialize()
     {
         CheckForRunningInstances();
 
-        base.OnStartup(e);
+        base.Initialize();
 
         await InitializerManager.Initialize();
 
@@ -60,10 +61,14 @@ public partial class App : Application
             return;
 #endif
 
-        ShutdownMode = ShutdownMode.OnMainWindowClose;
+        UI = Dispatcher.UIThread.Invoke(() => new MainWindow());
 
-        UI = Dispatcher.Invoke(() => new MainWindow());
-
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        {
+            desktop.ShutdownMode = ShutdownMode.OnMainWindowClose;
+            desktop.MainWindow = UI;
+        }
+        
         UI.InitializeComponent();
 
         if (!ClientConfig.Config.Client.EnableSeamlessStartup)
@@ -86,7 +91,10 @@ public partial class App : Application
             process.Kill();
     }
 
-    private void SetUIThreadPriority() => Dispatcher.Thread.Priority = ThreadPriority.Highest;
+    private void SetUIThreadPriority()
+    {
+        // Dispatcher.UIThread.Priority = ThreadPriority.Highest;
+    } 
 
     private static async Task<bool> SelfUpdate()
     {
@@ -121,9 +129,9 @@ public partial class App : Application
 
     private static void SetRenderingMode()
     {
-        RenderOptions.ProcessRenderMode = ClientConfig.Config.Client.Render == RenderingStrategy.Hardware
-            ? RenderMode.Default
-            : RenderMode.SoftwareOnly;
+        // RenderOptions.ProcessRenderMode = ClientConfig.Config.Client.Render == RenderingStrategy.Hardware
+        //     ? RenderMode.Default
+        //     : RenderMode.SoftwareOnly;
     }
 
     private void OnProcessClosed(object? sender, ProcessManagerEventArgs e)
@@ -141,7 +149,7 @@ public partial class App : Application
         _process = null;
         _context = null;
 
-        Dispatcher.Invoke(WidgetInitializers.Unload);
+        Dispatcher.UIThread.Invoke(WidgetInitializers.Unload);
         WidgetManager.Dispose();
 
         Log.Info("{0} has been closed", e.ProcessName);
@@ -159,7 +167,7 @@ public partial class App : Application
             );
 
         if (ClientConfig.Config.Client.ShouldShutdownOnGameExit)
-            Dispatcher.Invoke(Close);
+            Dispatcher.UIThread.Invoke(Close);
     }
 
     private async void OnProcessFound(object? sender, ProcessManagerEventArgs e)
@@ -185,7 +193,7 @@ public partial class App : Application
 
             await ContextInitializers.InitializeAsync(context).ConfigureAwait(false);
 
-            await Dispatcher.InvokeAsync(() => WidgetInitializers.Initialize(context));
+            await Dispatcher.UIThread.InvokeAsync(() => WidgetInitializers.Initialize(context));
 
             ScanManager.Start();
 
@@ -198,13 +206,13 @@ public partial class App : Application
 
         _ = await GameSaveBackupService.ExecuteBackup().ConfigureAwait(false);
     }
-
-    private void OnUIException(object sender, DispatcherUnhandledExceptionEventArgs e)
-    {
-        e.Handled = true;
-
-        ExceptionTracker.TrackException(e.Exception);
-    }
+    
+    // private void OnUIException(object sender, DispatcherUnhandledExceptionEventArgs e)
+    // {
+    //     e.Handled = true;
+    //
+    //     ExceptionTracker.TrackException(e.Exception);
+    // }
 
     private void HookEvents()
     {
@@ -223,17 +231,19 @@ public partial class App : Application
 
     public static async void Restart()
     {
-        UI?.Dispatcher.InvokeAsync(() => UI.Hide());
+        Dispatcher.UIThread.InvokeAsync(() => UI.Hide());
 
         await RemoteConfigService.UploadClientConfig();
 
         Process.Start(typeof(MainWindow).Assembly.Location.Replace(".dll", ".exe"));
-        Current.Shutdown();
+        if (Current.ApplicationLifetime is IControlledApplicationLifetime desktop)
+            desktop.Shutdown();
     }
 
     private void Close()
     {
         InitializerManager.Unload();
-        Shutdown();
+        if (Current.ApplicationLifetime is IControlledApplicationLifetime desktop)
+            desktop.Shutdown();
     }
 }

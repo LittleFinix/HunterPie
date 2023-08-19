@@ -1,6 +1,6 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Media;
 
 namespace HunterPie.UI.Controls.Image;
 /// <summary>
@@ -14,17 +14,18 @@ public partial class Icon : UserControl
         get => (ImageSource)GetValue(ImageProperty);
         set => SetValue(ImageProperty, value);
     }
-    public static readonly DependencyProperty ImageProperty =
-        DependencyProperty.Register("Image", typeof(ImageSource), typeof(Icon));
+    public static readonly StyledProperty<ImageSource> ImageProperty =
+        AvaloniaProperty.Register<Icon, ImageSource>(nameof(Image));
 
-    public new Brush Foreground
+    public new IBrush Foreground
     {
-        get => (Brush)GetValue(ForegroundProperty);
+        get => GetValue(ForegroundProperty);
         set => SetValue(ForegroundProperty, value);
     }
-    public static new readonly DependencyProperty ForegroundProperty =
-        DependencyProperty.Register("Foreground", typeof(Brush), typeof(Icon));
-
+    
+    public static readonly StyledProperty<IBrush> ForegroundProperty =
+        AvaloniaProperty.Register<Icon, IBrush>(nameof(Foreground));
+    
     public Icon()
     {
         InitializeComponent();

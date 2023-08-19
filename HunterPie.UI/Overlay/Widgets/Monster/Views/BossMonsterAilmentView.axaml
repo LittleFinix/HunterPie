@@ -1,13 +1,13 @@
 ﻿<UserControl x:Class="HunterPie.UI.Overlay.Widgets.Monster.Views.BossMonsterAilmentView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:HunterPie.UI.Overlay.Widgets.Monster.Views"
-             xmlns:vm="clr-namespace:HunterPie.UI.Overlay.Widgets.Monster.ViewModels"
-             d:DataContext="{d:DesignInstance Type=vm:MonsterAilmentViewModel}"
-             xmlns:overlay="clr-namespace:HunterPie.UI.Overlay.Controls"
-             xmlns:converters="clr-namespace:HunterPie.UI.Architecture.Converters"
+             xmlns:local="using:HunterPie.UI.Overlay.Widgets.Monster.Views"
+             xmlns:vm="using:HunterPie.UI.Overlay.Widgets.Monster.ViewModels"
+             
+             xmlns:overlay="using:HunterPie.UI.Overlay.Controls"
+             xmlns:converters="using:HunterPie.UI.Architecture.Converters"
              mc:Ignorable="d"
              Padding="0,0,0,2"
              Width="80">
@@ -33,39 +33,39 @@
             <TextBlock.Effect>
                 <DropShadowEffect Color="Black"
                                       BlurRadius="4" 
-                                      ShadowDepth="0"/>
+                                      />
             </TextBlock.Effect>
         </TextBlock>
 
         <Ellipse Width="40"
                  Fill="{StaticResource HUNTERPIE_BACKGROUND_DARK_OPACITY}"
-                 Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
+                 Height="{Binding Width, RelativeSource={RelativeSource Self}}"
                  VerticalAlignment="Top"
                  Grid.Row="1"/>
 
         <!-- Outer ring: Buildup -->
-        <overlay:Arc d:Percentage="0.5"
+        <Arc d:Percentage="0.5"
                      StrokeThickness="3"
                      Width="40"
                      Height="40"
                      VerticalAlignment="Top"
                      Grid.Row="1">
-            <overlay:Arc.Percentage>
+            <Arc.SweepAngle>
                 <MultiBinding Converter="{StaticResource RatioConverter}">
                     <Binding Path="Buildup"/>
                     <Binding Path="MaxBuildup"/>
                 </MultiBinding>
-            </overlay:Arc.Percentage>
-            <overlay:Arc.Stroke>
+            </Arc.SweepAngle>
+            <Arc.Stroke>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0,0" SpreadMethod="Pad">
                     <GradientStop Color="#36D1DC"/>
                     <GradientStop Color="#5B86E5" Offset="1"/>
                 </LinearGradientBrush>
-            </overlay:Arc.Stroke>
-        </overlay:Arc>
+            </Arc.Stroke>
+        </Arc>
 
         <!-- Inner ring: Timer -->
-        <overlay:Arc d:Percentage="0.3"
+        <Arc d:Percentage="0.3"
                      StrokeThickness="3"
                      Width="40"
                      Height="40"
@@ -73,13 +73,13 @@
                      Grid.Row="1"
                      Stroke="{Binding Name, Mode=OneWay, Converter={StaticResource MonsterAilmentIdToColorConverter}}"
                      d:Stroke="Red">
-            <overlay:Arc.Percentage>
+            <Arc.SweepAngle>
                 <MultiBinding Converter="{StaticResource RatioConverter}">
                     <Binding Path="Timer"/>
                     <Binding Path="MaxTimer"/>
                 </MultiBinding>
-            </overlay:Arc.Percentage>
-        </overlay:Arc>
+            </Arc.SweepAngle>
+        </Arc>
 
         <!-- Proc counter -->
         <TextBlock d:Text="5"

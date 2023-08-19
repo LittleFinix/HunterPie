@@ -1,0 +1,64 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:lvca="using:LiveChartsCore.SkiaSharpView.Avalonia"
+                    xmlns:lvc="using:LiveChartsCore.SkiaSharpView"
+                    xmlns:converters="clr-namespace:HunterPie.UI.Architecture.Converters;assembly=HunterPie.UI">
+    <!-- Converters -->
+    <converters:EnumToStringConverter x:Key="EnumToStringConverter"/>
+
+    <!-- ComboBox style -->
+    <ControlTemplate TargetType="ToggleButton" x:Key="ComboBoxToggleButtonTemplate">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="40" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.ColumnSpan="2" 
+                    Name="Border"
+                    BorderBrush="{StaticResource GRAY}"
+                    CornerRadius="5" 
+                    BorderThickness="1"
+                    Background="{StaticResource GRAY_100}"/>
+            <Border Grid.Column="1" 
+                    Margin="1,1,1,1"  
+                    Name="ButtonBorder"
+                    CornerRadius="0,5,5,0" 
+                    BorderThickness="1, 0, 0, 0"
+                    BorderBrush="{StaticResource GRAY}"
+                    Background="{StaticResource GRAY_200}" />
+
+            <Path Name="Arrow" Grid.Column="1"
+                  Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"
+                  HorizontalAlignment="Center" 
+                  Fill="{StaticResource HUNTERPIE_ACCENT_COLOR}"
+                  VerticalAlignment="Center" />
+        </Grid>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="Slider" TargetType="Slider">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Track Grid.Row="1" x:Name="PART_Track">
+                <Track.DecreaseButton>
+                    <RepeatButton Classes="sliderRepeatButton" Name="PART_DecreaseButton" />
+                </Track.DecreaseButton>
+                <Track.Thumb>
+                    <Thumb Classes="sliderThumb"  />
+                </Track.Thumb>
+                <Track.IncreaseButton>
+                    <RepeatButton Classes="sliderRepeatButton" Name="PART_IncreaseButton" />
+                </Track.IncreaseButton>
+            </Track>
+        </Grid>
+    </ControlTemplate>
+    
+    <DataTemplate x:Key="DATA_TEMPLATE_SETTINGS_ENUM_ELEMENT">
+        <TextBlock Text="{Binding ., Mode=OneTime, Converter={StaticResource EnumToStringConverter}}"
+                   FontFamily="{StaticResource HUNTERPIE_DEFAULT_FONT}"/>
+    </DataTemplate>
+</ResourceDictionary>

@@ -1,0 +1,92 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Design.PreviewWith>
+        <Border Padding="20">
+            <StackPanel>
+                <ScrollBar Orientation="Horizontal" Width="100" />
+                <ScrollBar Orientation="Vertical" Height="100" />
+            </StackPanel>
+        </Border>
+    </Design.PreviewWith>
+
+    <Style Selector="ScrollBar[Orientation=Vertical]">
+        <Setter Property="Template">
+            <ControlTemplate TargetType="ScrollBar">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition MaxHeight="0"/>
+                        <RowDefinition Height="0.00001*"/>
+                        <RowDefinition MaxHeight="0"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.RowSpan="3" 
+                            CornerRadius="2" 
+                            Background="{StaticResource GRAY_400}" />
+                    <RepeatButton Grid.Row="0" Name="PART_LineUpButton" Classes="scrollBarButton scrollBarLineButton" Height="18" Content="M 0 4 L 8 4 L 4 0 Z" />
+                    <Track Name="PART_Track" Grid.Row="1" IsDirectionReversed="true">
+                        <Track.DecreaseButton>
+                            <RepeatButton Classes="scrollBarButton scrollBarPageButton"
+                                          Name="PART_PageUpButton"  />
+                        </Track.DecreaseButton>
+                        <Track.Thumb>
+                            <Thumb Classes="scrollBarThumb" 
+                                   Margin="1,1,1,1" 
+                                   Background="{StaticResource WHITE_500}" 
+                                   BorderBrush="{StaticResource WHITE_500}" />
+                        </Track.Thumb>
+                        <Track.IncreaseButton>
+                            <RepeatButton  Classes="scrollBarButton scrollBarPageButton"
+                                           Name="PART_PageDownButton" />
+                        </Track.IncreaseButton>
+                    </Track>
+                    <RepeatButton Grid.Row="3" Classes="scrollBarButton scrollBarLineButton" Height="18"
+                                  Name="PART_LineDownButton" Content="M 0 0 L 4 4 L 8 0 Z" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    
+    <Style Selector="ScrollBar[Orientation=Horizontal]">
+        <Setter Property="Template">
+            <ControlTemplate TargetType="ScrollBar">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition MaxWidth="18"/>
+                        <ColumnDefinition Width="0.00001*"/>
+                        <ColumnDefinition MaxWidth="18"/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.ColumnSpan="3" CornerRadius="2" Background="#F0F0F0"/>
+                    <RepeatButton Grid.Column="0" Classes="scrollBarButton scrollBarLineButton" Name="PART_LineDownButton" Width="18"  Content="M 4 0 L 4 8 L 0 4 Z" />
+                    <Track Name="PART_Track" Grid.Column="1" IsDirectionReversed="False">
+                        <Track.DecreaseButton>
+                            <RepeatButton Classes="scrollBarButton scrollBarPageButton" Name="PART_PageDownButton"  />
+                        </Track.DecreaseButton>
+                        <Track.Thumb>
+                            <Thumb Classes="scrollBarThumb" Margin="0,1,0,1" Background="{StaticResource NormalBrush}" BorderBrush="{StaticResource NormalBorderBrush}" />
+                        </Track.Thumb>
+                        <Track.IncreaseButton>
+                            <RepeatButton Classes="scrollBarButton scrollBarPageButton" Name="PART_PageUpButton" />
+                        </Track.IncreaseButton>
+                    </Track>
+                    <RepeatButton Grid.Column="3" Classes="scrollBarButton scrollBarLineButton" Name="PART_LineUpButton" Width="18" Content="M 0 0 L 4 4 L 0 8 Z"/>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="Thumb">
+        <Setter Property="Template">
+            <ControlTemplate TargetType="Thumb">
+                <Ellipse Height="13" 
+                         Width="13" 
+                         Fill="{StaticResource WHITE_50}" 
+                         Cursor="Hand" 
+                         Stroke="{StaticResource WHITE_100}" 
+                         StrokeThickness="1"/>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    
+    <Style Selector="Slider">
+        <Setter Property="Focusable" Value="False"/>
+    </Style>
+</Styles>

@@ -1,17 +1,17 @@
 ﻿<UserControl x:Class="HunterPie.UI.Overlay.Widgets.Activities.View.HarvestFertilizerView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:HunterPie.UI.Overlay.Widgets.Activities.View"
-             xmlns:vm="clr-namespace:HunterPie.UI.Overlay.Widgets.Activities.ViewModel"
-             xmlns:animation="clr-namespace:HunterPie.UI.Architecture.Animation"
-             xmlns:converters="clr-namespace:HunterPie.UI.Architecture.Converters"
-             xmlns:effects="clr-namespace:HunterPie.UI.Architecture.Effects"
+             xmlns:local="using:HunterPie.UI.Overlay.Widgets.Activities.View"
+             xmlns:vm="using:HunterPie.UI.Overlay.Widgets.Activities.ViewModel"
+             xmlns:animation="using:HunterPie.UI.Architecture.Animation"
+             xmlns:converters="using:HunterPie.UI.Architecture.Converters"
+             xmlns:effects="using:HunterPie.UI.Architecture.Effects"
              mc:Ignorable="d" 
              d:DesignHeight="30" 
-             d:DesignWidth="270"
-             d:DataContext="{d:DesignInstance vm:HarvestFertilizerViewModel}">
+             d:DesignWidth="270">
+             
     <UserControl.Resources>
         <converters:CurrentValueToWidthConverter x:Key="CurrentValueToWidthConverter"/>
         <converters:FertilizerToIconConverter x:Key="FertilizerToIconConverter"/>
@@ -39,7 +39,7 @@
         <!-- Background bar -->
         <Grid Grid.Column="1"
               HorizontalAlignment="Left"
-              MaxWidth="{Binding ActualWidth, ElementName=PART_BarBorder}"
+              MaxWidth="{Binding Width, ElementName=PART_BarBorder}"
               Margin="1,1,0,1"
               ClipToBounds="True"
               d:Width="200">
@@ -52,40 +52,6 @@
                 </MultiBinding>
             </Grid.Width>
             <Rectangle d:Fill="{StaticResource FertilizerBackgroundColor}">
-                <Rectangle.Effect>
-                    <effects:AlligatorShaderEffect Ratio="1"/>
-                </Rectangle.Effect>
-                <Rectangle.Style>
-                    <Style TargetType="Rectangle">
-                        <Style.Setters>
-                            <Setter Property="Fill" Value="{StaticResource FertilizerBackgroundColor}"/>
-                        </Style.Setters>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsExpiring}" Value="True">
-                                <DataTrigger.EnterActions>
-                                    <BeginStoryboard Name="IsExpiringAnimation">
-                                        <Storyboard>
-                                            <animation:BrushAnimation From="{StaticResource FertilizerBackgroundColor}"
-                                                                      To="{StaticResource FertilizerExpiringBackgroundColor}"
-                                                                      Duration="0:0:0.2"
-                                                                      Storyboard.TargetProperty="Fill"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </DataTrigger.EnterActions>
-                                <DataTrigger.ExitActions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <animation:BrushAnimation From="{StaticResource FertilizerExpiringBackgroundColor}"
-                                                                      To="{StaticResource FertilizerBackgroundColor}"
-                                                                      Duration="0:0:0.2"
-                                                                      Storyboard.TargetProperty="Fill"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </DataTrigger.ExitActions>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Rectangle.Style>
             </Rectangle>
             <Rectangle Fill="#10FFFFFF" 
                        Width="30" 
@@ -93,29 +59,8 @@
                        HorizontalAlignment="Left" 
                        Margin="0,0,0,0">
                 <Rectangle.Effect>
-                    <BlurEffect Radius="20" 
-                                KernelType="Gaussian"/>
+                    <BlurEffect Radius="20" />
                 </Rectangle.Effect>
-                <Rectangle.Style>
-                    <Style TargetType="{x:Type Rectangle}">
-                        <Style.Triggers>
-                            <Trigger Property="IsVisible"
-                                     Value="True">
-                                <Trigger.EnterActions>
-
-                                    <BeginStoryboard>
-                                        <Storyboard RepeatBehavior="Forever"
-                                                    Storyboard.TargetProperty="Margin">
-                                            <ThicknessAnimation From="-40,0,0,0"
-                                                                To="300,0,0,0"
-                                                                Duration="0:0:3"/>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </Trigger.EnterActions>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Rectangle.Style>
             </Rectangle>
         </Grid>
 

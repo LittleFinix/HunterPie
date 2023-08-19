@@ -1,5 +1,7 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+using System;
 
 namespace HunterPie.UI.Controls.Buttons;
 /// <summary>
@@ -7,10 +9,9 @@ namespace HunterPie.UI.Controls.Buttons;
 /// </summary>
 public partial class Pagination : UserControl
 {
-    public static readonly RoutedEvent PageUpdateEvent = EventManager.RegisterRoutedEvent(nameof(PageUpdate),
-        RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(Pagination));
+    public static readonly RoutedEvent PageUpdateEvent = RoutedEvent.Register<Pagination, RoutedEventArgs>(nameof(PageUpdate), RoutingStrategies.Direct);
 
-    public event RoutedEventHandler PageUpdate
+    public event EventHandler<RoutedEventArgs> PageUpdate
     {
         add => AddHandler(PageUpdateEvent, value);
         remove => RemoveHandler(PageUpdateEvent, value);
@@ -23,8 +24,8 @@ public partial class Pagination : UserControl
     }
 
     // Using a DependencyProperty as the backing store for CurrentPage.  This enables animation, styling, binding, etc...
-    public static readonly DependencyProperty CurrentPageProperty =
-        DependencyProperty.Register(nameof(CurrentPage), typeof(int), typeof(Pagination), new PropertyMetadata(0));
+    public static readonly StyledProperty<int> CurrentPageProperty =
+        AvaloniaProperty.Register<Pagination, int>(nameof(CurrentPage), 0);
 
     public int LastPage
     {
@@ -33,8 +34,8 @@ public partial class Pagination : UserControl
     }
 
     // Using a DependencyProperty as the backing store for LastPage.  This enables animation, styling, binding, etc...
-    public static readonly DependencyProperty LastPageProperty =
-        DependencyProperty.Register(nameof(LastPage), typeof(int), typeof(Pagination), new PropertyMetadata(0));
+    public static readonly StyledProperty<int> LastPageProperty =
+        AvaloniaProperty.Register<Pagination, int>(nameof(LastPage), 0);
 
     public Pagination()
     {

@@ -1,31 +1,28 @@
 ﻿<Window x:Class="HunterPie.Update.Presentation.UpdateView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:HunterPie.Update.Presentation"
+        xmlns:local="using:HunterPie.Update.Presentation"
         xmlns:custom="clr-namespace:HunterPie.UI.Overlay.Controls;assembly=HunterPie.UI"
         mc:Ignorable="d"
         Title="UpdateView"
-        WindowStyle="None"
+        SystemDecorations="None"
         Height="300" 
         Width="500"
-        ResizeMode="NoResize"
+        CanResize="False"
         BorderThickness="1"
         BorderBrush="{StaticResource HUNTERPIE_ACCENT_COLOR}"
         Background="Transparent"
         WindowStartupLocation="CenterScreen"
         Topmost="True"
-        MouseLeftButtonDown="OnMouseDown"
-        xmlns:converters="clr-namespace:HunterPie.UI.Architecture.Converters;assembly=HunterPie.UI"
-        d:DataContext="{d:DesignInstance Type=local:UpdateViewModel}">
+        PointerPressed="InputElement_OnPointerPressed"
+        xmlns:converters="clr-namespace:HunterPie.UI.Architecture.Converters;assembly=HunterPie.UI">
+        
     <Window.Resources>
         <converters:LongToByteRepresentationConverter x:Key="LongToByteRepresentationConverter"/>
         <converters:ParentSizePercentageConverter x:Key="ParentSizePercentageConverter"/>
     </Window.Resources>
-    <WindowChrome.WindowChrome>
-        <WindowChrome GlassFrameThickness="-1"/>
-    </WindowChrome.WindowChrome>
     <Grid Background="{StaticResource GRAY_400}">
         <Image Source="{StaticResource ICON_HUNTERPIE}"
                Width="100"
@@ -45,28 +42,18 @@
                  FontWeight="Medium"/><!--
          --><Run Text="Pie"
                  FontWeight="UltraLight"/>
-            <TextBlock.Style>
-                <Style TargetType="TextBlock">
-                    <Style.Triggers>
-                        <Trigger Property="IsVisible" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                         From="0"
-                                                         To="0.4"
-                                                         BeginTime="0:0:0.2"
-                                                         Duration="0:0:0.5"/>
-                                        <ThicknessAnimation Storyboard.TargetProperty="Margin"
-                                                            To="0,140,0,0"
-                                                            Duration="0:0:0.5"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                        </Trigger>
-                    </Style.Triggers>
+            <TextBlock.Transitions>
+                <Transitions>
+                    <DoubleTransition Property="Opacity" Delay="0.2" Duration="0.5" />
+                    <ThicknessTransition Property="Margin" Duration="0.5" />
+                </Transitions>
+            </TextBlock.Transitions>
+            <TextBlock.Styles>
+                <Style Selector="TextBlock[IsVisible=True]">
+                    <Setter Property="Opacity" Value="0.4" />
+                    <Setter Property="Margin" Value="0,140,0,0" />
                 </Style>
-            </TextBlock.Style>
+            </TextBlock.Styles>
         </TextBlock>
         <!-- State message -->
         <TextBlock d:Text="Verifying latest version"
@@ -95,7 +82,7 @@
                  Foreground="{StaticResource WHITE_500}"/>
         </TextBlock>
 
-        <custom:Arc Stroke="{StaticResource HUNTERPIE_ACCENT_COLOR}"
+        <Arc Stroke="{StaticResource HUNTERPIE_ACCENT_COLOR}"
                     StrokeThickness="3"
                     Width="15"
                     Height="{Binding Width, RelativeSource={RelativeSource Self}}"
@@ -104,67 +91,47 @@
                     Margin="5"
                     StartAngle="60"
                     RenderTransformOrigin="0.5,0.5">
-            <custom:Arc.RenderTransform>
+            <Arc.RenderTransform>
                 <TransformGroup>
                     <RotateTransform Angle="0"/>
                 </TransformGroup>
-            </custom:Arc.RenderTransform>
-            <custom:Arc.Style>
-                <Style TargetType="custom:Arc">
-                    <Style.Triggers>
-                        <Trigger Property="IsVisible" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard RepeatBehavior="Forever"
-                                                SpeedRatio="2">
-
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="StartAngle"
-                                                                       RepeatBehavior="Forever">
-                                            <EasingDoubleKeyFrame KeyTime="0:0:1"
-                                                                  Value="-90"/>
-                                            <EasingDoubleKeyFrame KeyTime="0:0:2"
-                                                                  Value="60"/>
-                                        </DoubleAnimationUsingKeyFrames>
-
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="RenderTransform.Children[0].Angle"
-                                                                       RepeatBehavior="Forever">
-                                            <EasingDoubleKeyFrame KeyTime="0"
-                                                                  Value="0"/>
-                                            <EasingDoubleKeyFrame KeyTime="0:0:1.8"
-                                                                  Value="360"/>
-                                        </DoubleAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-                        </Trigger>
-                    </Style.Triggers>
+            </Arc.RenderTransform>
+            <Arc.Styles>
+                <Style Selector="Arc[IsVisible=True]">
+                    <Style.Animations>
+                        <Animation IterationCount="INFINITE">
+                            <KeyFrame KeyTime="1">
+                                <Setter Property="StartAngle" Value="-90" />
+                                <Setter Property="RenderTransform">
+                                    <TransformGroup>
+                                        <RotateTransform Angle="0" />
+                                    </TransformGroup>
+                                </Setter>
+                            </KeyFrame>
+                            <KeyFrame KeyTime="1.8">
+                                <Setter Property="RenderTransform">
+                                    <TransformGroup>
+                                        <RotateTransform Angle="360" />
+                                    </TransformGroup>
+                                </Setter>
+                            </KeyFrame>
+                            <KeyFrame KeyTime="2">
+                                <Setter Property="StartAngle" Value="60" />
+                            </KeyFrame>
+                        </Animation>
+                    </Style.Animations>
                 </Style>
-            </custom:Arc.Style>
-        </custom:Arc>
+            </Arc.Styles>
+        </Arc>
     </Grid>
-    <Window.Style>
-        <Style TargetType="{x:Type Window}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding IsMouseDown, RelativeSource={RelativeSource Self}}" 
-                             Value="True">
-                    <DataTrigger.EnterActions>
-                        <BeginStoryboard>
-                            <Storyboard Storyboard.TargetProperty="Opacity">
-                                <DoubleAnimation Duration="0:0:0.15"
-                                                 To="0.8"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </DataTrigger.EnterActions>
-                    <DataTrigger.ExitActions>
-                        <BeginStoryboard>
-                            <Storyboard Storyboard.TargetProperty="Opacity">
-                                <DoubleAnimation Duration="0:0:0.15"
-                                                 To="1"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </DataTrigger.ExitActions>
-                </DataTrigger>
-            </Style.Triggers>
+    <Window.Transitions>
+        <Transitions>
+            <DoubleTransition Property="Opacity" Duration="0.15" />
+        </Transitions>
+    </Window.Transitions>
+    <Window.Styles>
+        <Style Selector="local|UpdateView[IsMouseDown=True]">
+            <Setter Property="Opacity" Value="0.8" />
         </Style>
-    </Window.Style>
+    </Window.Styles>
 </Window>

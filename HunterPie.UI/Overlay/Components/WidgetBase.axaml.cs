@@ -1,19 +1,22 @@
-﻿using HunterPie.Core.Logger;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using Avalonia.Media;
+using Avalonia.Platform;
+using Avalonia.Threading;
+using HunterPie.Core.Logger;
+using HunterPie.Core.Settings.Types;
 using HunterPie.UI.Architecture.Extensions;
 using HunterPie.UI.Overlay.Enums;
-using HunterPie.UI.Platform.Windows.Native;
+using LiveChartsCore.Defaults;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Media;
+using Color = Avalonia.Media.Color;
 #if DEBUG
-using LiveCharts;
-using LiveCharts.Defaults;
 using HunterPie.UI.Architecture.Graphs;
 #endif
 
@@ -31,26 +34,8 @@ public partial class WidgetBase : Window, INotifyPropertyChanged
 
 #if DEBUG
     public SeriesCollection RenderSeries { get; private set; }
-    private readonly ChartValues<ObservablePoint> _renderPoints = new();
+    private readonly List<ObservablePoint> _renderPoints = new();
 #endif
-
-    // TODO: Move this to platform dependent classes
-    private const uint Flags =
-        (uint)(User32.SWP_WINDOWN_FLAGS.SWP_SHOWWINDOW
-        | User32.SWP_WINDOWN_FLAGS.SWP_NOMOVE
-        | User32.SWP_WINDOWN_FLAGS.SWP_NOSIZE
-        | User32.SWP_WINDOWN_FLAGS.SWP_NOACTIVATE);
-
-    private const uint ClickThroughFlags =
-        (uint)(User32.EX_WINDOW_STYLES.WS_EX_TRANSPARENT
-        | User32.EX_WINDOW_STYLES.WS_EX_TOPMOST
-        | User32.EX_WINDOW_STYLES.WS_EX_NOACTIVATE
-        | User32.EX_WINDOW_STYLES.WS_EX_TOOLWINDOW);
-
-    private const uint WindowFlags =
-        (uint)(User32.EX_WINDOW_STYLES.WS_EX_TOPMOST
-        | User32.EX_WINDOW_STYLES.WS_EX_NOACTIVATE
-        | User32.EX_WINDOW_STYLES.WS_EX_TOOLWINDOW);
 
     private IWidgetWindow _widget;
     public IWidgetWindow Widget
@@ -61,7 +46,16 @@ public partial class WidgetBase : Window, INotifyPropertyChanged
             if (value != _widget)
             {
                 _widget = value;
+
+                if (_widget.Settings is null)
+                    throw new NullReferenceException();
+                
                 _widget.OnWidgetTypeChange += OnWidgetTypeChange;
+
+                // _widget.Settings.Position ??= new Position(0, 0);
+                // _widget.Settings.Position.PropertyChanged += PositionOnPropertyChanged;
+                Position = new PixelPoint((int)Widget.Settings.Position.X, (int)Widget.Settings.Position.Y);
+                
                 this.N(PropertyChanged);
             }
         }
@@ -77,8 +71,11 @@ public partial class WidgetBase : Window, INotifyPropertyChanged
 
         InitializeComponent();
         DataContext = this;
+    }
 
-        CompositionTarget.Rendering += OnRender;
+    private void PositionOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        Position = new PixelPoint((int)Widget.Settings.Position.X, (int)Widget.Settings.Position.Y);
     }
 
     private int _counter = 0;
@@ -95,58 +92,49 @@ public partial class WidgetBase : Window, INotifyPropertyChanged
         _counter++;
     }
 
-    protected override void OnClosing(CancelEventArgs e)
+    protected override void OnClosing(WindowClosingEventArgs e) 
     {
-        CompositionTarget.Rendering -= OnRender;
-        Widget.OnWidgetTypeChange -= OnWidgetTypeChange;
-        base.OnClosing(e);
+        if (e.CloseReason is not WindowCloseReason.ApplicationShutdown and not WindowCloseReason.OSShutdown)
+        {
+            Widget.Settings.Position.PropertyChanged -= PositionOnPropertyChanged;
+            Widget.OnWidgetTypeChange -= OnWidgetTypeChange;
+            base.OnClosing(e);
+        }
     }
 
     private void SetWindowFlags()
     {
-        IntPtr hWnd = new WindowInteropHelper(this)
-            .EnsureHandle();
+        Background = null;
+        TransparencyBackgroundFallback = Brushes.Transparent;
+        CanResize = false;
+        ExtendClientAreaToDecorationsHint = true;
+        ExtendClientAreaChromeHints = ExtendClientAreaChromeHints.NoChrome;
 
-        uint styles = (uint)User32.GetWindowLong(hWnd, User32.GWL_EXSTYLE);
-
-        uint flags = Widget.Type switch
+        switch (Widget.Type)
         {
-            WidgetType.ClickThrough => ClickThroughFlags,
-            WidgetType.Window => WindowFlags,
-            _ => throw new NotImplementedException("Unreachable"),
-        };
-
-        _ = User32.SetWindowLong(hWnd, User32.GWL_EXSTYLE, (int)(styles | flags));
+            case WidgetType.Window:
+                Focusable = true;
+                break;
+            
+            case WidgetType.ClickThrough:
+                Focusable = false;
+                break;
+        }
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e) => SetWindowFlags();
 
     internal void HandleTransparencyFlag(bool enableFlag)
     {
-        IntPtr hWnd = new WindowInteropHelper(this)
-            .EnsureHandle();
-
-        uint styles = (uint)User32.GetWindowLong(hWnd, User32.GWL_EXSTYLE);
-
         if (enableFlag)
-            styles |= (uint)User32.EX_WINDOW_STYLES.WS_EX_TRANSPARENT;
+            Background = null;
         else
-            styles &= ~(uint)User32.EX_WINDOW_STYLES.WS_EX_TRANSPARENT;
-
-        int result = User32.SetWindowLong(hWnd, User32.GWL_EXSTYLE, (int)styles);
-
-        if (result == 0)
-            Log.Error("Failed to set widget {0} flags due to error code: {1}", Widget.GetType().Name, Marshal.GetLastWin32Error());
-        else
-            Log.Debug("Changed widget flags to {0:X}", result);
+            Background = Brushes.Black;
     }
 
     private void ForceAlwaysOnTop()
     {
-        IntPtr hWnd = new WindowInteropHelper(this)
-            .EnsureHandle();
-
-        _ = User32.SetWindowPos(hWnd, -1, 0, 0, 0, 0, Flags);
+        Topmost = true;
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
@@ -160,18 +148,9 @@ public partial class WidgetBase : Window, INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    private void OnMouseWheel(object sender, MouseWheelEventArgs e)
-    {
-        double step = 0.01 * (e.Delta > 0 ? 1 : -1);
-
-        if (Keyboard.IsKeyDown(Key.LeftCtrl))
-            Widget.Settings.Opacity.Current += step;
-        else
-            Widget.Settings.Scale.Current += step;
-    }
     private void OnWidgetTypeChange(object sender, WidgetType e)
     {
-        Dispatcher.Invoke(() =>
+        Dispatcher.UIThread.Invoke(() =>
         {
             switch (e)
             {
@@ -180,5 +159,20 @@ public partial class WidgetBase : Window, INotifyPropertyChanged
                 default: throw new Exception("unreachable");
             }
         });
+    }
+
+    private void InputElement_OnPointerWheelChanged(object? sender, PointerWheelEventArgs e)
+    {
+        double step = 0.01 * (e.Delta.Y > 0 ? 1 : -1);
+
+        if (e.KeyModifiers.HasFlag(KeyModifiers.Control))
+            Widget.Settings.Opacity.Current += step;
+        else
+            Widget.Settings.Scale.Current += step;
+    }
+
+    private void WindowBase_OnPositionChanged(object? sender, PixelPointEventArgs e)
+    {
+        Widget.Settings.Position = new Position(e.Point.X, e.Point.Y);
     }
 }

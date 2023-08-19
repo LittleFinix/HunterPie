@@ -1,9 +1,13 @@
-﻿using HunterPie.Core.Client.Configuration.Overlay;
+﻿using Avalonia;
+using Avalonia.Layout;
+using HunterPie.Core.Architecture;
+using HunterPie.Core.Client.Configuration.Overlay;
 using HunterPie.Core.Settings;
 using HunterPie.UI.Architecture;
 using HunterPie.UI.Overlay.Enums;
 using HunterPie.UI.Overlay.Widgets.Monster.ViewModels;
 using System;
+using Orientation = HunterPie.Core.Client.Configuration.Enums.Orientation;
 
 namespace HunterPie.UI.Overlay.Widgets.Monster.Views;
 
@@ -17,6 +21,11 @@ public partial class MonstersView : View<MonstersViewModel>, IWidget<MonsterWidg
         Settings = config;
         InitializeComponent();
     }
+
+    public static readonly DirectProperty<MonstersView, Orientation> OrientationProperty = AvaloniaProperty.RegisterDirect<MonstersView, Orientation>(
+        "Orientation", o => o.Orientation);
+
+    public Orientation Orientation => Settings.Orientation.Value;
 
     public MonsterWidgetConfig Settings { get; }
     public string Title => "Monsters Widget";

@@ -1,7 +1,6 @@
-﻿using HunterPie.GUI.Parts.Notifications.ViewModels;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Controls;
+﻿using Avalonia.Controls;
+using Avalonia.Interactivity;
+using HunterPie.GUI.Parts.Notifications.ViewModels;
 
 namespace HunterPie.GUI.Parts.Notifications.Views;
 
@@ -19,7 +18,7 @@ public partial class NotificationsPanelView : UserControl
     }
     private async void OnLoaded(object sender, RoutedEventArgs e)
     {
-        if (DesignerProperties.GetIsInDesignMode(this))
+        if (Design.IsDesignMode)
             return;
 
         await ViewModel.FetchNotifications();

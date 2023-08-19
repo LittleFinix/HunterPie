@@ -1,10 +1,10 @@
 ﻿<UserControl x:Class="HunterPie.UI.Controls.Notfication.Prompt"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:HunterPie.UI.Controls.Notfication"
-             xmlns:image="clr-namespace:HunterPie.UI.Controls.Image"
+             xmlns:local="using:HunterPie.UI.Controls.Notfication"
+             xmlns:image="using:HunterPie.UI.Controls.Image"
              mc:Ignorable="d"
              x:Name="PromptComponent"
              Background="Transparent">
@@ -16,7 +16,7 @@
             <image:Icon Image="{Binding Icon, ElementName=PromptComponent}"
                         Foreground="{Binding BorderBrush, ElementName=PromptComponent}"
                         Margin="{Binding IconMargin, ElementName=PromptComponent}"
-                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"/>
+                        Width="{Binding Height, RelativeSource={RelativeSource Self}}"/>
             <TextBlock Text="{Binding Message, ElementName=PromptComponent}"
                        FontSize="15"
                        Foreground="{StaticResource WHITE_300}"

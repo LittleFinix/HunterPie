@@ -1,7 +1,7 @@
-﻿using HunterPie.GUI.Parts.Account.ViewModels;
+﻿using Avalonia.Input;
+using Avalonia.Interactivity;
+using HunterPie.GUI.Parts.Account.ViewModels;
 using HunterPie.UI.Architecture;
-using System.Windows;
-using System.Windows.Input;
 
 namespace HunterPie.GUI.Parts.Account.Views;
 /// <summary>

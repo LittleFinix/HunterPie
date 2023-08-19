@@ -1,35 +1,26 @@
 ﻿<arch:View x:Class="HunterPie.GUI.Parts.Account.Views.AccountView"
-           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+           xmlns="https://github.com/avaloniaui"
            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
            xmlns:arch="clr-namespace:HunterPie.UI.Architecture;assembly=HunterPie.UI"
            xmlns:native="clr-namespace:HunterPie.UI.Controls.Buttons;assembly=HunterPie.UI"
-           xmlns:local="clr-namespace:HunterPie.GUI.Parts.Account.Views"
-           xmlns:vm="clr-namespace:HunterPie.GUI.Parts.Account.ViewModels"
+           xmlns:local="using:HunterPie.GUI.Parts.Account.Views"
+           xmlns:vm="using:HunterPie.GUI.Parts.Account.ViewModels"
            xmlns:loading="clr-namespace:HunterPie.UI.Controls.Loading;assembly=HunterPie.UI"
            xmlns:image="clr-namespace:HunterPie.UI.Controls.Image;assembly=HunterPie.UI"
+           xmlns:account="using:HunterPie.Features.Account"
            x:TypeArguments="vm:AccountViewModel"
            Focusable="True"
            mc:Ignorable="d" 
+           x:DataType="vm:AccountViewModel"
            d:DesignHeight="50" 
-           d:DesignWidth="300">
-    <UserControl.Resources>
-        <Style x:Key="AvatarClickStyle" TargetType="native:Button">
-            <EventSetter Event="Click" Handler="OnAvatarClick"/>
-            <EventSetter Event="GotKeyboardFocus" Handler="OnAvatarGotKeyboardFocus"/>
-            <EventSetter Event="LostKeyboardFocus" Handler="OnAvatarLostKeyboardFocus"/>
-        </Style>
-
-        <Style x:Key="LogoutButtonStyle" TargetType="native:Button">
-            <EventSetter Event="Click" Handler="OnLogoutClick"/>
-        </Style>
-
-        <Style x:Key="SettingsButtonStyle" TargetType="native:Button">
-            <EventSetter Event="Click" Handler="OnSettingsClick"/>
-        </Style>
-
-        <Style x:Key="AccountButtonsStyle" TargetType="native:Button">
+           d:DesignWidth="300"
+           Classes.isLoggingIn="{Binding $self.IsLoggingIn}"
+           Classes.isLoggedIn="{Binding $self.IsLoggedIn}"
+           >
+    <UserControl.Styles>
+        <Style Selector="Button">
             <Setter Property="Padding" Value="20,10,20,10"/>
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="Margin" Value="5"/>
@@ -39,56 +30,43 @@
             <Setter Property="CornerRadius" Value="5"/>
             <Setter Property="Cursor" Value="Hand"/>
         </Style>
-
-        <Style x:Key="LoginStyle" TargetType="native:Button" BasedOn="{StaticResource AccountButtonsStyle}">
-            <EventSetter Event="Click" Handler="OnLoginClick"/>
-        </Style>
-
-        <Style x:Key="RegisterStyle" TargetType="native:Button" BasedOn="{StaticResource AccountButtonsStyle}">
-            <EventSetter Event="Click" Handler="OnRegisterClick"/>
-        </Style>
-    </UserControl.Resources>
+    </UserControl.Styles>
     <ContentPresenter>
-        <ContentPresenter.Style>
-            <Style TargetType="ContentPresenter">
-                <Setter Property="Content">
-                    <Setter.Value>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50"/>
-                                <ColumnDefinition Width="250"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Source="{StaticResource ICON_DISCONNECTED_ACCOUNT}"
-                                   Height="40"
-                                   Width="40"
-                                   RenderOptions.BitmapScalingMode="Fant"
-                                   Opacity="0.1"/>
-                            <StackPanel Orientation="Horizontal"
-                                        Grid.Column="1"
-                                        VerticalAlignment="Stretch"
-                                        HorizontalAlignment="Right">
-                                <native:Button Content="Sign In"
-                                               Style="{StaticResource LoginStyle}"/>
-                                <native:Button Content="Sign Up"
-                                               Style="{StaticResource RegisterStyle}"/>
-                            </StackPanel>
-                            
-                        </Grid>
-                    </Setter.Value>
-                </Setter>
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding DataContext.IsLoggingIn, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AccountView}}}" Value="True">
-                        <Setter Property="Content">
-                            <Setter.Value>
-                                <local:AccountSkeletonView Width="300"
-                                                           Height="50"
-                                                           VerticalAlignment="Top"/>
-                            </Setter.Value>
-                        </Setter>
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding DataContext.IsLoggedIn, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AccountView}}}" Value="True">
-                        <Setter Property="Content">
-                            <Setter.Value>
+        <ContentPresenter.Content>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="250"/>
+                </Grid.ColumnDefinitions>
+                <Image Source="{StaticResource ICON_DISCONNECTED_ACCOUNT}"
+                       Height="40"
+                       Width="40"
+                       Opacity="0.1"/>
+                <StackPanel Orientation="Horizontal"
+                            Grid.Column="1"
+                            VerticalAlignment="Stretch"
+                            HorizontalAlignment="Right">
+                    <Button Content="Sign In"
+                                   Command="{Binding Source={x:Static account:AccountNavigationService.OnNavigateToSignIn}}" />
+                    <Button Content="Sign Up"
+                                   Command="{Binding Source={x:Static account:AccountNavigationService.OnNavigateToSignUp}}" />
+                </StackPanel>
+            </Grid>
+        </ContentPresenter.Content>
+        <ContentPresenter.Styles>
+            <Style Selector="ContentPresenter">
+                <Style Selector=".isLoggingIn ^">
+                    <Setter Property="Content">
+                        <Template>
+                            <local:AccountSkeletonView Width="300"
+                                                       Height="50"
+                                                       VerticalAlignment="Top"/>
+                        </Template>
+                    </Setter>
+                </Style>
+                <Style Selector=".isLoggedIn ^">
+                    <Setter Property="Content">
+                            <Template>
                                 <Grid Background="{StaticResource GRAY_100}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="50"/>
@@ -96,28 +74,27 @@
                                     </Grid.ColumnDefinitions>
 
                                     <!-- Profile picture -->
-                                    <native:Button Padding="0"
+                                    <Button Padding="0"
                                                    VerticalAlignment="Stretch"
                                                    HorizontalContentAlignment="Left"
                                                    VerticalContentAlignment="Top"
                                                    Focusable="True"
                                                    Cursor="Hand"
                                                    Margin="3,4,0,0"
-                                                   Style="{StaticResource AvatarClickStyle}">
-                                        <native:Button.Clip>
+                                                   Command="{CompiledBinding OpenAccountPreferences}">
+                                        <Button.Clip>
                                             <EllipseGeometry Center="20,20"
                                                              RadiusX="19"
                                                              RadiusY="19"/>
-                                        </native:Button.Clip>
+                                        </Button.Clip>
                                         <Canvas>
                                             <Image Source="{Binding AvatarUrl, Mode=OneWay, FallbackValue={StaticResource ICON_DISCONNECTED_ACCOUNT}}"
                                                    Height="40"
                                                    Width="40"
-                                                   RenderOptions.BitmapScalingMode="Fant"
                                                    Opacity="0.9"
                                                    Stretch="UniformToFill"/>
                                         </Canvas>
-                                    </native:Button>
+                                    </Button>
 
                                     <!-- User name -->
                                     <TextBlock Text="{Binding Username, Mode=OneWay}"
@@ -137,14 +114,14 @@
                                                 VerticalAlignment="Bottom">
                                     </StackPanel>
 
-                                    <native:Button Grid.Column="1"
+                                    <Button Grid.Column="1"
                                                    HorizontalAlignment="Right"
-                                                   ToolTip="Account settings"
+                                                   ToolTip.Tip="Account settings"
                                                    Padding="6"
                                                    Margin="10,10,45,10"
                                                    Background="{StaticResource GRAY_50}"
                                                    Cursor="Hand"
-                                                   Style="{StaticResource SettingsButtonStyle}"
+                                                   Command="{CompiledBinding OpenAccountPreferences}"
                                                    BorderBrush="{StaticResource GRAY}"
                                                    BorderThickness="1"
                                                    CornerRadius="3"
@@ -154,16 +131,16 @@
                                                     Foreground="{StaticResource WHITE_100}"
                                                     Height="16"
                                                     Width="16"/>
-                                    </native:Button>
+                                    </Button>
                                     
-                                    <native:Button Grid.Column="1"
+                                    <Button Grid.Column="1"
                                                    HorizontalAlignment="Right"
-                                                   ToolTip="Disconnect"
+                                                   ToolTip.Tip="Disconnect"
                                                    Padding="6,0,2,0"
                                                    Margin="10"
                                                    Background="{StaticResource RED_300}"
                                                    Cursor="Hand"
-                                                   Style="{StaticResource LogoutButtonStyle}"
+                                                   Command="{CompiledBinding SignOut}"
                                                    BorderBrush="{StaticResource RED_200}"
                                                    BorderThickness="1"
                                                    CornerRadius="3">
@@ -171,14 +148,13 @@
                                                Height="20"
                                                Width="20"
                                                Stretch="Uniform"/>
-                                    </native:Button>
+                                    </Button>
                                 </Grid>
-                            </Setter.Value>
+                            </Template>
                         </Setter>
-                    </DataTrigger>
-                </Style.Triggers>
+                </Style>
             </Style>
-        </ContentPresenter.Style>
+        </ContentPresenter.Styles>
         
         
 

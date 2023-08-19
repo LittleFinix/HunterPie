@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 
 namespace HunterPie.UI.Controls.Text;
 /// <summary>
@@ -14,8 +14,8 @@ public partial class LabeledText : UserControl
     }
 
     // Using a DependencyProperty as the backing store for Label.  This enables animation, styling, binding, etc...
-    public static readonly DependencyProperty LabelProperty =
-        DependencyProperty.Register("Label", typeof(string), typeof(LabeledText), new PropertyMetadata("Label"));
+    public static readonly StyledProperty<string> LabelProperty =
+        AvaloniaProperty.Register<LabeledText, string>(nameof(Label), "Label");
 
     public string Text
     {
@@ -23,9 +23,9 @@ public partial class LabeledText : UserControl
         set => SetValue(TextProperty, value);
     }
 
-    // Using a DependencyProperty as the backing store for Text.  This enables animation, styling, binding, etc...
-    public static readonly DependencyProperty TextProperty =
-        DependencyProperty.Register("Text", typeof(string), typeof(LabeledText), new PropertyMetadata("Sample Text"));
+    // Using a DependencyProperty as the backing store for Label.  This enables animation, styling, binding, etc...
+    public static readonly StyledProperty<string> TextProperty =
+        AvaloniaProperty.Register<LabeledText, string>(nameof(Text), "Sample Text");
 
     public LabeledText()
     {

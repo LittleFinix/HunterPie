@@ -1,26 +1,30 @@
 ﻿<Application x:Class="HunterPie.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             ShutdownMode="OnExplicitShutdown"
-             DispatcherUnhandledException="OnUIException">
+             xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/HunterPie.UI;component/Resources/Colors.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/HunterPie.UI;component/Resources/Icons.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/HunterPie;component/Resources/Styles/Client.xaml"/>
+                <ResourceInclude Source="avares://HunterPie.UI/Resources/Constants.axaml"/>
+                <ResourceInclude Source="avares://HunterPie.UI/Resources/Colors.axaml"/>
+                <ResourceInclude Source="avares://HunterPie.UI/Resources/Brushes.axaml"/>
+                <ResourceInclude Source="avares://HunterPie.UI/Resources/Icons.axaml"/>
+                <ResourceInclude Source="avares://HunterPie/Resources/Converters.axaml"/>
                 <!--
                     Spooky season
-                <ResourceDictionary Source="pack://application:,,,/HunterPie.UI;component/Resources/Seasons/SpookyPie.xaml"/>
+                <ResourceDictionary Source="avares://HunterPie.UI/Resources/Seasons/SpookyPie.xaml"/>
                 -->
                 <!-- 
                     Winter season 
-                <ResourceDictionary Source="pack://application:,,,/HunterPie.UI;component/Resources/Seasons/WinterPie.xaml"/>
+                <ResourceDictionary Source="avares://HunterPie.UI/Resources/Seasons/WinterPie.xaml"/>
                 -->
-                <ResourceDictionary Source="pack://application:,,,/HunterPie.UI;component/Resources/Styles.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/HunterPie.UI;component/Resources/Abnormalities.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/HunterPie.UI;component/Resources/Interface.xaml"/>
+                <ResourceInclude Source="avares://HunterPie.UI/Resources/Abnormalities.axaml"/>
+                <ResourceInclude Source="avares://HunterPie.UI/Resources/Interface.axaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
+    <Application.Styles>
+        <SimpleTheme />
+        <StyleInclude Source="avares://HunterPie/Resources/Styles/Client.axaml"/>
+        <StyleInclude Source="avares://HunterPie.UI/Resources/Styles.axaml" />
+    </Application.Styles>
 </Application>

@@ -1,4 +1,5 @@
-﻿using HunterPie.Core.Client.Configuration.Overlay;
+﻿using Avalonia.Controls;
+using HunterPie.Core.Client.Configuration.Overlay;
 using HunterPie.Core.Client.Localization;
 using HunterPie.Core.Domain.Dialog;
 using HunterPie.Core.Settings.Types;
@@ -7,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Controls;
+using System.Threading.Tasks;
 
 namespace HunterPie.UI.Controls.Settings.Custom;
 
@@ -39,23 +40,24 @@ public partial class AbnormalityTrayList : UserControl, INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    private void OnAddTrayClick(object sender, EventArgs e)
+    private void OnAddTrayClick()
     {
         ViewModel.Trays.Add(new AbnormalityWidgetConfig() { Name = $"Abnormality Tray {ViewModel.Trays.Count + 1}" });
 
         SelectedIndex = Math.Max(0, ViewModel.Trays.Count - 1);
     }
 
-    private void OnRemoveTrayClick(object sender, EventArgs e)
+    private async Task OnRemoveTrayClick()
     {
         AbnormalityWidgetConfig? config = TryFetchConfig();
 
         if (config is null)
             return;
 
-        NativeDialogResult confirmation = DialogManager.Warn(
-            Localization.QueryString("//Strings/Client/Dialogs/Dialog[@Id='CONFIRMATION_TITLE_STRING']"),
-            Localization.QueryString("//Strings/Client/Dialogs/Dialog[@Id='DELETE_CONFIRMATION_DESCRIPTION_STRING']").Replace("{Item}", $"{(string)config.Name}"),
+        NativeDialogResult confirmation = await DialogManager.Warn(
+            Localization.FindString("Client", "Dialogs", "Dialog", "CONFIRMATION_TITLE_STRING"),
+            Localization.FindString("Client", "Dialogs", "Dialog", "DELETE_CONFIRMATION_DESCRIPTION_STRING")
+                .Replace("{Item}", $"{(string)config.Name}"),
             NativeDialogButtons.Accept | NativeDialogButtons.Cancel
         );
 
@@ -67,7 +69,7 @@ public partial class AbnormalityTrayList : UserControl, INotifyPropertyChanged
         SelectedIndex = Math.Max(0, SelectedIndex - 1);
     }
 
-    private void OnOpenConfigClick(object sender, EventArgs e)
+    private void OnOpenConfigClick()
     {
         AbnormalityWidgetConfig? vm = TryFetchConfig();
 

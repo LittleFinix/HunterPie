@@ -1,7 +1,8 @@
-﻿using HunterPie.GUI.Parts.Sidebar.Service;
+﻿using Avalonia.Controls;
+using Avalonia.Interactivity;
+using HunterPie.GUI.Parts.Sidebar.Service;
 using HunterPie.GUI.Parts.Sidebar.ViewModels;
 using System;
-using System.Windows.Controls;
 
 namespace HunterPie.GUI.Parts.Sidebar;
 
@@ -17,5 +18,5 @@ public partial class SideBarElement : UserControl
         InitializeComponent();
     }
 
-    private void OnButtonClick(object sender, EventArgs e) => SideBarService.Navigate(Model);
+    private void OnButtonClick(object sender, RoutedEventArgs e) => SideBarService.Navigate(Model);
 }

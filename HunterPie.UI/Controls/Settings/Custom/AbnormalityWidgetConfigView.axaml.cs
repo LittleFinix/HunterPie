@@ -1,4 +1,6 @@
-﻿using HunterPie.Core.Client;
+﻿using Avalonia.Controls;
+using Avalonia.Interactivity;
+using HunterPie.Core.Client;
 using HunterPie.Core.Client.Configuration.Overlay;
 using HunterPie.UI.Architecture.Navigator;
 using HunterPie.UI.Controls.Settings.Custom.Abnormality;
@@ -10,8 +12,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace HunterPie.UI.Controls.Settings.Custom;
 /// <summary>
@@ -82,7 +82,7 @@ public partial class AbnormalityWidgetConfigView : UserControl, INotifyPropertyC
             vm.IsMatch = string.IsNullOrEmpty(e.Text) || Regex.IsMatch(vm.Name, e.Text, RegexOptions.IgnoreCase);
     }
 
-    private void OnSelectAllClick(object sender, EventArgs e)
+    private void OnSelectAllClick()
     {
         if (SelectedCollection is null)
             return;

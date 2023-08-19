@@ -1,24 +1,29 @@
 ﻿<Window x:Class="HunterPie.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:part="clr-namespace:HunterPie.GUI.Parts"
+        xmlns:part="using:HunterPie.GUI.Parts"
+        xmlns:local="clr-namespace:HunterPie"
         xmlns:native="clr-namespace:HunterPie.UI.Controls.Buttons;assembly=HunterPie.UI"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:converters="clr-namespace:HunterPie.UI.Architecture.Converters;assembly=HunterPie.UI"
         xmlns:client="clr-namespace:HunterPie.Core.Client;assembly=HunterPie.Core"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-        xmlns:sidebar="clr-namespace:HunterPie.GUI.Parts.Sidebar"
-        xmlns:host="clr-namespace:HunterPie.GUI.Parts.Host"
+        xmlns:sidebar="using:HunterPie.GUI.Parts.Sidebar"
+        xmlns:host="using:HunterPie.GUI.Parts.Host"
         xmlns:loc="clr-namespace:HunterPie.UI.Architecture.Assets;assembly=HunterPie.UI"
-        xmlns:notifications="clr-namespace:HunterPie.GUI.Parts.Notifications.Views"
-        xmlns:appNotifications="clr-namespace:HunterPie.Features.Notification"
-        xmlns:accountPromo="clr-namespace:HunterPie.GUI.Parts.Account.Views.Promotional"
+        xmlns:notifications="using:HunterPie.GUI.Parts.Notifications.Views"
+        xmlns:appNotifications="using:HunterPie.Features.Notification"
+        xmlns:accountPromo="using:HunterPie.GUI.Parts.Account.Views.Promotional"
         xmlns:images="clr-namespace:HunterPie.UI.Architecture.Images;assembly=HunterPie.UI"
-        xmlns:account="clr-namespace:HunterPie.GUI.Parts.Account.Views"
+        xmlns:account="using:HunterPie.GUI.Parts.Account.Views"
         xmlns:image="clr-namespace:HunterPie.UI.Controls.Image;assembly=HunterPie.UI"
         xmlns:notfication="clr-namespace:HunterPie.UI.Controls.Notfication;assembly=HunterPie.UI"
-        xmlns:presentation="clr-namespace:HunterPie.Features.Notification.Presentation"
+        xmlns:sys="using:System"
+        xmlns:col="using:System.Collections.Generic"
+        xmlns:presentation="using:HunterPie.Features.Notification.Presentation"
         xmlns:enums="clr-namespace:HunterPie.Core.Client.Configuration.Enums;assembly=HunterPie.Core"
+        xmlns:vm="using:HunterPie.GUI.ViewModels"
+        x:DataType="vm:MainViewModel"
         Title="HunterPie v2" 
         Height="600" 
         Width="1000"
@@ -27,35 +32,24 @@
         BorderThickness="1"
         BorderBrush="{StaticResource HUNTERPIE_ACCENT_COLOR}" 
         Background="{StaticResource GRAY_100}"
-        Icon="pack://application:,,,/Resources/Icon.ico"
         Initialized="OnInitialized"
-        SnapsToDevicePixels="True"
         UseLayoutRounding="True" 
         KeyDown="OnKeyDown"
-        WindowStyle="None"
+        SystemDecorations="None"
         mc:Ignorable="d"
         x:Name="PART_MainView"
-        PreviewMouseDown="OnMouseDown">
+        >
     <Window.Resources>
         <converters:GameTypeToGameNameConverter x:Key="GameTypeToGameNameConverter"/>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <presentation:AppNotificationTypeToAccentConverter x:Key="AppNotificationTypeToAccentConverter"/>
         <presentation:AppNotificationTypeToForegroundConverter x:Key="AppNotificationTypeToForegroundConverter"/>
         <presentation:AppNotificationTypeToIconConverter x:Key="AppNotificationTypeToIconConverter"/>
-
-        <x:Array x:Key="GameTypes"
-                 Type="enums:GameType">
+        
+        <col:List x:Key="GameTypes" x:TypeArguments="enums:GameType">
             <enums:GameType>Rise</enums:GameType>
             <enums:GameType>World</enums:GameType>
-        </x:Array>
+        </col:List>
     </Window.Resources>
-    <WindowChrome.WindowChrome>
-        <WindowChrome CaptionHeight="0"
-                      CornerRadius="2"
-                      GlassFrameThickness="-1"
-                      ResizeBorderThickness="5"
-                      UseAeroCaptionButtons="False"/>
-    </WindowChrome.WindowChrome>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="73*"/>
@@ -67,7 +61,8 @@
               VerticalAlignment="Stretch"
               Margin="60,5,5,5"
               ClipToBounds="True">
-            <ContentControl Content="{Binding Source={x:Static host:MainApplicationNavigator.Instance}, Path=Element, IsAsync=True, NotifyOnTargetUpdated=True}" 
+            <ContentControl x:DataType="vm:MainViewModel"
+                            Content="{Binding Navigator.Element, Mode=OneWay}" 
                             RenderTransformOrigin="0.5,0.5"
                             x:Name="PART_ContentPresenter">
                 <ContentControl.RenderTransform>
@@ -94,8 +89,7 @@
                 <Image Source="{StaticResource ICON_HUNTERPIE}"
                        Height="55"/>
                 
-                <Label Style="{DynamicResource HUNTERPIE_LOGO_TEXT}"/>
-
+                <Label Classes="logoText" />
             </StackPanel>
 
             <native:ComboButton VerticalAlignment="Center"
@@ -104,7 +98,7 @@
                                 Height="45"
                                 Margin="0,0,10,0"
                                 ItemsSource="{StaticResource GameTypes}"
-                                Click="OnStartGameClick"
+                                Command="{Binding $parent[local:MainWindow].StartGameClick}"
                                 SelectedValue="{Binding Client.DefaultGameType.Value, Source={x:Static client:ClientConfig.Config}, Converter={StaticResource GameTypeToGameNameConverter}, Mode=TwoWay}">
                 <native:ComboButton.Content>
                     <Grid>
@@ -131,7 +125,7 @@
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Right"
                                    Margin="0,0,5,0"
-                                   Text="{loc:LocalizationString '//Strings/Client/Generics/Generic[@Id=&quot;HUNTERPIE_LAUNCH_GAME&quot;]'}"
+                                   Text="{loc:LocalizationString Client.Generics.Generic.HUNTERPIE_LAUNCH_GAME}"
                                    d:Text="LAUNCH GAME"
                                    FontSize="17"
                                    FontWeight="Medium"/>
@@ -176,64 +170,21 @@
                                               Margin="0,0,50,0"
                                               Opacity="0"
                                               IsHitTestVisible="False"
+                                              Classes.isToggled="{Binding #PART_HeaderBar.DataContext.IsNotificationsToggled}"
                                               x:Name="PART_NotificationsPanel">
-            <notifications:NotificationsPanelView.Style>
-                <Style TargetType="{x:Type notifications:NotificationsPanelView}">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding DataContext.IsNotificationsToggled, ElementName=PART_HeaderBar}" Value="True">
-                            <DataTrigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="IsHitTestVisible">
-                                            <DiscreteBooleanKeyFrame Value="True"
-                                                                     KeyTime="0:0:0.0"/>
-                                        </BooleanAnimationUsingKeyFrames>
-                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                         To="1"
-                                                         Duration="0:0:0.25">
-                                            <DoubleAnimation.EasingFunction>
-                                                <PowerEase/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                        <ThicknessAnimation Storyboard.TargetProperty="Margin"
-                                                            To="0,25,50,0"
-                                                            Duration="0:0:0.25">
-                                            <ThicknessAnimation.EasingFunction>
-                                                <QuadraticEase/>
-                                            </ThicknessAnimation.EasingFunction>
-                                        </ThicknessAnimation>
-
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </DataTrigger.EnterActions>
-                            <DataTrigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <BooleanAnimationUsingKeyFrames Storyboard.TargetProperty="IsHitTestVisible">
-                                            <DiscreteBooleanKeyFrame Value="False"
-                                                                     KeyTime="0:0:0.0"/>
-                                        </BooleanAnimationUsingKeyFrames>
-                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                         To="0"
-                                                         Duration="0:0:0.25">
-                                            <DoubleAnimation.EasingFunction>
-                                                <PowerEase/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                        <ThicknessAnimation Storyboard.TargetProperty="Margin"
-                                                            To="0,0,50,0"
-                                                            Duration="0:0:0.25">
-                                            <ThicknessAnimation.EasingFunction>
-                                                <QuadraticEase/>
-                                            </ThicknessAnimation.EasingFunction>
-                                        </ThicknessAnimation>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </DataTrigger.ExitActions>
-                        </DataTrigger>
-                    </Style.Triggers>
+            <notifications:NotificationsPanelView.Transitions>
+                <Transitions>
+                    <DoubleTransition Property="Opacity" Duration="0.25" />
+                    <ThicknessTransition Property="Margin" Duration="0.25" />
+                </Transitions>
+            </notifications:NotificationsPanelView.Transitions>
+            <notifications:NotificationsPanelView.Styles>
+                <Style Selector="notifications|NotificationsPanelView.isToggled">
+                    <Setter Property="IsHitTestVisible" Value="True" />
+                    <Setter Property="Opacity" Value="1" />
+                    <Setter Property="Margin" Value="0,25,50,0" />
                 </Style>
-            </notifications:NotificationsPanelView.Style>
+            </notifications:NotificationsPanelView.Styles>
         </notifications:NotificationsPanelView>
         
         <!-- In-App notifications -->
@@ -241,12 +192,11 @@
                       VerticalAlignment="Bottom"
                       Grid.Row="1"
                       HorizontalAlignment="Stretch"
-                      HorizontalContentAlignment="Center"
                       Margin="30">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Vertical"
-                                IsItemsHost="True"/>
+                                />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
 
@@ -256,7 +206,7 @@
                                       Icon="{Binding Type, Mode=OneTime, Converter={StaticResource AppNotificationTypeToIconConverter}}"
                                       Foreground="{Binding Type, Mode=OneTime, Converter={StaticResource AppNotificationTypeToForegroundConverter}}"
                                       Background="{Binding Type, Mode=OneTime, Converter={StaticResource AppNotificationTypeToAccentConverter}}"
-                                      Visibility="{Binding IsVisible, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                      IsVisible="{Binding IsVisible, Mode=OneWay}"
                                       Click="OnNotificationClick"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -265,7 +215,7 @@
         <accountPromo:AccountPromotionalView Grid.ColumnSpan="2"
                                              Grid.RowSpan="2"
                                              Margin="80"
-                                             Visibility="{Binding ShouldShowPromo, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                             d:Visibility="Collapsed"/>
+                                             IsVisible="{Binding ShouldShowPromo}"
+                                             d:IsVisible="Collapsed"/>
     </Grid>
 </Window>

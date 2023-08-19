@@ -1,0 +1,10 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="using:System"
+                    >
+    <!-- Font -->
+    <FontFamily x:Key="HUNTERPIE_DEFAULT_FONT">Work Sans, Microsoft Sans Serif</FontFamily>
+
+    <!-- Constants -->
+    <sys:Double x:Key="HUNTERPIE_SIDEBAR_WIDTH">300</sys:Double>
+</ResourceDictionary>
