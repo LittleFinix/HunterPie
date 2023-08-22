@@ -1,10 +1,10 @@
-﻿using HunterPie.Core.Client;
+﻿using Avalonia.Data.Converters;
+using Avalonia.Platform;
+using HunterPie.Core.Client;
 using HunterPie.Core.Remote;
 using System;
 using System.Globalization;
 using System.IO;
-using System.Windows.Data;
-using System.Windows.Media;
 
 namespace HunterPie.UI.Architecture.Converters;
 
@@ -29,7 +29,7 @@ public class MonsterEmToIconConverter : IValueConverter
         if (!File.Exists(path))
             _ = CDN.GetMonsterIconUrl(monsterEm);
 
-        return new ImageSourceConverter().ConvertFromString($"pack://siteoforigin:,,,/Assets/Monsters/Icons/{monsterEm}.png");
+        return AssetLoader.Open(new Uri($"avares://siteoforigin:,,,/Assets/Monsters/Icons/{monsterEm}.png"));
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();

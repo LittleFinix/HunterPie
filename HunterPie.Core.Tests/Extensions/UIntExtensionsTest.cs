@@ -13,7 +13,7 @@ public class UIntExtensionsTest
         var testCase = new
         {
             Value = 171483u,
-            PossibleValues = new uint[] { 54000u, 72000u, 126000u, 180000u },
+            PossibleValues = new[] { 54000u, 72000u, 126000u, 180000u },
             Expected = 180000u
         };
 
@@ -28,7 +28,7 @@ public class UIntExtensionsTest
         var testCase = new
         {
             Value = 126000u,
-            PossibleValues = new uint[] { 54000u, 72000u, 126000u, 180000u },
+            PossibleValues = new[] { 54000u, 72000u, 126000u, 180000u },
             Expected = 126000u
         };
 

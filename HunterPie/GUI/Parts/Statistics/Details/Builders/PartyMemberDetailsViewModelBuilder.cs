@@ -1,17 +1,17 @@
-﻿using HunterPie.Core.Extensions;
+﻿using Avalonia.Media;
+using Avalonia.Skia;
+using HunterPie.Core.Extensions;
 using HunterPie.Core.Game.Data.Schemas;
 using HunterPie.Core.Game.Services;
 using HunterPie.Features.Statistics.Models;
 using HunterPie.GUI.Parts.Statistics.Details.ViewModels;
 using HunterPie.UI.Architecture.Brushes;
-using LiveCharts;
-using LiveCharts.Defaults;
-using LiveCharts.Wpf;
+using LiveChartsCore.Defaults;
+using LiveChartsCore.SkiaSharpView.Painting;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Windows.Media;
 
 namespace HunterPie.GUI.Parts.Statistics.Details.Builders;
 
@@ -49,7 +49,7 @@ internal class PartyMemberDetailsViewModelBuilder
                                 .FilterNull()
                                 .ToObservableCollection();
 
-        var damagePoints = new ChartValues<ObservablePoint>(damageFrames);
+        var damagePoints = new ChartValues(damageFrames);
         Color color = RandomColor();
 
         return new PartyMemberDetailsViewModel
@@ -59,11 +59,12 @@ internal class PartyMemberDetailsViewModelBuilder
             Damage = accumulatedDamage,
             Damages = new LineSeries
             {
-                Title = player.Name,
-                Stroke = new SolidColorBrush(color),
+                // Title = player.Name,
+                Stroke = new SolidColorPaint(color.ToSKColor())
+                {
+                    StrokeThickness = 2
+                },
                 Fill = ColorFadeGradient.FromColor(color),
-                PointGeometry = null,
-                StrokeThickness = 2,
                 LineSmoothness = 1,
                 Values = damagePoints
             },
@@ -96,24 +97,24 @@ internal class PartyMemberDetailsViewModelBuilder
         double upTime = timeFrames.Sum(it => (it.FinishedAt - it.StartedAt.Max(startedAt)).TotalSeconds);
 
         Color color = RandomColor();
-
-        var activations = timeFrames.Select(it => new AxisSection
-        {
-            StrokeThickness = 1,
-            StrokeDashArray = new DoubleCollection { 4, 4 },
-            Stroke = new SolidColorBrush(color) { Opacity = 0.60 },
-            Fill = new SolidColorBrush(color) { Opacity = 0.35 },
-            Value = (it.StartedAt - quest.StartedAt).TotalSeconds,
-            SectionWidth = (it.FinishedAt - it.StartedAt).TotalSeconds,
-        }).ToList();
+        //
+        // var activations = timeFrames.Select(it => new AxisSection
+        // {
+        //     StrokeThickness = 1,
+        //     StrokeDashArray = new DoubleCollection { 4, 4 },
+        //     Stroke = new SolidColorBrush(color) { Opacity = 0.60 },
+        //     Fill = new SolidColorBrush(color) { Opacity = 0.35 },
+        //     Value = (it.StartedAt - quest.StartedAt).TotalSeconds,
+        //     SectionWidth = (it.FinishedAt - it.StartedAt).TotalSeconds,
+        // }).ToList();
 
         return new AbnormalityDetailsViewModel
         {
             Name = abnormalityData.Name,
             Icon = abnormalityData.Icon,
-            Color = ColorFadeGradient.FromColor(color),
+            Color = ColorFadeGradient.MakeBrush(color),
             UpTime = Math.Min(1.0, upTime / questTime),
-            Activations = activations
+            Activations = new List<AxisSection>() // activations
         };
     }
 

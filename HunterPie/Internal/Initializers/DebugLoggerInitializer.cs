@@ -1,9 +1,16 @@
+using HunterPie.Core.Logger;
 using HunterPie.Domain.Interfaces;
+using HunterPie.Internal.Logger;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
-namespace HunterPie.Internal.Logger;
+namespace HunterPie.Internal.Initializers;
 
 internal class DebugLoggerInitializer : IInitializer
 {
-    public Task Init() => throw new System.NotImplementedException();
+    public async Task Init()
+    {
+        if (Debugger.IsAttached)
+            Log.Add(new DebugLogger());
+    }
 }

@@ -1,8 +1,9 @@
-﻿using HunterPie.GUI.Parts.Sidebar.ViewModels;
+﻿using HunterPie.Core.Logger;
+using HunterPie.GUI.Parts.Sidebar.ViewModels;
+using System;
 
 namespace HunterPie.GUI.Parts.Sidebar.Service;
 
-#nullable enable
 public static class SideBarService
 {
     public delegate void SideBarEventHandler(ISideBarElement element);
@@ -18,6 +19,14 @@ public static class SideBarService
         CurrentlySelected = element;
 
         NavigateToElement?.Invoke(element);
-        element.ExecuteOnClick();
+
+        try
+        {
+            element.ExecuteOnClick();
+        }
+        catch (Exception ex) 
+        {
+            Log.Error($"An error occurred while navigating to {element.Text}");
+        }
     }
 }

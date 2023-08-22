@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Avalonia.Data.Converters;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
-using System.Windows.Data;
 
 namespace HunterPie.UI.Architecture.Converters;
 
 public class ReverseRatioConverter : IMultiValueConverter
 {
-    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    public object Convert(IList<object?> values, Type targetType, object parameter, CultureInfo culture)
     {
-        if (values.Length < 2)
+        if (values.Count < 2)
             return 0.0;
 
         if (values[0] is not double

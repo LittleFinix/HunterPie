@@ -1,8 +1,8 @@
-﻿using HunterPie.Core.Domain.Constants;
+﻿using Avalonia.Data.Converters;
+using HunterPie.Core.Domain.Constants;
 using HunterPie.Core.Domain.Enums;
 using System;
 using System.Globalization;
-using System.Windows.Data;
 
 namespace HunterPie.UI.Architecture.Converters;
 

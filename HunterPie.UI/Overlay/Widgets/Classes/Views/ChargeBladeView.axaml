@@ -48,7 +48,7 @@
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Left"
                 Margin="144,11,0,0"
-                RenderTransformOrigin="0.5,0.5">
+                RenderTransformOrigin="50%,50%">
             <Border.RenderTransform>
                 <TransformGroup>
                     <SkewTransform AngleX="45"/>
@@ -83,7 +83,7 @@
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Left"
                 Margin="65,11,0,0"
-                RenderTransformOrigin="0.5,0.5">
+                RenderTransformOrigin="50%,50%">
             <Border.RenderTransform>
                 <TransformGroup>
                     <SkewTransform AngleX="45"/>
@@ -117,7 +117,7 @@
                 VerticalAlignment="Top"
                 HorizontalAlignment="Left"
                 Margin="69,1,0,0"
-                RenderTransformOrigin="0.5,0.5">
+                RenderTransformOrigin="50%,50%">
             <Border.RenderTransform>
                 <SkewTransform AngleX="-45"/>
             </Border.RenderTransform>
@@ -225,7 +225,7 @@
                 BorderThickness="1"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Left" 
-                RenderTransformOrigin="0.5,0.5"
+                RenderTransformOrigin="50%,50%"
                 Margin="12,0,0,0"
                 d:Background="{StaticResource CHARGE_BLADE_SHIELD_ACTIVE}">
             <Border.RenderTransform>
@@ -234,7 +234,7 @@
                 </TransformGroup>
             </Border.RenderTransform>
 
-            <Grid RenderTransformOrigin="0.5,0.5">
+            <Grid RenderTransformOrigin="50%,50%">
                 <Grid.RenderTransform>
                     <TransformGroup>
                         <RotateTransform Angle="-45"/>

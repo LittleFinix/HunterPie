@@ -1,9 +1,9 @@
-﻿using HunterPie.Core.Notification;
+﻿using Avalonia.Threading;
+using HunterPie.Core.Notification;
 using HunterPie.Features.Notification.ViewModels;
 using HunterPie.UI.Architecture.Dispatchers;
 using System;
 using System.Collections.ObjectModel;
-using System.Windows;
 
 namespace HunterPie.Features.Notification;
 
@@ -28,7 +28,7 @@ internal class InAppNotificationService : INotificationService
         string title,
         string message,
         TimeSpan visibility
-    ) => Application.Current.Dispatcher.Invoke(
+    ) => Dispatcher.UIThread.Invoke(
             () =>
             {
                 lock (Notifications)

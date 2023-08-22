@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-namespace HunterPie.UI.Architecture.Navigator;
+﻿namespace HunterPie.UI.Architecture.Navigator;
 
 public interface INavigator
 {

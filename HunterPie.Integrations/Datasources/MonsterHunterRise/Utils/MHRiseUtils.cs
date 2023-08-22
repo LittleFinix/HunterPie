@@ -86,12 +86,11 @@ public static class MHRiseUtils
 
         if (index < count.Default)
             return WirebugType.Default;
-        else if (count.AnyEnvironment() && index == count.Default)
+        if (count.AnyEnvironment() && index == count.Default)
             return WirebugType.Environment;
-        else if (count.AnySkill() && index == obtainableWirebugs)
+        if (count.AnySkill() && index == obtainableWirebugs)
             return WirebugType.Skill;
-        else
-            return WirebugType.None;
+        return WirebugType.None;
     }
 
     public static KinsectBuff ToBuff(this KinsectExtract extract) =>

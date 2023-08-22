@@ -1,6 +1,6 @@
 ﻿namespace HunterPie.Core.Native.IPC.Models.Common;
 
-public enum EntityType : int
+public enum EntityType
 {
     PLAYER,
     NPC,

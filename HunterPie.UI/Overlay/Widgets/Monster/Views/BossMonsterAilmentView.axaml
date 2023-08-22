@@ -5,14 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="using:HunterPie.UI.Overlay.Widgets.Monster.Views"
              xmlns:vm="using:HunterPie.UI.Overlay.Widgets.Monster.ViewModels"
-             
              xmlns:overlay="using:HunterPie.UI.Overlay.Controls"
              xmlns:converters="using:HunterPie.UI.Architecture.Converters"
+             x:DataType="vm:MonsterAilmentViewModel"
              mc:Ignorable="d"
+             Classes.isActive="{Binding IsActive}"
              Padding="0,0,0,2"
              Width="80">
     <UserControl.Resources>
-        <converters:RatioConverter x:Key="RatioConverter"/>
+        <converters:RatioToArcSweepAngleConverter x:Key="RatioConverter"/>
         <converters:SecondsToTimeString x:Key="SecondsToTimeString"/>
         <converters:RiseMonsterAilmentIdToNameConverter x:Key="RiseMonsterAilmentIdToNameConverter"/>
         <converters:MonsterAilmentIdToColorConverter x:Key="MonsterAilmentIdToColorConverter"/>
@@ -57,7 +58,7 @@
                 </MultiBinding>
             </Arc.SweepAngle>
             <Arc.Stroke>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0,0" SpreadMethod="Pad">
+                <LinearGradientBrush EndPoint="50%,100%" StartPoint="0%,0%" SpreadMethod="Pad">
                     <GradientStop Color="#36D1DC"/>
                     <GradientStop Color="#5B86E5" Offset="1"/>
                 </LinearGradientBrush>

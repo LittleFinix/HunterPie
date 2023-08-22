@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
+using HunterPie.UI.Controls.Settings.ViewModel;
 
 namespace HunterPie.UI.Controls.Settings;
 
@@ -11,7 +12,7 @@ public partial class SettingElementHost : UserControl
 {
     public string Text
     {
-        get => (string)GetValue(TextProperty);
+        get => GetValue(TextProperty);
         set => SetValue(TextProperty, value);
     }
     
@@ -20,21 +21,28 @@ public partial class SettingElementHost : UserControl
 
     public string Description
     {
-        get => (string)GetValue(DescriptionProperty);
+        get => GetValue(DescriptionProperty);
         set => SetValue(DescriptionProperty, value);
     }
     
     public static readonly StyledProperty<string> DescriptionProperty =
         AvaloniaProperty.Register<SettingElementHost, string>(nameof(Description), "UNKNOWN_STRING_DESC");
 
-    public FrameworkElement Hosted
+    public ISettingElementType Hosted
     {
-        get => (FrameworkElement)GetValue(HostedProperty);
+        get => GetValue(HostedProperty);
         set => SetValue(HostedProperty, value);
     }
     
-    public static readonly StyledProperty<FrameworkElement> HostedProperty =
-        AvaloniaProperty.Register<SettingElementHost, FrameworkElement>(nameof(Hosted));
+    public static readonly StyledProperty<ISettingElementType> HostedProperty =
+        AvaloniaProperty.Register<SettingElementHost, ISettingElementType>(nameof(Hosted));
+
+    private object? _value;
+
+    public static readonly DirectProperty<SettingElementHost, object?> ValueProperty = AvaloniaProperty.RegisterDirect<SettingElementHost, object?>(
+        "Value", o => o.Value);
+
+    public object? Value => _value;
 
     public SettingElementHost()
     {
@@ -48,11 +56,24 @@ public partial class SettingElementHost : UserControl
         if (!IsPointerOver)
             return;
 
-        Point pos = e.GetPosition(this);
+        // Point pos = e.GetPosition(this);
+        //
+        // double left = pos.X - (PART_Highlight.Width / 2);
+        // double top = 0;
+        //
+        // PART_Highlight.Margin = new Thickness(left, top, 0, 0);
+    }
 
-        double left = pos.X - (PART_Highlight.Width / 2);
-        double top = 0;
-
-        PART_Highlight.Margin = new Thickness(left, top, 0, 0);
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        if (change.Property == HostedProperty)
+        {
+            object? oldValue = _value;
+            _value = change.NewValue is ISettingElementType o ? o.Information.GetValue(o.Parent) : null;
+            
+            RaisePropertyChanged(ValueProperty, oldValue, _value);
+        }
+        
+        base.OnPropertyChanged(change);
     }
 }

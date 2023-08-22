@@ -1,6 +1,5 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
-using System;
 
 namespace HunterPie.UI.Overlay.Widgets.Activities.View;
 
@@ -11,12 +10,12 @@ public partial class TrainingDojoView : UserControl
 {
     public bool ShouldShowBuddies
     {
-        get => (bool)GetValue(ShouldShowBuddiesProperty);
+        get => GetValue(ShouldShowBuddiesProperty);
         set => SetValue(ShouldShowBuddiesProperty, value);
     }
 
     public static readonly StyledProperty<bool> ShouldShowBuddiesProperty =
-        AvaloniaProperty.Register<TrainingDojoView, bool>(nameof(ShouldShowBuddies), false);
+        AvaloniaProperty.Register<TrainingDojoView, bool>(nameof(ShouldShowBuddies));
 
     public TrainingDojoView()
     {

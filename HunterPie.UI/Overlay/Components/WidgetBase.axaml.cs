@@ -5,17 +5,11 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Platform;
 using Avalonia.Threading;
-using HunterPie.Core.Logger;
-using HunterPie.Core.Settings.Types;
-using HunterPie.UI.Architecture.Extensions;
+using HunterPie.Core.System;
 using HunterPie.UI.Overlay.Enums;
 using LiveChartsCore.Defaults;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using Color = Avalonia.Media.Color;
 #if DEBUG
 using HunterPie.UI.Architecture.Graphs;
 #endif
@@ -25,19 +19,28 @@ namespace HunterPie.UI.Overlay.Components;
 /// <summary>
 /// Interaction logic for WidgetBase.xaml
 /// </summary>
-public partial class WidgetBase : Window, INotifyPropertyChanged
+public partial class WidgetBase : Window
 {
     private DateTime _lastRender;
     private double _renderingTime;
 
-    public double RenderingTime { get => _renderingTime; private set => SetValue(ref _renderingTime, value); }
+    public static readonly DirectProperty<WidgetBase, double> RenderingTimeProperty =
+        AvaloniaProperty.RegisterDirect<WidgetBase, double>(
+            "RenderingTime", o => o.RenderingTime, (o, v) => o.RenderingTime = v);
+
+    public double RenderingTime
+    {
+        get => _renderingTime;
+        set => SetAndRaise(RenderingTimeProperty, ref _renderingTime, value);
+    }
 
 #if DEBUG
     public SeriesCollection RenderSeries { get; private set; }
-    private readonly List<ObservablePoint> _renderPoints = new();
+    private readonly ChartSeries _renderPoints = new();
 #endif
 
     private IWidgetWindow _widget;
+
     public IWidgetWindow Widget
     {
         get => _widget;
@@ -45,21 +48,40 @@ public partial class WidgetBase : Window, INotifyPropertyChanged
         {
             if (value != _widget)
             {
-                _widget = value;
+                SetAndRaise(WidgetProperty, ref _widget, value);
 
                 if (_widget.Settings is null)
                     throw new NullReferenceException();
-                
-                _widget.OnWidgetTypeChange += OnWidgetTypeChange;
 
-                // _widget.Settings.Position ??= new Position(0, 0);
-                // _widget.Settings.Position.PropertyChanged += PositionOnPropertyChanged;
-                Position = new PixelPoint((int)Widget.Settings.Position.X, (int)Widget.Settings.Position.Y);
-                
-                this.N(PropertyChanged);
+                _widget.OnWidgetTypeChange += OnWidgetTypeChange;
+                _widget.Settings.Position.PropertyChanged += PositionOnPropertyChanged;
+                _widget.Settings.Enabled.PropertyChanged += EnabledOnPropertyChanged;
+
+                SetPosition();
+                IsVisible = _widget.Settings.Enabled;
             }
         }
     }
+
+    private bool _isChangingPosition;
+
+    private void PositionOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (!_isChangingPosition)
+            SetPosition();
+    }
+
+    private void SetPosition()
+    {
+        var area = ProcessManager.Current?.GameArea ?? Screens.Primary?.WorkingArea ?? default;
+
+        Position = new PixelPoint((int)Widget.Settings.Position.X, (int)Widget.Settings.Position.Y)
+                   + area.Position;
+    }
+
+    public static readonly DirectProperty<WidgetBase, IWidgetWindow> WidgetProperty =
+        AvaloniaProperty.RegisterDirect<WidgetBase, IWidgetWindow>(
+            "Widget", o => o.Widget);
 
     public WidgetBase()
     {
@@ -69,16 +91,19 @@ public partial class WidgetBase : Window, INotifyPropertyChanged
             .Build();
 #endif
 
+        IsVisible = false;
         InitializeComponent();
         DataContext = this;
+
     }
 
-    private void PositionOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    private void EnabledOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        Position = new PixelPoint((int)Widget.Settings.Position.X, (int)Widget.Settings.Position.Y);
+        IsVisible = Widget.Settings.Enabled;
     }
 
-    private int _counter = 0;
+    private int _counter;
+
     private void OnRender(object sender, EventArgs e)
     {
         if (_counter >= 60)
@@ -92,11 +117,12 @@ public partial class WidgetBase : Window, INotifyPropertyChanged
         _counter++;
     }
 
-    protected override void OnClosing(WindowClosingEventArgs e) 
+    protected override void OnClosing(WindowClosingEventArgs e)
     {
         if (e.CloseReason is not WindowCloseReason.ApplicationShutdown and not WindowCloseReason.OSShutdown)
         {
             Widget.Settings.Position.PropertyChanged -= PositionOnPropertyChanged;
+            Widget.Settings.Enabled.PropertyChanged -= EnabledOnPropertyChanged;
             Widget.OnWidgetTypeChange -= OnWidgetTypeChange;
             base.OnClosing(e);
         }
@@ -115,7 +141,7 @@ public partial class WidgetBase : Window, INotifyPropertyChanged
             case WidgetType.Window:
                 Focusable = true;
                 break;
-            
+
             case WidgetType.ClickThrough:
                 Focusable = false;
                 break;
@@ -137,25 +163,18 @@ public partial class WidgetBase : Window, INotifyPropertyChanged
         Topmost = true;
     }
 
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    private void SetValue<T>(ref T property, T value, [CallerMemberName] string propertyName = "")
-    {
-        if (EqualityComparer<T>.Default.Equals(property, value))
-            return;
-
-        property = value;
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
     private void OnWidgetTypeChange(object sender, WidgetType e)
     {
         Dispatcher.UIThread.Invoke(() =>
         {
             switch (e)
             {
-                case WidgetType.ClickThrough: HandleTransparencyFlag(true); break;
-                case WidgetType.Window: HandleTransparencyFlag(false); break;
+                case WidgetType.ClickThrough:
+                    HandleTransparencyFlag(true);
+                    break;
+                case WidgetType.Window:
+                    HandleTransparencyFlag(false);
+                    break;
                 default: throw new Exception("unreachable");
             }
         });
@@ -173,6 +192,19 @@ public partial class WidgetBase : Window, INotifyPropertyChanged
 
     private void WindowBase_OnPositionChanged(object? sender, PixelPointEventArgs e)
     {
-        Widget.Settings.Position = new Position(e.Point.X, e.Point.Y);
+        var area = ProcessManager.Current?.GameArea ?? Screens.Primary?.WorkingArea ?? default;
+        PixelPoint point = e.Point;
+        point -= area.Position;
+
+        try
+        {
+            _isChangingPosition = true;
+            Widget.Settings.Position.X = point.X;
+            Widget.Settings.Position.Y = point.Y;
+        }
+        finally
+        {
+            _isChangingPosition = false;
+        }
     }
 }

@@ -1,5 +1,4 @@
-﻿using DiscordRPC;
-using HunterPie.Core.Client;
+﻿using HunterPie.Core.Client;
 using HunterPie.Core.Client.Configuration.Integrations;
 using HunterPie.Core.Client.Localization;
 using HunterPie.Core.Game.Entity.Enemy;
@@ -7,6 +6,7 @@ using HunterPie.Core.Game.Enums;
 using HunterPie.Integrations.Datasources.MonsterHunterWorld;
 using HunterPie.Integrations.Datasources.MonsterHunterWorld.Entity.Game;
 using HunterPie.Integrations.Datasources.MonsterHunterWorld.Entity.Player;
+using NetDiscordRpc.RPC;
 using System.Linq;
 
 namespace HunterPie.Integrations.Discord;
@@ -63,20 +63,20 @@ internal sealed class WorldRichPresence : RichPresence
             : Localization.QueryString("//Strings/Client/Integrations/Discord[@Id='DRPC_PARTY_STATE_GROUP_STRING']");
 
         _ = Presence.WithDetails(description)
-            .WithAssets(new Assets()
+            .WithAssets(new Assets
             {
                 LargeImageKey = player.ZoneId != Stage.MainMenu ? $"st{player.StageId}" : "main-menu",
                 LargeImageText = MHWContext.Strings.GetStageNameById(player.StageId),
                 SmallImageKey = player.Weapon.Id != Weapon.None ? $"weap{(int)player.Weapon.Id}" : "hunter-rank",
                 SmallImageText = smallKeyText
             })
-            .WithParty(new Party()
+            .WithParty(new Party
             {
                 // TODO: Use session Id with party leader name hash as Id
                 ID = _game.Player.Name ?? "",
                 Max = _game.Player.Party.MaxSize,
                 Size = _game.Player.Party.Size,
-                Privacy = Party.PrivacySetting.Public
+                Privacy = PartyPrivacySettings.Public
             })
             .WithState(state);
     }

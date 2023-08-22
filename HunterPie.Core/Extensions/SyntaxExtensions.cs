@@ -2,7 +2,6 @@
 
 namespace HunterPie.Core.Extensions;
 
-#nullable enable
 public static class SyntaxExtensions
 {
 

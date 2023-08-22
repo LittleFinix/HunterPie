@@ -10,7 +10,7 @@ internal class AddressMapTokenizer
 {
 
     public static string ConsumeUntilChar(StreamReader stream, char token) =>
-        ConsumeUntilChars(stream, new HashSet<char>() { token });
+        ConsumeUntilChars(stream, new HashSet<char> { token });
 
     public static string ConsumeUntilChars(StreamReader stream, char[] tokens) =>
         ConsumeUntilChars(stream, tokens.ToHashSet());

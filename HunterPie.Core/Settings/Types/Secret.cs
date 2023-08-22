@@ -5,7 +5,6 @@ using Newtonsoft.Json;
 
 namespace HunterPie.Core.Settings.Types;
 
-#nullable enable
 [JsonConverter(typeof(SecretConverter))]
 public class Secret : Bindable
 {

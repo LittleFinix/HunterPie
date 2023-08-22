@@ -1,9 +1,9 @@
-﻿using HunterPie.Core.Client;
+﻿using HunterPie.Core.Client.Configuration;
 using HunterPie.Core.Client.Configuration.Overlay;
 using HunterPie.UI.Overlay;
 using HunterPie.UI.Overlay.Widgets.SpecializedTools.ViewModels;
 using HunterPie.UI.Overlay.Widgets.SpecializedTools.Views;
-using OverlayConfig = HunterPie.Core.Client.Configuration.OverlayConfig;
+using ClientConfig = HunterPie.Core.Client.ClientConfig;
 
 namespace HunterPie.Features.Debug;
 

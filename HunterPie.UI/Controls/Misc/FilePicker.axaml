@@ -1,0 +1,31 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:HunterPie.UI.Controls.Misc">
+    <Design.PreviewWith>
+        <Border Width="100" Height="20" Margin="20">
+            <controls:FilePicker />
+        </Border>
+    </Design.PreviewWith>
+    
+    <Style Selector="controls|FilePicker:not(:allow-multiple)">
+        <!-- Set Defaults -->
+        <Setter Property="Template">
+            <ControlTemplate>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Text="{TemplateBinding SingleFile}" />
+                    <Button Name="PART_OpenDialog" Content="{StaticResource ICON_OPEN_FILE}" />
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+    <Style Selector="controls|FilePicker:allow-multiple">
+        <!-- Set Defaults -->
+        <Setter Property="Template">
+            <ControlTemplate>
+                <StackPanel Orientation="Horizontal">
+                    <Button Name="PART_OpenDialog" Content="{StaticResource ICON_OPEN_FILE}" />
+                </StackPanel>
+            </ControlTemplate>
+        </Setter>
+    </Style>
+</Styles>

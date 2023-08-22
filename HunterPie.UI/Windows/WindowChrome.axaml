@@ -32,6 +32,7 @@
             <!-- Header -->
             <local:WindowHeader Grid.Row="0" 
                                 x:Name="PART_Header"
+                                Background="Transparent"
                                 Height="30"
                                 VerticalAlignment="Top"
                                 HorizontalAlignment="Stretch"/>

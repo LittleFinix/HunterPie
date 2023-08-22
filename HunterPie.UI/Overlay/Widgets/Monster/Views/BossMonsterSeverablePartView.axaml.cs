@@ -1,11 +1,9 @@
-﻿using Avalonia.Controls;
-
-namespace HunterPie.UI.Overlay.Widgets.Monster.Views;
+﻿namespace HunterPie.UI.Overlay.Widgets.Monster.Views;
 
 /// <summary>
 /// Interaction logic for BossMonsterSeverablePartView.xaml
 /// </summary>
-public partial class BossMonsterSeverablePartView : UserControl
+public partial class BossMonsterSeverablePartView : BossMonsterPartViewBase
 {
     public BossMonsterSeverablePartView()
     {

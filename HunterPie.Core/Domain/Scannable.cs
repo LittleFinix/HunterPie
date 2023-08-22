@@ -3,6 +3,7 @@ using HunterPie.Core.Domain.Process;
 using HunterPie.Core.Logger;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -61,26 +62,40 @@ public abstract class Scannable
         Delegate[] readOnlyScanners = _scanners.ToArray();
 
         foreach (Delegate scanner in readOnlyScanners)
+        {
             try
             {
                 _ = scanner.DynamicInvoke();
+
+                if (_troublesomeScannables.ContainsKey(scanner))
+                {
+                    if (_troublesomeScannables[scanner]-- <= 1)
+                        _troublesomeScannables.Remove(scanner);
+                }
+
+            }
+            catch (IOException ex) 
+            {
+                Log.Warn($"EIO: {ex.Message}");
             }
             catch (Exception err)
             {
-                if (!_troublesomeScannables.ContainsKey(scanner))
-                    _troublesomeScannables.Add(scanner, 0);
-
-                _troublesomeScannables[scanner]++;
-
-                if (_troublesomeScannables[scanner] >= 3)
-                {
-                    Log.Warn($"Scanner: {scanner.Method.Name} had multiple exceptions. Disabling scanner for now;\n{err}");
-
-                    _scanners.Remove(scanner);
-
-                    _troublesomeScannables.Remove(scanner);
-                }
+                // if (!_troublesomeScannables.ContainsKey(scanner))
+                //     _troublesomeScannables.Add(scanner, 0);
+                //
+                // _troublesomeScannables[scanner]++;
+                //
+                // if (_troublesomeScannables[scanner] >= 3)
+                // {
+                //     Log.Warn(
+                //         $"Scanner: {scanner.Method.Name} had multiple exceptions. Disabling scanner for now;\n{err}");
+                //
+                //     _scanners.Remove(scanner);
+                //
+                //     _troublesomeScannables.Remove(scanner);
+                // }
             }
+        }
     }
 
     /// <summary>

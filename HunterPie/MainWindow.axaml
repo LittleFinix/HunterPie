@@ -23,6 +23,7 @@
         xmlns:presentation="using:HunterPie.Features.Notification.Presentation"
         xmlns:enums="clr-namespace:HunterPie.Core.Client.Configuration.Enums;assembly=HunterPie.Core"
         xmlns:vm="using:HunterPie.GUI.ViewModels"
+        xmlns:windows="clr-namespace:HunterPie.UI.Windows;assembly=HunterPie.UI"
         x:DataType="vm:MainViewModel"
         Title="HunterPie v2" 
         Height="600" 
@@ -50,20 +51,15 @@
             <enums:GameType>World</enums:GameType>
         </col:List>
     </Window.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="73*"/>
-            <RowDefinition Height="226*"/>
-        </Grid.RowDefinitions>
-
+    <Grid RowDefinitions="25, 120, *">
         <Grid x:Name="PART_Host"
-              Grid.Row="1"
+              Grid.Row="2"
               VerticalAlignment="Stretch"
               Margin="60,5,5,5"
               ClipToBounds="True">
             <ContentControl x:DataType="vm:MainViewModel"
-                            Content="{Binding Navigator.Element, Mode=OneWay}" 
-                            RenderTransformOrigin="0.5,0.5"
+                            Content="{Binding Navigator.Element, Mode=OneWay}"
+                            RenderTransformOrigin="50%,50%"
                             x:Name="PART_ContentPresenter">
                 <ContentControl.RenderTransform>
                     <ScaleTransform ScaleY="1"
@@ -77,10 +73,9 @@
                         Height="25"
                         Background="{StaticResource GRAY_300}"
                         VerticalAlignment="Top"/>
-
-        <Grid Grid.Row="0" 
-              Background="{StaticResource GRAY_300}" 
-              Margin="0,25,0,0">
+        
+        <Grid Grid.Row="1" 
+              Background="{StaticResource GRAY_300}">
             <StackPanel Orientation="Horizontal" 
                         VerticalAlignment="Center"
                         HorizontalAlignment="Left"
@@ -150,7 +145,7 @@
             </native:ComboButton>
         </Grid>
 
-        <sidebar:SideBarContainer Grid.Row="1"
+        <sidebar:SideBarContainer Grid.Row="2"
                                   VerticalAlignment="Stretch"
                                   HorizontalAlignment="Left"
                                   ItemsHeight="40"

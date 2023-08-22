@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Avalonia.Data.Converters;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
-using System.Windows.Data;
 
 namespace HunterPie.UI.Architecture.Converters;
 
 public class TimerToSizeConverter : IMultiValueConverter
 {
-    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    public object Convert(IList<object?> values, Type targetType, object parameter, CultureInfo culture)
     {
-        if (values.Length < 2)
+        if (values.Count < 2)
             throw new Exception("Expected at least 2 arguments");
 
         double timer = (double)values[0];

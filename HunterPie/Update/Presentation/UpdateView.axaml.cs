@@ -10,7 +10,7 @@ namespace HunterPie.Update.Presentation;
 public partial class UpdateView : Window
 {
     public static readonly StyledProperty<bool> IsMouseDownProperty = AvaloniaProperty.Register<UpdateView, bool>(
-        nameof(IsMouseDown), false);
+        nameof(IsMouseDown));
 
     public bool IsMouseDown
     {

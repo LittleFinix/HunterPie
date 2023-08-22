@@ -1,14 +1,8 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml.Templates;
-using Avalonia.VisualTree;
-using HunterPie.Core.Architecture;
-using HunterPie.Core.Logger;
-using HunterPie.UI.Architecture.Utils;
 using System;
 using System.Collections;
 using System.Windows.Input;
@@ -39,7 +33,7 @@ public partial class ComboButton : UserControl, ICommandSource
     
     public new object Content
     {
-        get => (object)GetValue(ContentProperty);
+        get => GetValue(ContentProperty);
         set => SetValue(ContentProperty, value);
     }
 
@@ -48,20 +42,20 @@ public partial class ComboButton : UserControl, ICommandSource
 
     public bool IsDropDownOpen
     {
-        get => (bool)GetValue(IsDropDownOpenProperty);
+        get => GetValue(IsDropDownOpenProperty);
         set => SetValue(IsDropDownOpenProperty, value);
     }
 
-    public static new readonly StyledProperty<bool> IsDropDownOpenProperty =
+    public static readonly StyledProperty<bool> IsDropDownOpenProperty =
         ComboBox.IsDropDownOpenProperty.AddOwner<ComboButton>();
     
     public IEnumerable ItemsSource
     {
-        get => (IEnumerable)GetValue(ItemsSourceProperty);
+        get => GetValue(ItemsSourceProperty);
         set => SetValue(ItemsSourceProperty, value);
     }
 
-    public static new readonly StyledProperty<IEnumerable> ItemsSourceProperty =
+    public static readonly StyledProperty<IEnumerable> ItemsSourceProperty =
         ComboBox.ItemsSourceProperty.AddOwner<ComboButton>();
 
     public object SelectedValue
@@ -70,7 +64,7 @@ public partial class ComboButton : UserControl, ICommandSource
         set => SetValue(SelectedValueProperty, value);
     }
 
-    public static new readonly StyledProperty<object> SelectedValueProperty =
+    public static readonly StyledProperty<object> SelectedValueProperty =
         ComboBox.SelectedValueProperty.AddOwner<ComboButton>();
 
     public IDataTemplate? ItemTemplate
@@ -79,7 +73,7 @@ public partial class ComboButton : UserControl, ICommandSource
         set => SetValue(ItemTemplateProperty, value);
     }
 
-    public static new readonly StyledProperty<IDataTemplate?> ItemTemplateProperty =
+    public static readonly StyledProperty<IDataTemplate?> ItemTemplateProperty =
         ComboBox.ItemTemplateProperty.AddOwner<ComboButton>();
 
     public ComboButton()

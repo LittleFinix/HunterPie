@@ -1,7 +1,6 @@
 ﻿using HunterPie.Core.Client.Localization;
+using HunterPie.Core.System.Common;
 using HunterPie.UI.Assets.Application;
-using System.Diagnostics;
-using System.Windows.Media;
 
 namespace HunterPie.GUI.Parts.Sidebar.ViewModels;
 internal class GithubSideBarElementViewModel : ISideBarElement
@@ -10,7 +9,7 @@ internal class GithubSideBarElementViewModel : ISideBarElement
 
     public ImageSource Icon => Resources.Icon("ICON_GITHUB");
 
-    public string Text => Localization.QueryString("//Strings/Client/Tabs/Tab[@Id='GITHUB_STRING']");
+    public string Text => Localization.FindString("Client", "Tabs", "Tab", "GITHUB_STRING");
 
     public bool IsActivable => false;
 
@@ -18,5 +17,5 @@ internal class GithubSideBarElementViewModel : ISideBarElement
 
     public bool ShouldNotify => false;
 
-    public void ExecuteOnClick() => Process.Start("explorer", GITHUB_URL);
+    public void ExecuteOnClick() => Launcher.Open(GITHUB_URL);
 }

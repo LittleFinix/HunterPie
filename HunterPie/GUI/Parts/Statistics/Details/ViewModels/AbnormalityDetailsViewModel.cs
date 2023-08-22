@@ -1,7 +1,6 @@
-﻿using HunterPie.UI.Architecture;
-using LiveCharts.Wpf;
+﻿using Avalonia.Media;
+using HunterPie.UI.Architecture;
 using System.Collections.Generic;
-using System.Windows.Media;
 
 namespace HunterPie.GUI.Parts.Statistics.Details.ViewModels;
 

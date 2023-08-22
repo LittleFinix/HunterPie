@@ -22,7 +22,6 @@ public class FeatureFlagManager
 
     public static bool IsEnabled(string feature) => _instance.flagRepository.IsEnabled(feature);
 
-#nullable enable
     public static IFeature? Get(string feature) => _instance.flagRepository.GetFeature(feature);
 #nullable disable
 

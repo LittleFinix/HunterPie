@@ -40,12 +40,20 @@ public static class MemoryExtensions
     public static T Deref<T>(this IMemoryReader reader, long address, int[] offsets) where T : struct
     {
         long ptr = reader.Read(address, offsets);
+
+        if (ptr == NULLPTR)
+            return default;
+        
         return reader.Read<T>(ptr);
     }
 
     public static T DerefPtr<T>(this IMemoryReader reader, long address, int[] offsets) where T : struct
     {
         long ptr = reader.ReadPtr(address, offsets);
+        
+        if (ptr == NULLPTR)
+            return default;
+        
         return reader.Read<T>(ptr);
     }
 }

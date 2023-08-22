@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Interactivity;
 using HunterPie.Core.Client;
 using HunterPie.Core.Client.Configuration.Overlay;
@@ -7,7 +8,6 @@ using HunterPie.UI.Controls.Settings.Custom.Abnormality;
 using HunterPie.UI.Controls.Settings.ViewModel;
 using HunterPie.UI.Controls.TextBox.Events;
 using HunterPie.UI.Settings;
-using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -26,22 +26,23 @@ public partial class AbnormalityWidgetConfigView : UserControl, INotifyPropertyC
     public ObservableCollection<AbnormalityCollectionViewModel> Collections { get; } = new();
     public ObservableCollection<ISettingElementType> Elements { get; } = new();
 
+    private AbnormalityCollectionViewModel _selectedCollection;
+
+    public static readonly DirectProperty<AbnormalityWidgetConfigView, AbnormalityCollectionViewModel> SelectedCollectionProperty = AvaloniaProperty.RegisterDirect<AbnormalityWidgetConfigView, AbnormalityCollectionViewModel>(
+        "SelectedCollection", o => o.SelectedCollection);
+
     public AbnormalityCollectionViewModel SelectedCollection
     {
-        get => _selectedElement;
-        set
+        get => _selectedCollection;
+        private set
         {
-            if (value != _selectedElement)
-            {
-                _selectedElement = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedCollection)));
-            }
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+            if (_selectedCollection is null)
+                SetAndRaise(SelectedCollectionProperty, ref _selectedCollection, value);
         }
     }
 
     public readonly AbnormalityWidgetConfig Config;
-
-    public event PropertyChangedEventHandler PropertyChanged;
 
     public AbnormalityWidgetConfigView(AbnormalityWidgetConfig config)
     {

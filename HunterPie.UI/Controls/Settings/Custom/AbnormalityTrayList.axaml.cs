@@ -1,13 +1,12 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using HunterPie.Core.Client.Configuration.Overlay;
 using HunterPie.Core.Client.Localization;
 using HunterPie.Core.Domain.Dialog;
 using HunterPie.Core.Settings.Types;
 using HunterPie.UI.Architecture.Navigator;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace HunterPie.UI.Controls.Settings.Custom;
@@ -17,11 +16,17 @@ namespace HunterPie.UI.Controls.Settings.Custom;
 /// </summary>
 public partial class AbnormalityTrayList : UserControl, INotifyPropertyChanged
 {
-
     private int _selectedIndex;
 
-    public int SelectedIndex { get => _selectedIndex; set => SetValue(ref _selectedIndex, value); }
+    public static readonly DirectProperty<AbnormalityTrayList, int> SelectedIndexProperty = AvaloniaProperty.RegisterDirect<AbnormalityTrayList, int>(
+        "SelectedIndex", o => o.SelectedIndex, (o, v) => o.SelectedIndex = v);
 
+    public int SelectedIndex
+    {
+        get => _selectedIndex;
+        set => SetAndRaise(SelectedIndexProperty, ref _selectedIndex, value);
+    }
+    
     private AbnormalityTrays ViewModel => (AbnormalityTrays)DataContext;
 
     public AbnormalityTrayList()
@@ -29,20 +34,9 @@ public partial class AbnormalityTrayList : UserControl, INotifyPropertyChanged
         InitializeComponent();
     }
 
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    private void SetValue<T>(ref T property, T value, [CallerMemberName] string propertyName = "")
-    {
-        if (EqualityComparer<T>.Default.Equals(property, value))
-            return;
-
-        property = value;
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
     private void OnAddTrayClick()
     {
-        ViewModel.Trays.Add(new AbnormalityWidgetConfig() { Name = $"Abnormality Tray {ViewModel.Trays.Count + 1}" });
+        ViewModel.Trays.Add(new AbnormalityWidgetConfig { Name = $"Abnormality Tray {ViewModel.Trays.Count + 1}" });
 
         SelectedIndex = Math.Max(0, ViewModel.Trays.Count - 1);
     }

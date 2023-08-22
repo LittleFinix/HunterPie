@@ -9,7 +9,6 @@ using System.Xml;
 
 namespace HunterPie.Core.Game.Services;
 
-#nullable enable
 public static class AbnormalityService
 {
     private const string RISE_ABNORMALITIES_FILE = "Game/Rise/Data/AbnormalityData.xml";

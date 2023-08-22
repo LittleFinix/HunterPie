@@ -42,7 +42,7 @@
                        Opacity="0.8"
                        Width="{Binding Height, RelativeSource={RelativeSource Self}}"
                        HorizontalAlignment="Left" 
-                       RenderTransformOrigin="0.5,0.5"
+                       RenderTransformOrigin="50%,50%"
                        Margin="-12.5,0,0,0"
                        RadiusX="2"
                        RadiusY="2">

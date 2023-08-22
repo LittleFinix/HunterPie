@@ -1,8 +1,9 @@
-﻿using HunterPie.UI.Architecture.Brushes;
-using LiveCharts;
-using LiveCharts.Defaults;
-using LiveCharts.Wpf;
-using System.Windows.Media;
+﻿using Avalonia.Media;
+using Avalonia.Skia;
+using HunterPie.UI.Architecture.Brushes;
+using LiveChartsCore.Defaults;
+using LiveChartsCore.SkiaSharpView.Painting;
+using System.Collections.Generic;
 
 namespace HunterPie.UI.Architecture.Graphs;
 
@@ -10,15 +11,16 @@ public class LinearSeriesCollectionBuilder
 {
     private readonly SeriesCollection _instance = new();
 
-    public LinearSeriesCollectionBuilder AddSeries(ChartValues<ObservablePoint> points, string title, Color color)
+    public LinearSeriesCollectionBuilder AddSeries(IEnumerable<ObservablePoint> points, string title, Color color)
     {
         var series = new LineSeries
         {
-            Title = title,
-            Stroke = new SolidColorBrush(color),
+            // Title = title,
+            Stroke = new SolidColorPaint(color.ToSKColor())
+            {
+              StrokeThickness  = 2,
+            },
             Fill = ColorFadeGradient.FromColor(color),
-            PointGeometrySize = 0,
-            StrokeThickness = 2,
             LineSmoothness = 0.7,
             Values = points
         };

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+﻿using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
+using System;
 
 namespace HunterPie.UI.Architecture;
 
@@ -12,25 +12,25 @@ public class ClickableControl : UserControl
 
     public event EventHandler<EventArgs> OnClick;
 
-    public static readonly RoutedEvent ClickEvent = EventManager.RegisterRoutedEvent("Click", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ClickableControl));
+    public static readonly RoutedEvent ClickEvent = RoutedEvent.Register<ClickableControl, RoutedEventArgs>(nameof(Click), RoutingStrategies.Bubble);
 
-    public event RoutedEventHandler Click
+    public event EventHandler<RoutedEventArgs> Click
     {
         add => AddHandler(ClickEvent, value);
         remove => RemoveHandler(ClickEvent, value);
     }
 
-    protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+    protected override void OnPointerPressed(PointerPressedEventArgs e)
     {
-        base.OnMouseLeftButtonDown(e);
+        base.OnPointerPressed(e);
 
         _isMouseDown = true;
         e.Handled = true;
     }
 
-    protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+    protected override void OnPointerReleased(PointerReleasedEventArgs e)
     {
-        base.OnMouseLeftButtonUp(e);
+        base.OnPointerReleased(e);
 
         // Was a click!
         if (_isMouseDown && _isMouseInside)
@@ -43,16 +43,17 @@ public class ClickableControl : UserControl
         _isMouseDown = false;
     }
 
-    protected override void OnMouseEnter(MouseEventArgs e)
+    protected override void OnPointerEntered(PointerEventArgs e)
     {
-        base.OnMouseEnter(e);
+        base.OnPointerEntered(e);
 
         _isMouseInside = true;
 
     }
-    protected override void OnMouseLeave(MouseEventArgs e)
+
+    protected override void OnPointerExited(PointerEventArgs e)
     {
-        base.OnMouseLeave(e);
+        base.OnPointerExited(e);
 
         _isMouseInside = false;
         _isMouseDown = false;

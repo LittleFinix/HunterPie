@@ -1,6 +1,4 @@
-﻿
-using DiscordRPC;
-using HunterPie.Core.Client;
+﻿using HunterPie.Core.Client;
 using HunterPie.Core.Client.Configuration.Integrations;
 using HunterPie.Core.Client.Localization;
 using HunterPie.Core.Game.Entity.Enemy;
@@ -8,6 +6,7 @@ using HunterPie.Core.Game.Enums;
 using HunterPie.Domain.Utils;
 using HunterPie.Integrations.Datasources.MonsterHunterRise;
 using HunterPie.Integrations.Datasources.MonsterHunterRise.Entity.Game;
+using NetDiscordRpc.RPC;
 using System;
 using System.Linq;
 
@@ -61,7 +60,7 @@ internal sealed class RiseRichPresence : RichPresence
         bool isUnmappedStage = stageIdName.StartsWith("Unknown");
 
         _ = Presence.WithDetails(description)
-            .WithAssets(new Assets()
+            .WithAssets(new Assets
             {
                 LargeImageText = stageIdName,
                 LargeImageKey = isUnmappedStage
@@ -79,13 +78,13 @@ internal sealed class RiseRichPresence : RichPresence
                     _ => Enum.GetName(typeof(Weapon), game.Player.Weapon.Id)?.ToLower() ?? "unknown",
                 }
             })
-            .WithParty(new Party()
+            .WithParty(new Party
             {
                 // TODO: Make shared ID for everyone in the party based on the session id
                 ID = game.Player.Name ?? "",
                 Max = game.Player.Party.MaxSize,
                 Size = game.Player.Party.Size,
-                Privacy = Party.PrivacySetting.Public
+                Privacy = PartyPrivacySettings.Public
             })
             .WithState(state);
     }

@@ -1,6 +1,6 @@
 ﻿namespace HunterPie.Integrations.Datasources.MonsterHunterWorld.Entity.Enums;
 
-public enum KinsectBuffType : int
+public enum KinsectBuffType
 {
     Attack,
     Speed,

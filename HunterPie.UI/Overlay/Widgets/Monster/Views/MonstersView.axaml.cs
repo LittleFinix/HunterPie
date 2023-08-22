@@ -1,13 +1,11 @@
 ﻿using Avalonia;
-using Avalonia.Layout;
-using HunterPie.Core.Architecture;
+using HunterPie.Core.Client.Configuration.Enums;
 using HunterPie.Core.Client.Configuration.Overlay;
 using HunterPie.Core.Settings;
 using HunterPie.UI.Architecture;
 using HunterPie.UI.Overlay.Enums;
 using HunterPie.UI.Overlay.Widgets.Monster.ViewModels;
 using System;
-using Orientation = HunterPie.Core.Client.Configuration.Enums.Orientation;
 
 namespace HunterPie.UI.Overlay.Widgets.Monster.Views;
 

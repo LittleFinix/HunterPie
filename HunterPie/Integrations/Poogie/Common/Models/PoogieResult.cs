@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace HunterPie.Integrations.Poogie.Common.Models;
 
-#nullable enable
 internal record PoogieResult<T>(
     T? Response,
     PoogieError? Error

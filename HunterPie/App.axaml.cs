@@ -1,11 +1,9 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Media;
 using Avalonia.Threading;
 using HunterPie.Core.Architecture.Events;
 using HunterPie.Core.Client;
-using HunterPie.Core.Client.Configuration.Enums;
 using HunterPie.Core.Domain;
 using HunterPie.Core.Domain.Enums;
 using HunterPie.Core.Domain.Process;
@@ -19,14 +17,12 @@ using HunterPie.Features.Overlay;
 using HunterPie.Integrations;
 using HunterPie.Integrations.Discord;
 using HunterPie.Internal;
-using HunterPie.Internal.Exceptions;
 using HunterPie.UI.Overlay;
 using HunterPie.Update;
 using HunterPie.Update.Presentation;
 using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace HunterPie;
@@ -34,8 +30,7 @@ namespace HunterPie;
 /// <summary>
 /// Interaction logic for App.xaml
 /// </summary>
-#nullable enable
-public partial class App : Application
+public class App : Application
 {
     private static readonly RemoteAccountConfigService RemoteConfigService = new();
     private IProcessManager? _process;
@@ -46,24 +41,33 @@ public partial class App : Application
 
     public override async void Initialize()
     {
+#if DEBUG
+        if (Design.IsDesignMode)
+        {
+            base.Initialize();
+            return;
+        }
+#endif
+
         CheckForRunningInstances();
 
         base.Initialize();
 
+        
         await InitializerManager.Initialize();
 
         UpdateService.CleanupOldFiles();
 
         SetRenderingMode();
 
-#if RELEASE
-        if (await SelfUpdate())
-            return;
-#endif
+// #if RELEASE
+//         if (await SelfUpdate())
+//             return;
+// #endif
 
         UI = Dispatcher.UIThread.Invoke(() => new MainWindow());
 
-        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        if (Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.ShutdownMode = ShutdownMode.OnMainWindowClose;
             desktop.MainWindow = UI;
@@ -235,7 +239,11 @@ public partial class App : Application
 
         await RemoteConfigService.UploadClientConfig();
 
-        Process.Start(typeof(MainWindow).Assembly.Location.Replace(".dll", ".exe"));
+        if (OperatingSystem.IsWindows())
+            Process.Start(typeof(MainWindow).Assembly.Location.Replace(".dll", ".exe"));
+        else if (OperatingSystem.IsWindows())
+            Process.Start(typeof(MainWindow).Assembly.Location.Replace(".dll", ""));
+        
         if (Current.ApplicationLifetime is IControlledApplicationLifetime desktop)
             desktop.Shutdown();
     }

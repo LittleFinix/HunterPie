@@ -7,7 +7,6 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-#nullable enable
 namespace HunterPie.Core.Native.IPC;
 
 public class IPCService
@@ -144,4 +143,3 @@ public class IPCService
         return false;
     }
 }
-#nullable restore

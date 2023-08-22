@@ -5,21 +5,21 @@ internal class MockActivitiesViewModel : ActivitiesViewModel
     public MockActivitiesViewModel()
     {
         var argosyActivity = new SubmarinesViewModel();
-        argosyActivity.Submarines.Add(new SubmarineViewModel()
+        argosyActivity.Submarines.Add(new SubmarineViewModel
         {
             Count = 12,
             MaxCount = 20,
             DaysLeft = 5,
             IsActive = true
         });
-        argosyActivity.Submarines.Add(new SubmarineViewModel()
+        argosyActivity.Submarines.Add(new SubmarineViewModel
         {
             Count = 20,
             MaxCount = 20,
             DaysLeft = 0,
             IsActive = true
         });
-        argosyActivity.Submarines.Add(new SubmarineViewModel()
+        argosyActivity.Submarines.Add(new SubmarineViewModel
         {
             Count = 0,
             MaxCount = 20,
@@ -29,7 +29,7 @@ internal class MockActivitiesViewModel : ActivitiesViewModel
 
         Activities.Add(argosyActivity);
 
-        var trainingDojoActivity = new TrainingDojoViewModel()
+        var trainingDojoActivity = new TrainingDojoViewModel
         {
             Boosts = 5,
             MaxBoosts = 10,
@@ -37,7 +37,7 @@ internal class MockActivitiesViewModel : ActivitiesViewModel
             MaxRounds = 10
         };
         trainingDojoActivity.Buddies.Add(
-            new BuddyViewModel()
+            new BuddyViewModel
             {
                 IsEmpty = false,
                 Level = 38,
@@ -45,7 +45,7 @@ internal class MockActivitiesViewModel : ActivitiesViewModel
             }
         );
         trainingDojoActivity.Buddies.Add(
-            new BuddyViewModel()
+            new BuddyViewModel
             {
                 IsEmpty = false,
                 Level = 31,
@@ -53,7 +53,7 @@ internal class MockActivitiesViewModel : ActivitiesViewModel
             }
         );
         trainingDojoActivity.Buddies.Add(
-            new BuddyViewModel()
+            new BuddyViewModel
             {
                 IsEmpty = false,
                 Level = 25,
@@ -61,7 +61,7 @@ internal class MockActivitiesViewModel : ActivitiesViewModel
             }
         );
         trainingDojoActivity.Buddies.Add(
-            new BuddyViewModel()
+            new BuddyViewModel
             {
                 IsEmpty = false,
                 Level = 18,
@@ -69,13 +69,13 @@ internal class MockActivitiesViewModel : ActivitiesViewModel
             }
         );
         trainingDojoActivity.Buddies.Add(
-            new BuddyViewModel()
+            new BuddyViewModel
             {
                 IsEmpty = true,
             }
         );
         trainingDojoActivity.Buddies.Add(
-            new BuddyViewModel()
+            new BuddyViewModel
             {
                 IsEmpty = true,
             }
@@ -90,7 +90,7 @@ internal class MockActivitiesViewModel : ActivitiesViewModel
 
     private void SetupMeowmasters()
     {
-        var meowmastersActivity = new MeowcenariesViewModel()
+        var meowmastersActivity = new MeowcenariesViewModel
         {
             Step = 3,
             MaxSteps = 5,
@@ -106,7 +106,7 @@ internal class MockActivitiesViewModel : ActivitiesViewModel
 
     private void SetupCohoot()
     {
-        var cohootActivity = new CohootNestViewModel()
+        var cohootActivity = new CohootNestViewModel
         {
             KamuraCount = 3,
             KamuraMaxCount = 5,

@@ -1,5 +1,8 @@
 ﻿using Avalonia.Controls;
+using Avalonia.Controls.Templates;
+using Avalonia.Threading;
 using System.Collections.Specialized;
+using System.Linq;
 
 namespace HunterPie.GUI.Parts.Console;
 
@@ -19,9 +22,14 @@ public partial class ConsoleView : UserControl
     {
         if (e.Action is NotifyCollectionChangedAction.Add or NotifyCollectionChangedAction.Replace)
         {
-            PART_Items
-                .FindControl<ScrollViewer>("PART_Scroll")
-                ?.ScrollToEnd();
+            Dispatcher.UIThread.Invoke(() =>
+            {
+                PART_Items
+                    .GetTemplateChildren()
+                    .OfType<ScrollViewer>()
+                    .FirstOrDefault(v => v.Name == "PART_Scroll")
+                    ?.ScrollToEnd();
+            }, DispatcherPriority.BeforeRender);
         }
     }
 }

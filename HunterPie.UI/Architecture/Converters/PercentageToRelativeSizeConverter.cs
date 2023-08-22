@@ -1,21 +1,22 @@
-﻿using System;
+﻿using Avalonia.Data.Converters;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
-using System.Windows.Data;
 using Converter = System.Convert;
 
 namespace HunterPie.UI.Architecture.Converters;
 public class PercentageToRelativeSizeConverter : IMultiValueConverter
 {
-    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    public object Convert(IList<object?> values, Type targetType, object parameter, CultureInfo culture)
     {
         try
         {
-            if (values.Length < 3)
+            if (values.Count < 3)
                 throw new ArgumentException("there must be 3 double values");
 
-            double current = Converter.ToDouble(values[0]); ;
-            double max = Math.Max(1, Converter.ToDouble(values[1]));
-            double relativeSize = Converter.ToDouble(values[2]);
+            double current = ConverterHelper.ToDouble(values[0]);
+            double max = Math.Max(1, ConverterHelper.ToDouble(values[1]));
+            double relativeSize = ConverterHelper.ToDouble(values[2]);
 
             double result = current / max * relativeSize;
 

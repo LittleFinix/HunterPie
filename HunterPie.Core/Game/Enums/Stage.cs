@@ -1,6 +1,6 @@
 ﻿namespace HunterPie.Core.Game.Enums;
 
-public enum Stage : int
+public enum Stage
 {
     MainMenu,
     AncientForest = 101,

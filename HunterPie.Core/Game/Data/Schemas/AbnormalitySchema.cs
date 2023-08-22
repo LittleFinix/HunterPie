@@ -3,7 +3,6 @@ using System;
 
 namespace HunterPie.Core.Game.Data.Schemas;
 
-#nullable enable
 public struct AbnormalitySchema
 {
     public string Id;

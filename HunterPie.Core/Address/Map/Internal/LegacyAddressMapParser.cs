@@ -50,28 +50,28 @@ internal class LegacyAddressMapParser : IAddressMapParser
             {
                 // # are used for comments
                 case AddressMapTokens.Comment:
-                    _ = AddressMapTokenizer.ConsumeUntilChars(stream, new char[] { '\n', '\r' });
-                    AddressMapTokenizer.ConsumeTokens(stream, new char[] { '\n', '\r', '\t' });
+                    _ = AddressMapTokenizer.ConsumeUntilChars(stream, new[] { '\n', '\r' });
+                    AddressMapTokenizer.ConsumeTokens(stream, new[] { '\n', '\r', '\t' });
                     break;
 
                 // Actual strings
                 default:
-                    string value = AddressMapTokenizer.ConsumeUntilChars(stream, new char[] { '\n', ' ', '=' });
+                    string value = AddressMapTokenizer.ConsumeUntilChars(stream, new[] { '\n', ' ', '=' });
 
-                    if (AddressMapKeyWords.IsKeyWord(value))
+                    if (IsKeyWord(value))
                     {
                         AddressMapType valueType = AddressMapKeyWords.GetType(value);
-                        AddressMapTokenizer.ConsumeTokens(stream, new char[] { ' ', '=' });
+                        AddressMapTokenizer.ConsumeTokens(stream, new[] { ' ', '=' });
 
-                        string keyName = AddressMapTokenizer.ConsumeUntilChars(stream, new char[] { '\n', ' ', '=' });
+                        string keyName = AddressMapTokenizer.ConsumeUntilChars(stream, new[] { '\n', ' ', '=' });
 
-                        AddressMapTokenizer.ConsumeTokens(stream, new char[] { ' ', '=' });
+                        AddressMapTokenizer.ConsumeTokens(stream, new[] { ' ', '=' });
 
-                        string keyValue = AddressMapTokenizer.ConsumeUntilChars(stream, new char[] { '#', '\n', '\r', '\t' });
+                        string keyValue = AddressMapTokenizer.ConsumeUntilChars(stream, new[] { '#', '\n', '\r', '\t' });
 
                         this.AddValueByType(valueType, keyName, keyValue);
 
-                        AddressMapTokenizer.ConsumeTokens(stream, new char[] { '\n', ' ', '\t', '\r' });
+                        AddressMapTokenizer.ConsumeTokens(stream, new[] { '\n', ' ', '\t', '\r' });
                     }
 
                     break;

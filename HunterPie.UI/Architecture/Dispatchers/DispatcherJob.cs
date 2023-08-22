@@ -1,9 +1,8 @@
-﻿using System;
-using System.Windows.Threading;
+﻿using Avalonia.Threading;
+using System;
 
 namespace HunterPie.UI.Architecture.Dispatchers;
 
-#nullable enable
 /// <summary>
 /// A job that is executed in the UI thread only once after some interval
 /// </summary>
@@ -30,4 +29,3 @@ public class DispatcherJob
         timer.Start();
     }
 }
-#nullable restore

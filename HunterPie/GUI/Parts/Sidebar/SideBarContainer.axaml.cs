@@ -5,7 +5,6 @@ using Avalonia.Input;
 using HunterPie.Core.Architecture;
 using HunterPie.GUI.Parts.Sidebar.Service;
 using HunterPie.GUI.Parts.Sidebar.ViewModels;
-using HunterPie.UI.Architecture.Extensions;
 using System.Collections.ObjectModel;
 
 namespace HunterPie.GUI.Parts.Sidebar;
@@ -25,7 +24,7 @@ public partial class SideBarContainer : UserControl
 
     public double ItemsHeight
     {
-        get => (double)GetValue(ItemsHeightProperty);
+        get => GetValue(ItemsHeightProperty);
         set => SetValue(ItemsHeightProperty, value);
     }
     public static readonly StyledProperty<double> ItemsHeightProperty =
@@ -33,7 +32,7 @@ public partial class SideBarContainer : UserControl
 
     public Thickness SelectedButton
     {
-        get => (Thickness)GetValue(SelectedButtonProperty);
+        get => GetValue(SelectedButtonProperty);
         set => SetValue(SelectedButtonProperty, value);
     }
     public static readonly StyledProperty<Thickness> SelectedButtonProperty =
@@ -68,9 +67,8 @@ public partial class SideBarContainer : UserControl
 
         int idx = Elements.IndexOf(element);
 
-        // ((ThicknessAnimation)_selectSlideAnimation.Children[0]).To = new Thickness(0, idx * ItemsHeight, 0, 0);
-
-        // PART_Selection.BeginStoryboard(_selectSlideAnimation);
+        (double l, double t, double r, double b) = PART_Selection.Margin;
+        PART_Selection.Margin = new(l, idx* ItemsHeight, r, b);
     }
 
     private void InputElement_OnPointerEntered(object? sender, PointerEventArgs e)

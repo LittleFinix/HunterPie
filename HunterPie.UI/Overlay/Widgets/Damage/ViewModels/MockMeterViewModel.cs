@@ -1,22 +1,21 @@
-﻿using HunterPie.Core.Client.Configuration.Overlay;
+﻿using Avalonia.Media;
+using Avalonia.Threading;
+using HunterPie.Core.Client.Configuration.Overlay;
 using HunterPie.Core.Game.Enums;
 using HunterPie.UI.Architecture.Graphs;
 using HunterPie.UI.Architecture.Test;
-using LiveCharts;
-using LiveCharts.Defaults;
+using LiveChartsCore.Defaults;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
-using System.Windows.Media;
 
 namespace HunterPie.UI.Overlay.Widgets.Damage.ViewModels;
 
 public class MockMeterViewModel : MeterViewModel
 {
-    private int totalDamage = 0;
+    private int totalDamage;
     private static readonly DamageMeterWidgetConfig _mockConfig = new();
-    public readonly List<ChartValues<ObservablePoint>> _playerChartValues = new();
+    public readonly List<ChartSeries> _playerChartValues = new();
     public readonly double[] _petDamages = new double[4];
 
     public MockMeterViewModel() : base(_mockConfig)
@@ -106,7 +105,7 @@ public class MockMeterViewModel : MeterViewModel
                 i++;
             }
 
-            Application.Current.Dispatcher.Invoke(SortMembers);
+            Dispatcher.UIThread.Invoke(SortMembers);
         }
 
         TimeElapsed = newTime;
@@ -119,7 +118,7 @@ public class MockMeterViewModel : MeterViewModel
         foreach (PlayerViewModel player in Players)
         {
             _playerChartValues.Add(new());
-            var color = (Color)ColorConverter.ConvertFromString(player.Bar.Color);
+            var color = Color.Parse(player.Bar.Color);
             _ = builder.AddSeries(_playerChartValues[i], player.Name, color);
             i++;
         }

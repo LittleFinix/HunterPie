@@ -22,7 +22,7 @@ public class AddressMapTest
     private readonly Dictionary<Type, Dictionary<string, object>> correctResult = new()
     {
         {
-            typeof(long), new Dictionary<string, object>()
+            typeof(long), new Dictionary<string, object>
             {
                 { "BASE", 0x140000000L },
                 { "LEVEL_OFFSET", 0x04ECB810L },
@@ -30,7 +30,7 @@ public class AddressMapTest
             }
         },
         {
-            typeof(int[]), new Dictionary<string, object>()
+            typeof(int[]), new Dictionary<string, object>
             {
                 { "LevelOffsets", new [] { 0xA8, 0x90 } },
                 { "ZoneOffsets", new [] { 0xAED0 } }

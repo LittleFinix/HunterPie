@@ -1,4 +1,8 @@
-﻿using HunterPie.Core.Architecture;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Input;
+using HunterPie.Core.Architecture;
 using HunterPie.Core.Client;
 using HunterPie.Integrations.Poogie.Common.Models;
 using HunterPie.Integrations.Poogie.Supporter;
@@ -6,7 +10,6 @@ using HunterPie.Integrations.Poogie.Supporter.Models;
 using System;
 using System.Reflection;
 using System.Security.Principal;
-using System.Windows;
 
 namespace HunterPie.GUI.Parts;
 
@@ -33,16 +36,19 @@ public class HeaderBarViewModel : Bindable
     public bool IsFetchingSupporter { get => _isFetchingSupporter; set => SetValue(ref _isFetchingSupporter, value); }
     public bool IsNotificationsToggled { get => _isNotificationsToggled; set => SetValue(ref _isNotificationsToggled, value); }
 
-    public Visibility IsRunningAsAdmin => GetAdminState()
-                                          ? Visibility.Visible
-                                          : Visibility.Collapsed;
+    public bool IsRunningAsAdmin => GetAdminState();
 
     public void MinimizeApplication()
     {
-        Application.Current.MainWindow.WindowState = WindowState.Minimized;
-
-        if (ClientConfig.Config.Client.MinimizeToSystemTray)
-            Application.Current.MainWindow.Hide();
+        MainWindow? win = Window;
+        
+        if (win is null)
+            return;
+        
+        win.WindowState = WindowState.Minimized;
+        
+        if (ClientConfig.Config.Client.MinimizeToSystemTray && OperatingSystem.IsWindows())
+            win.Hide();
     }
 
     public async void FetchSupporterStatus()
@@ -55,16 +61,31 @@ public class HeaderBarViewModel : Bindable
 
         IsFetchingSupporter = false;
     }
+    
+    private MainWindow? Window => (Application.Current.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.MainWindow as MainWindow;
 
-    public void CloseApplication() => Application.Current.MainWindow?.Close();
+    public void CloseApplication() => Window?.Close();
 
-    public void DragApplication() => Application.Current.MainWindow?.DragMove();
+    public void DragApplication(PointerPressedEventArgs e)
+    {
+        Window?.BeginMoveDrag(e);
+    }
 
     private bool GetAdminState()
     {
-        var winIdentity = WindowsIdentity.GetCurrent();
-        var principal = new WindowsPrincipal(winIdentity);
+        if (OperatingSystem.IsWindows())
+        {
+            var winIdentity = WindowsIdentity.GetCurrent();
+            var principal = new WindowsPrincipal(winIdentity);
 
-        return principal.IsInRole(WindowsBuiltInRole.Administrator);
+            return principal.IsInRole(WindowsBuiltInRole.Administrator);
+        }
+
+        if (OperatingSystem.IsLinux())
+        {
+            return Environment.GetEnvironmentVariable("UID") == "0";
+        }
+
+        return false;
     }
 }

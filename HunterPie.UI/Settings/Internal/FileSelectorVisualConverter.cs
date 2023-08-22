@@ -1,9 +1,9 @@
-﻿using HunterPie.Core.Settings.Types;
+﻿using Avalonia.Controls;
+using Avalonia.Data;
+using Avalonia.Layout;
+using HunterPie.Core.Settings.Types;
 using HunterPie.UI.Settings.Converter;
 using System.Reflection;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 
 namespace HunterPie.UI.Settings.Internal;
 
@@ -19,10 +19,10 @@ internal class FileSelectorVisualConverter : IVisualConverter
         {
             ItemsSource = child.Elements,
             MinHeight = 35,
-            VerticalAlignment = VerticalAlignment.Center
+            VerticalAlignment = VerticalAlignment.Center,
+            [ComboBox.SelectedValueProperty] = new Binding("Current") { Source = child }
         };
 
-        _ = BindingOperations.SetBinding(ui, ComboBox.SelectedValueProperty, binding);
         return ui;
     }
 }

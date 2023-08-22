@@ -10,15 +10,14 @@
              d:DesignWidth="30"
              d:DesignHeight="30">
     <UserControl.Resources>
-        <converters:RatioConverter x:Key="RatioConverter"/>
-        <converters:ReverseRatioConverter x:Key="ReverseRatioConverter"/>
+        <converters:RatioToArcSweepAngleConverter x:Key="RatioConverter"/>
         <converters:AbnormalityStringToIconConverter x:Key="AbnormalityStringToIconConverter"/>
-        <LinearGradientBrush x:Key="AbnormalityStrokeBuff" EndPoint="1,1" StartPoint="0,0">
+        <LinearGradientBrush x:Key="AbnormalityStrokeBuff" EndPoint="100%,100%" StartPoint="0%,0%">
             <GradientStop Color="#98eb34"/>
             <GradientStop Color="#34ebc6" Offset="1"/>
         </LinearGradientBrush>
 
-        <LinearGradientBrush x:Key="AbnormalityStrokeDebuff" EndPoint="1,1" StartPoint="0,0">
+        <LinearGradientBrush x:Key="AbnormalityStrokeDebuff" EndPoint="100%,100%" StartPoint="0%,0%">
             <GradientStop Color="#eb4f34"/>
             <GradientStop Color="#eb3434" Offset="1"/>
         </LinearGradientBrush>
@@ -43,14 +42,14 @@
                    Margin="2"
                    d:Percentage="0.2"
                    Stroke="#90000000" 
-                   RenderTransformOrigin="0.5,0.5">
+                   RenderTransformOrigin="50%,50%">
             <Arc.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleX="-1"/>
                 </TransformGroup>
             </Arc.RenderTransform>
             <Arc.SweepAngle>
-                <MultiBinding Converter="{StaticResource ReverseRatioConverter}">
+                <MultiBinding Converter="{StaticResource RatioConverter}" ConverterParameter="Reverse">
                     <Binding Path="DataContext.Timer" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type local:Abnormality}}" Mode="OneWay"/>
                     <Binding Path="DataContext.MaxTimer" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type local:Abnormality}}" Mode="OneWay"/>
                 </MultiBinding>

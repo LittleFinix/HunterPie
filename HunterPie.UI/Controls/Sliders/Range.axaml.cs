@@ -1,6 +1,5 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using TB = Avalonia.Controls.TextBox;
@@ -15,34 +14,34 @@ public partial class Range : UserControl
 
     public double Value
     {
-        get => (double)GetValue(ValueProperty);
+        get => GetValue(ValueProperty);
         set => SetValue(ValueProperty, value);
     }
     
     public static readonly StyledProperty<double> ValueProperty =
-        AvaloniaProperty.Register<Range, double>(nameof(Value), 0.0);
+        AvaloniaProperty.Register<Range, double>(nameof(Value));
 
     public double Maximum
     {
-        get => (double)GetValue(MaximumProperty);
+        get => GetValue(MaximumProperty);
         set => SetValue(MaximumProperty, value);
     }
     
     public static readonly StyledProperty<double> MaximumProperty =
-        AvaloniaProperty.Register<Range, double>(nameof(Maximum), 0.0);
+        AvaloniaProperty.Register<Range, double>(nameof(Maximum));
 
     public double Minimum
     {
-        get => (double)GetValue(MinimumProperty);
+        get => GetValue(MinimumProperty);
         set => SetValue(MinimumProperty, value);
     }
     
     public static readonly StyledProperty<double> MinimumProperty =
-        AvaloniaProperty.Register<Range, double>(nameof(Minimum), 0.0);
+        AvaloniaProperty.Register<Range, double>(nameof(Minimum));
 
     public double Change
     {
-        get => (double)GetValue(ChangeProperty);
+        get => GetValue(ChangeProperty);
         set => SetValue(ChangeProperty, value);
     }
     

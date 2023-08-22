@@ -1,16 +1,15 @@
-﻿using HunterPie.Core.Client;
+﻿using Avalonia.Markup.Xaml;
+using HunterPie.Core.Client;
 using HunterPie.Core.Client.Localization;
 using HunterPie.Core.Remote;
 using HunterPie.Core.Utils;
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows.Markup;
-using System.Windows.Media;
 
 namespace HunterPie.UI.Architecture.Assets;
 
-[MarkupExtensionReturnType(typeof(ImageSource))]
+// [MarkupExtensionReturnType(typeof(ImageSource))]
 public class MonsterIcon : MarkupExtension
 {
     public string MonsterEm { get; set; }
@@ -34,15 +33,16 @@ public class MonsterIcon : MarkupExtension
     }
 }
 
-[MarkupExtensionReturnType(typeof(string))]
+// [MarkupExtensionReturnType(typeof(string))]
 public class LocalizationString : MarkupExtension
 {
-    public string LocalizationId { get; set; }
+    public string[] LocalizationId { get; set; }
 
     public LocalizationString(string localizationId)
     {
-        LocalizationId = localizationId;
+        LocalizationId = localizationId.Split('.');
     }
 
-    public override object ProvideValue(IServiceProvider serviceProvider) => Localization.Query(LocalizationId)?.Attributes["String"].Value;
+    public override object ProvideValue(IServiceProvider serviceProvider) => 
+        Localization.FindString(LocalizationId);
 }

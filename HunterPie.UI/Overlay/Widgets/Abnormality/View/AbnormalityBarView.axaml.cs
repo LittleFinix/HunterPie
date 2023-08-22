@@ -26,7 +26,7 @@ public partial class AbnormalityBarView : View<AbnormalityBarViewModel>, IWidget
 
     }
 
-    private int frameCounter = 0;
+    private int frameCounter;
 
     public event EventHandler<WidgetType> OnWidgetTypeChange;
 

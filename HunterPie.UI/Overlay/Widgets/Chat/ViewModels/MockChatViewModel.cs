@@ -1,9 +1,9 @@
-﻿using HunterPie.UI.Architecture.Test;
+﻿using Avalonia.Media;
+using Avalonia.Threading;
+using HunterPie.UI.Architecture.Test;
 using HunterPie.UI.Assets.Application;
 using System;
 using System.Collections;
-using System.Windows;
-using System.Windows.Media;
 
 namespace HunterPie.UI.Overlay.Widgets.Chat.ViewModels;
 
@@ -38,7 +38,7 @@ internal class MockChatViewModel : ChatViewModel
             var rng = new Random();
             int playerIndex = rng.Next(0, playerNames.Length);
             int chatIndex = rng.Next(0, possibleChats.Length);
-            chatElements[i] = new ChatElementViewModel()
+            chatElements[i] = new ChatElementViewModel
             {
                 Author = playerNames[playerIndex],
                 Index = playerIndex,
@@ -46,7 +46,7 @@ internal class MockChatViewModel : ChatViewModel
             };
         }
 
-        var general = new ChatCategoryViewModel()
+        var general = new ChatCategoryViewModel
         {
             Name = "General",
             Description = "General chat",
@@ -65,8 +65,8 @@ internal class MockChatViewModel : ChatViewModel
 
             var vm = (ChatElementViewModel)enumerator.Current;
 
-            Application.Current.Dispatcher.Invoke(() => general.Elements.Add(vm));
+            Dispatcher.UIThread.Invoke(() => general.Elements.Add(vm));
 
-        }, 1);
+        });
     }
 }

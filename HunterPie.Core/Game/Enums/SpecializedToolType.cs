@@ -1,6 +1,6 @@
 ﻿namespace HunterPie.Core.Game.Enums;
 
-public enum SpecializedToolType : int
+public enum SpecializedToolType
 {
     None = -1,
     GhillieMantle,

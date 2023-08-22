@@ -1,8 +1,7 @@
-﻿using HunterPie.Core.Settings.Types;
+﻿using Avalonia.Data;
+using HunterPie.Core.Settings.Types;
 using HunterPie.UI.Settings.Converter;
 using System.Reflection;
-using System.Windows;
-using System.Windows.Data;
 using RangeUI = HunterPie.UI.Controls.Sliders.Range;
 
 namespace HunterPie.UI.Settings.Internal;
@@ -17,12 +16,13 @@ internal class RangeVisualConverter : IVisualConverter
         Binding minBinding = VisualConverterHelper.CreateBinding(range, nameof(Range.Min));
         Binding stepBinding = VisualConverterHelper.CreateBinding(range, nameof(Range.Step));
 
-        RangeUI slider = new();
-
-        _ = BindingOperations.SetBinding(slider, RangeUI.ValueProperty, currentBinding);
-        _ = BindingOperations.SetBinding(slider, RangeUI.MaximumProperty, maxBinding);
-        _ = BindingOperations.SetBinding(slider, RangeUI.MinimumProperty, minBinding);
-        _ = BindingOperations.SetBinding(slider, RangeUI.ChangeProperty, stepBinding);
+        RangeUI slider = new()
+        {
+            [RangeUI.ValueProperty] = currentBinding,
+            [RangeUI.MaximumProperty] = maxBinding,
+            [RangeUI.MinimumProperty] = minBinding,
+            [RangeUI.ChangeProperty] = stepBinding
+        };
 
         return slider;
     }

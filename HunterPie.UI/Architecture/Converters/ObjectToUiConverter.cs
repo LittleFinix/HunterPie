@@ -1,8 +1,8 @@
-﻿using HunterPie.UI.Controls.Settings.ViewModel;
+﻿using Avalonia.Data.Converters;
+using HunterPie.UI.Controls.Settings.ViewModel;
 using HunterPie.UI.Settings;
 using System;
 using System.Globalization;
-using System.Windows.Data;
 
 namespace HunterPie.UI.Architecture.Converters;
 

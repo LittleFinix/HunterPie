@@ -2,7 +2,6 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using HunterPie.UI.Architecture.Extensions;
 using System;
 using System.ComponentModel;
 
@@ -14,16 +13,18 @@ namespace HunterPie.UI.Windows;
 public partial class WindowChrome : UserControl, INotifyPropertyChanged
 {
     private Window _owner;
+
+    public static readonly DirectProperty<WindowChrome, Window> OwnerProperty = AvaloniaProperty.RegisterDirect<WindowChrome, Window>(
+        "Owner", o => o.Owner);
+
     public Window Owner
     {
         get => _owner;
         private set
         {
-            if (value != _owner)
-            {
-                _owner = value;
-                this.N(PropertyChanged);
-            }
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+            if (_owner is null)
+                SetAndRaise(OwnerProperty, ref _owner!, value);
         }
     }
 
@@ -36,8 +37,6 @@ public partial class WindowChrome : UserControl, INotifyPropertyChanged
     public static readonly StyledProperty<object> ContainerProperty =
         AvaloniaProperty.Register<WindowChrome, object>(nameof(Container));
 
-    public event PropertyChangedEventHandler PropertyChanged;
-
     public WindowChrome()
     {
         InitializeComponent();
@@ -49,5 +48,5 @@ public partial class WindowChrome : UserControl, INotifyPropertyChanged
 
     private void OnLeftMouseDown(object sender, PointerPressedEventArgs e) => Owner.BeginMoveDrag(e);
 
-    private void OnLoaded(object sender, RoutedEventArgs e) => Owner = (Window) Window.GetTopLevel(this);
+    private void OnLoaded(object sender, RoutedEventArgs e) => Owner = (Window) TopLevel.GetTopLevel(this);
 }

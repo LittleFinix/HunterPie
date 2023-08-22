@@ -3,7 +3,6 @@ using HunterPie.GUI.Parts.Statistics.Views;
 using HunterPie.UI.Architecture;
 using HunterPie.UI.Architecture.Navigator;
 using HunterPie.UI.Assets.Application;
-using System.Windows.Media;
 
 namespace HunterPie.GUI.Parts.Sidebar.ViewModels;
 

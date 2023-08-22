@@ -13,7 +13,6 @@ using System;
 
 namespace HunterPie.UI.Overlay.Widgets.Classes;
 
-#nullable enable
 public class ClassWidgetContextHandler : IContextHandler
 {
     private readonly ClassViewModel _viewModel;

@@ -1,6 +1,6 @@
 ﻿namespace HunterPie.Core.Native.IPC.Handlers.Internal.Initialiaze.Models;
 
-public enum HookStatus : int
+public enum HookStatus
 {
     Unknown = -1,
     Ok,

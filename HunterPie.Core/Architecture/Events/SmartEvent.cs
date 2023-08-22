@@ -6,7 +6,6 @@ using System.Reflection;
 
 namespace HunterPie.Core.Architecture.Events;
 
-#nullable enable
 /// <summary>
 /// SmartEvent is an wrapper for Events that works in a better way, detecting subscriber leaks and handling errors on invoke
 /// without crashing the whole application.

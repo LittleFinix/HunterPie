@@ -1,6 +1,7 @@
 ﻿using HunterPie.Core.Domain.Enums;
 using HunterPie.Core.Domain.Process;
 using HunterPie.Core.Events;
+using HunterPie.Core.Logger;
 using HunterPie.Core.System.Windows;
 using System;
 
@@ -12,9 +13,10 @@ public static class ProcessManager
     public static event EventHandler<ProcessManagerEventArgs> OnProcessClosed;
 
     public static GameProcess Game { get; private set; } = GameProcess.None;
+    
+    public static IProcessManager? Current { get; private set; }
 
-    public static IProcessManager[] Managers { get; } = new IProcessManager[]
-    {
+    public static IProcessManager[] Managers { get; } = {
         new MHWProcessManager(),
         new MHRProcessManager(),
         new MHRSunbreakDemoProcessManager(),
@@ -22,6 +24,9 @@ public static class ProcessManager
 
     public static void Start()
     {
+        if (Managers.Length == 0)
+            Log.Warn("No Process Managers have been implemented!");
+        
         foreach (IProcessManager manager in Managers)
         {
             manager.OnGameStart += OnGameStartCallback;
@@ -37,6 +42,7 @@ public static class ProcessManager
         {
             ResumeAllPollingThreads(manager);
             Game = GameProcess.None;
+            Current = null;
             OnProcessClosed?.Invoke(sender, new(manager, e.ProcessName));
         }
     }
@@ -47,6 +53,7 @@ public static class ProcessManager
         {
             PauseAllPollingThreads(manager);
             Game = manager.Game;
+            Current = manager;
             OnProcessFound?.Invoke(sender, new((IProcessManager)sender, e.ProcessName));
         }
     }

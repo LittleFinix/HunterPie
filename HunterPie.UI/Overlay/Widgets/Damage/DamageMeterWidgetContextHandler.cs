@@ -1,4 +1,7 @@
-﻿using HunterPie.Core.Client;
+﻿using Avalonia.Media;
+using Avalonia.Skia;
+using Avalonia.Threading;
+using HunterPie.Core.Client;
 using HunterPie.Core.Client.Configuration;
 using HunterPie.Core.Client.Configuration.Enums;
 using HunterPie.Core.Client.Configuration.Overlay;
@@ -14,13 +17,11 @@ using HunterPie.UI.Architecture.Brushes;
 using HunterPie.UI.Overlay.Widgets.Damage.Helpers;
 using HunterPie.UI.Overlay.Widgets.Damage.View;
 using HunterPie.UI.Overlay.Widgets.Damage.ViewModels;
-using LiveCharts;
-using LiveCharts.Defaults;
-using LiveCharts.Wpf;
+using LiveChartsCore.Defaults;
+using LiveChartsCore.SkiaSharpView.Painting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Media;
 using ObservableColor = HunterPie.Core.Settings.Types.Color;
 
 namespace HunterPie.UI.Overlay.Widgets.Damage;
@@ -50,7 +51,7 @@ public class DamageMeterWidgetContextHandler : IContextHandler
 
     private void UpdateData()
     {
-        _viewModel.Pets.Name = Localization.QueryString("//Strings/Client/Overlay/String[@Id='DAMAGE_METER_OTOMOS_NAME_STRING']");
+        _viewModel.Pets.Name = Localization.FindString("Client", "Overlay", "String", "DAMAGE_METER_OTOMOS_NAME_STRING");
         _viewModel.InHuntingZone = _context.Game.Player.InHuntingZone;
         _viewModel.MaxDeaths = _context.Game.MaxDeaths;
         _viewModel.Deaths = _context.Game.Deaths;
@@ -97,7 +98,7 @@ public class DamageMeterWidgetContextHandler : IContextHandler
         bool inHuntingZone = _context.Game.Player.InHuntingZone;
         _viewModel.InHuntingZone = inHuntingZone;
 
-        _view.Dispatcher.Invoke(() =>
+        Dispatcher.UIThread.Invoke(() =>
         {
             foreach (IPartyMember member in _members.Keys)
                 RemovePlayer(member);
@@ -114,7 +115,7 @@ public class DamageMeterWidgetContextHandler : IContextHandler
     {
         foreach ((IPartyMember member, MemberInfo memberInfo) in _members)
         {
-            var points = (ChartValues<ObservablePoint>)memberInfo.Series.Values;
+            var points = (ChartValues)memberInfo.Series.Values;
             PlayerViewModel vm = memberInfo.ViewModel;
 
             float totalDamage = _members.Keys.Sum(m => m.Damage);
@@ -141,9 +142,9 @@ public class DamageMeterWidgetContextHandler : IContextHandler
             vm.Percentage = pet.Damage / (double)_viewModel.Pets.TotalDamage * 100;
     }
 
-    private void OnMemberJoin(object sender, IPartyMember e) => _view.Dispatcher.Invoke(() => HandleAddMember(e));
+    private void OnMemberJoin(object sender, IPartyMember e) => Dispatcher.UIThread.Invoke(() => HandleAddMember(e));
 
-    private void OnMemberLeave(object sender, IPartyMember e) => _view.Dispatcher.Invoke(() => HandleRemoveMember(e));
+    private void OnMemberLeave(object sender, IPartyMember e) => Dispatcher.UIThread.Invoke(() => HandleRemoveMember(e));
 
     private void OnTimeElapsedChange(object sender, TimeElapsedChangeEventArgs e)
     {
@@ -166,7 +167,7 @@ public class DamageMeterWidgetContextHandler : IContextHandler
 
         }
 
-        _view.Dispatcher.Invoke(() =>
+        Dispatcher.UIThread.Invoke(() =>
         {
             GetPlayerPoints(isTimerReset);
             CalculatePetsDamage();
@@ -198,18 +199,19 @@ public class DamageMeterWidgetContextHandler : IContextHandler
     #endregion
 
     #region Helpers
-    private Series BuildPlayerSeries(string name, string color)
+    private IChartSeries BuildPlayerSeries(string name, string color)
     {
-        ChartValues<ObservablePoint> points = new();
+        ChartValues points = new();
 
-        var actualColor = (Color)ColorConverter.ConvertFromString(color);
+        var actualColor = Color.Parse(color);
         var series = new LineSeries
         {
-            Title = name,
-            Stroke = new SolidColorBrush(actualColor),
+            // Title = name,
+            Stroke = new SolidColorPaint(actualColor.ToSKColor())
+            {
+                StrokeThickness = 2
+            },
             Fill = ColorFadeGradient.FromColor(actualColor),
-            PointGeometry = null,
-            StrokeThickness = 2,
             LineSmoothness = 1,
             Values = points
         };
@@ -218,7 +220,6 @@ public class DamageMeterWidgetContextHandler : IContextHandler
         return series;
     }
 
-#nullable enable
     private void HandleAddMember(IPartyMember member)
     {
         Action<IPartyMember>? func = member.Type switch
@@ -242,7 +243,6 @@ public class DamageMeterWidgetContextHandler : IContextHandler
 
         func?.Invoke(member);
     }
-#nullable restore
 
     private void AddPet(IPartyMember pet)
     {

@@ -3,7 +3,7 @@
 namespace HunterPie.Core.Game.Enums;
 
 [Flags]
-public enum PartType : int
+public enum PartType
 {
     Invalid = 0,
     Flinch = 1 << 1,

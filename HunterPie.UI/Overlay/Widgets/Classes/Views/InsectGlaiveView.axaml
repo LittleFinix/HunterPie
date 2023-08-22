@@ -53,7 +53,7 @@
                    Grid.Row="0"
                    Grid.RowSpan="2"
                    HorizontalAlignment="Center"
-                   RenderTransformOrigin="0.5,0.5"
+                   RenderTransformOrigin="50%,50%"
                    Margin="0"
                    d:Margin="-13,0,0,0"
                    Height="40"
@@ -78,7 +78,7 @@
                    Grid.RowSpan="2"
                    Grid.Column="0"
                    HorizontalAlignment="Center"
-                   RenderTransformOrigin="0.5,0.5"
+                   RenderTransformOrigin="50%,50%"
                    Margin="0"
                    d:Margin="13,0,0,0"
                    Height="40"
@@ -102,7 +102,7 @@
         <Border Grid.Column="0"
                 Width="44"
                 Height="44"
-                RenderTransformOrigin="0.5,0.5"
+                RenderTransformOrigin="50%,50%"
                 Grid.Row="0"
                 Grid.RowSpan="2"
                 CornerRadius="1"
@@ -115,7 +115,7 @@
                 </TransformGroup>
             </Border.RenderTransform>
 
-            <Grid RenderTransformOrigin="0.5,0.5">
+            <Grid RenderTransformOrigin="50%,50%">
                 <image:Icon Image="{StaticResource ICON_DISABLED_KINSECT}"
                             d:Foreground="{StaticResource INSECT_GLAIVE_CHARGE_DISABLED_BRUSH}"
                             Margin="3">
@@ -155,7 +155,7 @@
             <!-- Attack -->
             <Border Width="{Binding Height, RelativeSource={RelativeSource Self}}"
                     Margin="5,11,5,11"
-                    RenderTransformOrigin="0.5,0.5"
+                    RenderTransformOrigin="50%,50%"
                     BorderThickness="1"
                     CornerRadius="1"
                     d:BorderBrush="{Binding Source={StaticResource INSECT_GLAIVE_EXTRACT_ATTACK_COLOR}, Converter={StaticResource ColorToBrushConverter}}"
@@ -173,7 +173,7 @@
                 <TextBlock d:Text="0:00"
                            Text="{Binding AttackTimer, Mode=OneWay, Converter={StaticResource SecondsToTimeString}, ConverterParameter='m\\:ss'}"
                            Foreground="{StaticResource WHITE_100}"
-                           RenderTransformOrigin="0.5,0.5"
+                           RenderTransformOrigin="50%,50%"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"
                            FontSize="12">
@@ -186,7 +186,7 @@
             <!-- Speed -->
             <Border Width="{Binding Height, RelativeSource={RelativeSource Self}}"
                     Margin="8,11,5,11"
-                    RenderTransformOrigin="0.5,0.5"
+                    RenderTransformOrigin="50%,50%"
                     BorderThickness="1"
                     CornerRadius="1"
                     d:BorderBrush="{Binding Source={StaticResource INSECT_GLAIVE_EXTRACT_SPEED_COLOR}, Converter={StaticResource ColorToBrushConverter}}"
@@ -204,7 +204,7 @@
                 <TextBlock d:Text="0:00"
                            Text="{Binding MovementSpeedTimer, Mode=OneWay, Converter={StaticResource SecondsToTimeString}, ConverterParameter='m\\:ss'}"
                            Foreground="{StaticResource WHITE_100}"
-                           RenderTransformOrigin="0.5,0.5"
+                           RenderTransformOrigin="50%,50%"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"
                            FontSize="12">
@@ -217,7 +217,7 @@
             <!-- Defense -->
             <Border Width="{Binding Height, RelativeSource={RelativeSource Self}}"
                     Margin="8,11,5,11"
-                    RenderTransformOrigin="0.5,0.5"
+                    RenderTransformOrigin="50%,50%"
                     BorderThickness="1"
                     CornerRadius="1"
                     d:BorderBrush="{Binding Source={StaticResource INSECT_GLAIVE_EXTRACT_DEFENSE_COLOR}, Converter={StaticResource ColorToBrushConverter}}"
@@ -235,7 +235,7 @@
                 <TextBlock d:Text="0:00"
                            Text="{Binding DefenseTimer, Mode=OneWay, Converter={StaticResource SecondsToTimeString}, ConverterParameter='m\\:ss'}"
                            Foreground="{StaticResource WHITE_100}"
-                           RenderTransformOrigin="0.5,0.5"
+                           RenderTransformOrigin="50%,50%"
                            VerticalAlignment="Center"
                            HorizontalAlignment="Center"
                            FontSize="12">
@@ -253,8 +253,8 @@
                       Height="7"
                       Width="200"
                       d:Value="50"
-                      d:MaxValue="100"
-                      MaxValue="{Binding MaxStamina, Mode=OneWay}"
+                      d:Maximum="100"
+                      Maximum="{Binding MaxStamina, Mode=OneWay}"
                       Value="{Binding Stamina, Mode=OneWay}"
                       VerticalAlignment="Top"
                       HorizontalAlignment="Left"

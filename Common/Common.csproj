@@ -1,0 +1,99 @@
+<Project>
+    <PropertyGroup>
+        <Configurations>Debug;Release;Deploy</Configurations>
+        <Platforms>AnyCPU;Win32;Linux;MacOS</Platforms>
+        <PlatformTarget>x64</PlatformTarget>
+        <TargetFramework>net8.0</TargetFramework>
+        <RuntimeIdentifiers>linux-x64;win-x64;osx-x64</RuntimeIdentifiers>
+        <AssemblyVersion>2.9.0.58</AssemblyVersion>
+        <FileVersion>2.9.0.58</FileVersion>
+        <LangVersion>10.0</LangVersion>
+        <TargetFramework>net8.0</TargetFramework>
+        <Deterministic>true</Deterministic>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <Authors>Haato</Authors>
+        <DebugType>full</DebugType>
+        <DebugSymbols>true</DebugSymbols>
+        <SignAssembly>True</SignAssembly>
+        <PlatformTarget>AnyCPU</PlatformTarget>
+        <Nullable>enable</Nullable>
+        <LangVersion>10.0</LangVersion>
+        <DelaySign>False</DelaySign>
+        
+        <WarningsAsErrors>CA1416;CS0108;AVA2001</WarningsAsErrors>
+    </PropertyGroup>
+
+    <ItemGroup>
+<!--        <Compile Condition=" '$(Platform)' != 'Win32' " Remove="**\*.Windows*.cs" />-->
+<!--        <Compile Condition=" '$(Platform)' != 'Win32' " Remove="**\Windows\**\*.cs" />-->
+<!--        <Compile Condition=" '$(Platform)' != 'Linux' " Remove="**\*.Linux*.cs" />-->
+<!--        <Compile Condition=" '$(Platform)' != 'Linux' " Remove="**\Linux\**\*.cs" />-->
+<!--        <Compile Condition=" '$(Platform)' != 'MacOS' " Remove="**\*.MacOS*.cs" />-->
+<!--        <Compile Condition=" '$(Platform)' != 'MacOS' " Remove="**\MacOS\**\*.cs" />-->
+    </ItemGroup>
+    
+    <ItemGroup Condition=" '$(Platform)' == 'Win32' ">
+        <Folder Include="**\Windows\" />
+    </ItemGroup>
+    
+    <ItemGroup Condition=" '$(Platform)' == 'Linux' ">
+        <Folder Include="**\Linux\" />
+    </ItemGroup>
+    
+    <ItemGroup Condition=" '$(Platform)' == 'MacOS' ">
+        <Folder Include="**\MacOS\" />
+    </ItemGroup>
+    
+    <PropertyGroup Condition=" '$(Platform)' == 'Win32' ">
+        <PlatformName>Windows</PlatformName>
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+        <!-- Required for IDEs to recognize platform -->
+        <DefineConstants>TARGET_WINDOWS</DefineConstants>
+    </PropertyGroup>
+    
+    <PropertyGroup Condition=" '$(Platform)' == 'Linux' ">
+        <PlatformName>Linux</PlatformName>
+        <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+        <!-- Required for IDEs to recognize platform -->
+        <DefineConstants>TARGET_LINUX</DefineConstants>
+    </PropertyGroup>
+    
+    <PropertyGroup Condition=" '$(Platform)' == 'MacOS' ">
+        <PlatformName>OSX</PlatformName>
+        <RuntimeIdentifier>osx-x64</RuntimeIdentifier>
+        <!-- Required for IDEs to recognize platform -->
+        <DefineConstants>TARGET_OSX</DefineConstants>
+    </PropertyGroup>
+    
+<!--    <ItemGroup>-->
+<!--        <Compile Remove="*.Windows*.cs" />-->
+<!--        <Compile Condition=" '$(Platform)' == 'Win32' " Include="*.Windows*.cs" />-->
+<!--        <Compile Remove="*.Linux*.cs" />-->
+<!--        <Compile Condition=" '$(Platform)' == 'Linux' " Include="*.Linux*.cs" />-->
+<!--        <Compile Remove="*.MacOS*.cs" />-->
+<!--        <Compile Condition=" '$(Platform)' == 'MacOS' " Include="*.MacOS*.cs" />-->
+<!--    </ItemGroup>-->
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <DefineConstants>TRACE;DEPLOY;DEBUG</DefineConstants>
+        <Optimize>True</Optimize>
+        <ShouldCreateLogs>True</ShouldCreateLogs>
+        <AdvancedSettingsExpanded>True</AdvancedSettingsExpanded>
+        <UpdateAssemblyVersion>False</UpdateAssemblyVersion>
+        <UpdateAssemblyFileVersion>False</UpdateAssemblyFileVersion>
+        <UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
+        <UpdatePackageVersion>False</UpdatePackageVersion>
+        <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <ShouldCreateLogs>True</ShouldCreateLogs>
+        <AdvancedSettingsExpanded>True</AdvancedSettingsExpanded>
+        <UpdateAssemblyVersion>False</UpdateAssemblyVersion>
+        <UpdateAssemblyFileVersion>False</UpdateAssemblyFileVersion>
+        <UpdateAssemblyInfoVersion>False</UpdateAssemblyInfoVersion>
+        <UpdatePackageVersion>False</UpdatePackageVersion>
+        <AssemblyInfoVersionType>SettingsVersion</AssemblyInfoVersionType>
+        <Optimize>False</Optimize>
+    </PropertyGroup>
+</Project>

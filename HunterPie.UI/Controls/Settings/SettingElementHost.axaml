@@ -8,31 +8,70 @@
              xmlns:converters="using:HunterPie.UI.Architecture.Converters"
              xmlns:viewModel="using:HunterPie.UI.Controls.Settings.ViewModel"
              xmlns:image="using:HunterPie.UI.Controls.Image"
+             xmlns:settings="clr-namespace:HunterPie.UI.Controls.Settings"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
+             xmlns:buttons="clr-namespace:HunterPie.UI.Controls.Buttons"
+             xmlns:obs="clr-namespace:HunterPie.UI.Architecture;assembly=HunterPie.UI"
+             xmlns:architecture="clr-namespace:HunterPie.Core.Architecture;assembly=HunterPie.Core"
+             xmlns:types="clr-namespace:HunterPie.Core.Settings.Types;assembly=HunterPie.Core"
+             xmlns:generics="clr-namespace:HunterPie.Core.Domain.Generics;assembly=HunterPie.Core"
+             xmlns:misc="clr-namespace:HunterPie.UI.Controls.Misc"
              Background="Transparent"
              d:DesignWidth="400"
              x:DataType="viewModel:SettingElementViewModel"
              Classes.isMatch="{Binding Match}"
-             ClipToBounds="True">
-             
+             ClipToBounds="False">
     <UserControl.Resources>
         <converters:RelativeSizeConverter x:Key="RelativeSizeConverter"/>
     </UserControl.Resources>
+    <UserControl.DataTemplates>
+        <obs:ObservableTemplate ObservableType="system:Boolean">
+            <ToggleSwitch IsChecked="{Binding Value}"  />
+        </obs:ObservableTemplate>
+        <obs:ObservableTemplate ObservableType="system:String">
+            <TextBox Text="{Binding Value}" />
+        </obs:ObservableTemplate>
+        <obs:ObservableTemplate ObservableType="system:Double">
+            <NumericUpDown Value="{Binding Value}" AllowSpin="False" />
+        </obs:ObservableTemplate>
+        <DataTemplate DataType="types:Range">
+            <NumericUpDown Value="{Binding Current}"
+                           Minimum="{Binding Min}"
+                           Maximum="{Binding Max}"
+                           Increment="{Binding Step}"
+            />
+        </DataTemplate>
+        <DataTemplate DataType="types:IFileSelector">
+            <misc:FilePicker SingleFile="{Binding Current}" AllowMultiple="False" />
+        </DataTemplate>
+        <DataTemplate DataType="types:Secret">
+            <MaskedTextBox Text="{Binding Value}" />
+        </DataTemplate>
+        <DataTemplate DataType="types:Position">
+            <StackPanel>
+                <NumericUpDown Value="{Binding X}" AllowSpin="False" />
+                <NumericUpDown Value="{Binding Y}" AllowSpin="False" />
+            </StackPanel>
+        </DataTemplate>
+        <!-- <DataTemplate DataType="system:Object"> -->
+        <!--     <TextBlock> -->
+        <!--         <Run Text="Invalid Value for " /> -->
+        <!--         <Run Text="{Binding}" /> -->
+        <!--     </TextBlock> -->
+        <!-- </DataTemplate> -->
+    </UserControl.DataTemplates>
     <Border Background="{StaticResource GRAY_50}"
             CornerRadius="5">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*"/>
-                <ColumnDefinition Width="2*"/>
-            </Grid.ColumnDefinitions>
+        <Grid ColumnDefinitions="3*, 2*">
             <Canvas Grid.ColumnSpan="2">
                 <Rectangle x:Name="PART_Highlight"
                        VerticalAlignment="Top"
                        HorizontalAlignment="Left"
-                       Height="{Binding Height, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
-                       Width="{Binding Width, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Canvas}}, Converter={StaticResource RelativeSizeConverter}, ConverterParameter=2}"
+                       Height="{Binding $parent[UserControl].Height}"
+                       Width="{Binding $parent[Canvas].Width, Converter={StaticResource RelativeSizeConverter}, ConverterParameter=2}"
                        Opacity="0">
                     <Rectangle.Fill>
-                        <LinearGradientBrush EndPoint="1,1" StartPoint="0,1">
+                        <LinearGradientBrush EndPoint="100%,100%" StartPoint="0%,100%">
                             <GradientStop Offset="1" Color="#0CFFFFFF"/>
                             <GradientStop Color="#0CFFFFFF" Offset="0.25"/>
                             <GradientStop Color="#33FFFFFF" Offset="0.5"/>
@@ -42,27 +81,27 @@
                     </Rectangle.Fill>
                 </Rectangle>
             </Canvas>
-
-            <Label Grid.Column="0" 
+    
+            <Label Grid.Column="0"
                    VerticalContentAlignment="Center"
                    HorizontalAlignment="Stretch">
                 <StackPanel Orientation="Vertical">
                     <TextBlock Foreground="{StaticResource WHITE_50}"
                                FontFamily="{StaticResource HUNTERPIE_DEFAULT_FONT}"
                                FontSize="14"
-                               Text="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                               Text="{Binding  $parent[UserControl].Text}"
                                d:Text="Placeholder"
                                Margin="0,0,5,0"/>
-                    
+            
                     <TextBlock d:Text="Setting description here adas das dasd asd asas das  asd asd "
                                TextWrapping="WrapWithOverflow"
                                FontSize="10"
                                Foreground="{StaticResource WHITE_500}"
-                               Text="{Binding Description, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
+                               Text="{Binding $parent[UserControl].Description}"
                                Margin="0,5,20,0"/>
                 </StackPanel>
             </Label>
-            <image:Icon Grid.Column="0" 
+            <image:Icon Grid.Column="0"
                         Image="{StaticResource ICON_WARN}"
                         Width="15"
                         Foreground="{StaticResource YELLOW}"
@@ -71,22 +110,29 @@
                         Opacity="0.5"
                         IsVisible="{Binding RequiresRestart}"
                         ToolTip.Tip="{loc:LocalizationString Client.Generics.Generic.REQUIRES_RESTART_STRING}"/>
-            <Grid HorizontalAlignment="Stretch" 
+            <Grid HorizontalAlignment="Stretch"
                        Grid.Column="1">
-                <ContentControl Content="{Binding Hosted, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}}"
-                                Margin="5,5,5,5"/>
+                <Grid.Resources>
+                    <TextBlock x:Key="BindingFallback">
+                        <Run Text="Missing Value for " />
+                        <Run Text="{Binding Name}" />
+                    </TextBlock>
+                </Grid.Resources>
+                <ContentPresenter Margin="5" 
+                                  Content="{Binding $parent[settings:SettingElementHost].Value, FallbackValue={StaticResource BindingFallback}}"
+                                  />
             </Grid>
         </Grid>
-
-        <Border.Transitions>
-            <Transitions>
-                <DoubleTransition Property="Opacity" Duration="0.25" />
-            </Transitions>
-        </Border.Transitions>
-        <Border.Styles>
-            <Style Selector=".isMatch Border">
-                <Setter Property="Opacity" Value="0.3" />
-            </Style>
-        </Border.Styles>
+    
+        <!-- <Border.Transitions> -->
+        <!--     <Transitions> -->
+        <!--         <DoubleTransition Property="Opacity" Duration="0.25" /> -->
+        <!--     </Transitions> -->
+        <!-- </Border.Transitions> -->
+        <!-- <Border.Styles> -->
+        <!--     <Style Selector=".isMatch Border"> -->
+        <!--         <Setter Property="Opacity" Value="0.3" /> -->
+        <!--     </Style> -->
+        <!-- </Border.Styles> -->
     </Border>
 </UserControl>

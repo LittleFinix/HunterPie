@@ -59,8 +59,6 @@ public partial class AccountSignFlowView : View<AccountSignFlowViewModel>, IEven
             case nameof(AccountSignFlowViewModel.SelectedIndex):
                 AnimateSlide(ViewModel.SelectedIndex);
                 break;
-            default:
-                break;
         }
     }
 

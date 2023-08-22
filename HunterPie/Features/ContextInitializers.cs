@@ -18,7 +18,6 @@ internal static class ContextInitializers
         new MHWContextInitializer(),
         new MHRContextInitializer(),
         new MHRSunbreakDemoContextInitializer(),
-
         new GameSaveBackupService(),
         new QuestTrackerService(),
     };

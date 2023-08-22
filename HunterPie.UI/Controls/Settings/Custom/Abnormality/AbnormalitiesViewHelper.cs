@@ -7,7 +7,6 @@ using HunterPie.UI.Assets.Application;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Media;
 using System.Xml;
 
 namespace HunterPie.UI.Controls.Settings.Custom.Abnormality;

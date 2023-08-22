@@ -22,10 +22,6 @@ public class ScannableEntityTest
         public string TestValue { get; private set; }
         public int TestValue2 { get; private set; }
 
-        public TestEntity() : base()
-        {
-        }
-
         public void ScanData() => Scan();
 
         [ScannableMethod(typeof(TestDTO))]

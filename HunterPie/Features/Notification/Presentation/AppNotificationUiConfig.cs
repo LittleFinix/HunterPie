@@ -1,5 +1,5 @@
-﻿using HunterPie.UI.Assets.Application;
-using System.Windows.Media;
+﻿using Avalonia.Media;
+using HunterPie.UI.Assets.Application;
 
 namespace HunterPie.Features.Notification.Presentation;
 

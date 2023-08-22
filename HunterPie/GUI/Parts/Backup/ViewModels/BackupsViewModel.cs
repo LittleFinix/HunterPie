@@ -11,7 +11,6 @@ using System.Linq;
 
 namespace HunterPie.GUI.Parts.Backup.ViewModels;
 
-#nullable enable
 public class BackupsViewModel : ViewModel, IDisposable
 {
     private readonly PoogieBackupConnector _backupConnector = new();

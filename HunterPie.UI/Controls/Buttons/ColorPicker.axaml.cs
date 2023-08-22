@@ -1,7 +1,4 @@
 ﻿using Avalonia.Controls;
-using HunterPie.Core.Domain.Dialog;
-using HunterPie.Core.Settings.Types;
-using System;
 
 namespace HunterPie.UI.Controls.Buttons;
 

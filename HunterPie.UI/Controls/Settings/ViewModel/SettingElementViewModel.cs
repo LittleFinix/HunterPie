@@ -1,6 +1,6 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Media;
+﻿using Avalonia;
+using Avalonia.Controls;
+using System.Collections.ObjectModel;
 
 namespace HunterPie.UI.Controls.Settings.ViewModel;
 
@@ -15,7 +15,7 @@ internal class SettingElementViewModel : ISettingElement
     {
         Title = title;
         Description = description;
-        Icon = Application.Current.TryFindResource(icon) as ImageSource;
+        Icon = Application.Current.FindResource(icon) as ImageSource;
     }
 
     public void Add(ISettingElementType element) => Elements.Add(element);

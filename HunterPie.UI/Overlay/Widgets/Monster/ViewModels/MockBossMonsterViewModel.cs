@@ -9,6 +9,11 @@ internal class MockBossMonsterViewModel : BossMonsterViewModel
 {
     private readonly MonsterWidgetConfig _mockConfig;
 
+    public MockBossMonsterViewModel() : this(new MonsterWidgetConfig())
+    {
+        
+    }
+    
     public MockBossMonsterViewModel(MonsterWidgetConfig config) : base(config)
     {
         _mockConfig = config;

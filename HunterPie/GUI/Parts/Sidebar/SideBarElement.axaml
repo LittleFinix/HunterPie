@@ -13,7 +13,7 @@
         
     </UserControl.Resources>
     <Button Background="Transparent"
-                   Command="{Binding ExecuteOnClick}"
+                   Click="OnButtonClick"
                    IsEnabled="{Binding IsEnabled, Mode=OneWay, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}">
         <Button.Content>
             <StackPanel Orientation="Horizontal" 

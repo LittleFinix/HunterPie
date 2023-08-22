@@ -1,5 +1,5 @@
-﻿using System.Drawing;
-using System.Drawing.Imaging;
+﻿using SkiaSharp;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace HunterPie.UI.Architecture.Images;
@@ -15,17 +15,19 @@ public static class ImageMergerService
     /// <returns>Path to the saved file</returns>
     public static Task<string> MergeAsync(string outputPath, string image, string mask)
     {
-        using var backgroundImage = Image.FromFile(image);
-        using var maskImage = Image.FromFile(mask);
+        using var backgroundImage = SKImage.FromEncodedData(image);
+        using var maskImage = SKImage.FromEncodedData(mask);
+        using var bmp = SKBitmap.FromImage(backgroundImage);
 
+        using (var graphics = new SKCanvas(bmp))
+        {
+            graphics.DrawImage(maskImage, new SKRect(0, 0, backgroundImage.Width, backgroundImage.Height));
+            graphics.Flush();
+        }
 
-        using var graphics = Graphics.FromImage(backgroundImage);
-        graphics.DrawImage(maskImage, new Rectangle(0, 0, backgroundImage.Width, backgroundImage.Height));
-        _ = graphics.Save();
-
-        using var output = new Bitmap(backgroundImage);
-
-        output.Save(outputPath, ImageFormat.Png);
+        using (var stream = File.OpenWrite(outputPath))
+            bmp.Encode(stream, SKEncodedImageFormat.Png, 80);
+        
         return Task.FromResult(outputPath);
     }
 }

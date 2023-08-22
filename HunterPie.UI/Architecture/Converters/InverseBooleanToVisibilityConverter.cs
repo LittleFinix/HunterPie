@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Avalonia.Data.Converters;
+using System;
 using System.Globalization;
-using System.Windows;
-using System.Windows.Data;
 
 namespace HunterPie.UI.Architecture.Converters;
 

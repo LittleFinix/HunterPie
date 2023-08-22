@@ -2,12 +2,14 @@
 using HunterPie.Core.Client;
 using HunterPie.Core.Domain.Enums;
 using HunterPie.Core.Logger;
+using HunterPie.Core.System.Common;
+using System;
 using System.Diagnostics;
 using System.IO;
 
 namespace HunterPie.Core.System.Windows;
 
-internal class MHWProcessManager : WindowsProcessManager
+internal class MHWProcessManager : ProcessManagerBase
 {
     public override string Name => "MonsterHunterWorld";
     public override GameProcess Game => GameProcess.MonsterHunterWorld;
@@ -15,10 +17,11 @@ internal class MHWProcessManager : WindowsProcessManager
     protected override bool ShouldOpenProcess(Process process)
     {
         // If our process is in either another window, or not initialized yet
-        if (!process.MainWindowTitle.ToUpperInvariant().StartsWith("MONSTER HUNTER: WORLD"))
+        
+        if (OperatingSystem.IsWindows() && !process.MainWindowTitle.ToUpperInvariant().StartsWith("MONSTER HUNTER: WORLD"))
             return false;
 
-        string version = process.MainWindowTitle.Split('(')[1].Trim(')');
+        string version = OperatingSystem.IsWindows() ? process.MainWindowTitle.Split('(')[1].Trim(')') : string.Empty;
         bool parsed = int.TryParse(version, out int parsedVersion);
 
         if (!parsed)

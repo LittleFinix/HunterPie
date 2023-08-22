@@ -1,12 +1,10 @@
-﻿using HunterPie.Core.Game.Enums;
+﻿using Avalonia.Markup.Xaml.Templates;
+using HunterPie.Core.Game.Enums;
 using HunterPie.UI.Overlay.Widgets.Classes.ViewModels;
 using System;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace HunterPie.UI.Overlay.Widgets.Classes.Presentation;
 
-#nullable enable
 public class ClassTemplateSelector : DataTemplateSelector
 {
     public DataTemplate? InsectGlaiveTemplate { get; set; }

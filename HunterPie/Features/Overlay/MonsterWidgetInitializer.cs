@@ -3,14 +3,13 @@ using HunterPie.Core.Client.Configuration;
 using HunterPie.Core.Game;
 using HunterPie.Core.System;
 using HunterPie.UI.Architecture.Overlay;
-using HunterPie.UI.Overlay;
 using HunterPie.UI.Overlay.Widgets.Monster;
 
 namespace HunterPie.Features.Overlay;
 
 internal class MonsterWidgetInitializer : IWidgetInitializer
 {
-    private IContextHandler? _handler;
+    private MonsterWidgetContextHandler? _handler;
 
     public void Load(IContext context)
     {
@@ -21,7 +20,7 @@ internal class MonsterWidgetInitializer : IWidgetInitializer
 
         _handler = new MonsterWidgetContextHandler(context);
     }
-
+    
     public void Unload()
     {
         _handler?.UnhookEvents();

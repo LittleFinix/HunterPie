@@ -1,6 +1,5 @@
 ﻿using HunterPie.Core.Architecture;
 using HunterPie.UI.Architecture.Navigator;
-using System.Windows;
 
 namespace HunterPie.GUI.Parts.Host;
 

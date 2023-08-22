@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace HunterPie.GUI.Parts.Account.ViewModels;
 
-#nullable enable
 public class AccountLoginFlowViewModel : ViewModel
 {
     private string _email = "";

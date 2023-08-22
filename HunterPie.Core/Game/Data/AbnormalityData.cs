@@ -8,7 +8,6 @@ using System.Xml;
 
 namespace HunterPie.Core.Game.Data;
 
-#nullable enable
 [Obsolete("AbnormalityData is deprecated and will be removed in a later release, use AbnormalityService instead.")]
 public class AbnormalityData
 {

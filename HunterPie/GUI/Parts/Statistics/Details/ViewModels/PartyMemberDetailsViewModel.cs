@@ -1,8 +1,7 @@
-﻿using HunterPie.Core.Game.Enums;
+﻿using Avalonia.Media;
+using HunterPie.Core.Game.Enums;
 using HunterPie.UI.Architecture;
-using LiveCharts.Wpf;
 using System.Collections.ObjectModel;
-using System.Windows.Media;
 
 namespace HunterPie.GUI.Parts.Statistics.Details.ViewModels;
 
@@ -14,8 +13,8 @@ public class PartyMemberDetailsViewModel : ViewModel
     private Weapon _weapon;
     public Weapon Weapon { get => _weapon; set => SetValue(ref _weapon, value); }
 
-    private Brush _color = Brushes.Transparent;
-    public Brush Color { get => _color; set => SetValue(ref _color, value); }
+    private IBrush _color = Brushes.Transparent;
+    public IBrush Color { get => _color; set => SetValue(ref _color, value); }
 
     private float _damage;
     public float Damage { get => _damage; set => SetValue(ref _damage, value); }
@@ -26,7 +25,7 @@ public class PartyMemberDetailsViewModel : ViewModel
     private bool _isToggled;
     public bool IsToggled { get => _isToggled; set => SetValue(ref _isToggled, value); }
 
-    public Series Damages { get; init; } = new LineSeries();
+    public IChartSeries Damages { get; init; } = new LineSeries();
 
     public ObservableCollection<AbnormalityDetailsViewModel> Abnormalities { get; init; } = new();
 }

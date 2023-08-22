@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace HunterPie.Core.Networking.Http;
 
-#nullable enable
 public class HttpClientResponse : IEventDispatcher, IDisposable
 {
     private readonly HttpResponseMessage? _response;

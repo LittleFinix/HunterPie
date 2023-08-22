@@ -10,15 +10,13 @@ using HunterPie.Integrations.Datasources.MonsterHunterWorld;
 using HunterPie.Integrations.Poogie.Backup;
 using HunterPie.Integrations.Poogie.Backup.Models;
 using HunterPie.Integrations.Poogie.Common.Models;
-using Microsoft.Win32;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace HunterPie.Features.Backups;
 
-#nullable enable
-internal class GameSaveBackupService : IContextInitializer
+internal partial class GameSaveBackupService : IContextInitializer
 {
     private static readonly PoogieBackupConnector BackupConnector = new();
 
@@ -115,22 +113,32 @@ internal class GameSaveBackupService : IContextInitializer
 
         return timeSinceLastBackup >= 23;
     }
-
+    
     private string? GetSteamSaveFolder()
     {
-        using RegistryKey? activeProcess = Registry.CurrentUser.OpenSubKey(@"Software\Valve\Steam\ActiveProcess");
+        int activeUser;
+        string? steamClientPath;
 
-        if (activeProcess is null)
-            return null;
+        if (OperatingSystem.IsWindows())
+        {
+            if (!TryGetSteamProcessWindows(out activeUser, out steamClientPath))
+                return null;
+        }
+        else if (OperatingSystem.IsLinux())
+        {
+            if (!TryGetSteamProcessLinux(out activeUser, out steamClientPath))
+                return null;
+        }
+        else
+        {
+            throw new PlatformNotSupportedException();
+        }
 
-        int? activeUser = (int?)activeProcess.GetValue("ActiveUser");
-        string? steamClientPath = (string?)activeProcess.GetValue("SteamClientDll");
-
-        if (activeUser is null || steamClientPath is null)
+        if (steamClientPath is null)
             return null;
 
         string steamPath = Path.GetDirectoryName(steamClientPath)!;
 
-        return Path.Combine(steamPath, "userdata", activeUser.Value.ToString());
+        return Path.Combine(steamPath, "userdata", activeUser.ToString());
     }
 }

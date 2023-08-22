@@ -1,9 +1,9 @@
-﻿using HunterPie.Core.Game.Enums;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Data.Converters;
+using HunterPie.Core.Game.Enums;
 using System;
 using System.Globalization;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Media;
 
 namespace HunterPie.UI.Architecture.Converters;
 

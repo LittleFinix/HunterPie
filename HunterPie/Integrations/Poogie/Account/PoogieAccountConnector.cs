@@ -2,10 +2,6 @@
 using HunterPie.Integrations.Poogie.Common;
 using HunterPie.Integrations.Poogie.Common.Models;
 using System.Threading.Tasks;
-using LoginRequest = HunterPie.Integrations.Poogie.Account.Models.LoginRequest;
-using LoginResponse = HunterPie.Integrations.Poogie.Account.Models.LoginResponse;
-using LogoutResponse = HunterPie.Integrations.Poogie.Account.Models.LogoutResponse;
-using MyUserAccountResponse = HunterPie.Integrations.Poogie.Account.Models.MyUserAccountResponse;
 
 namespace HunterPie.Integrations.Poogie.Account;
 

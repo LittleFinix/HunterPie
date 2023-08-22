@@ -178,7 +178,7 @@ public class MonsterContextHandler : BossMonsterViewModel, IContextHandler, IDis
         CaptureThreshold = Context.CaptureThreshold;
         CanBeCaptured = Context.CaptureThreshold > 0;
         IsCapturable = CaptureThreshold >= (Health / MaxHealth);
-
+        
         UIThread.InvokeAsync(() =>
         {
             foreach (string typeId in Context.Types)

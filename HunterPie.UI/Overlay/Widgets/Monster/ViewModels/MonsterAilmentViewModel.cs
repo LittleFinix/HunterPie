@@ -38,6 +38,6 @@ public class MonsterAilmentViewModel : AutoVisibilityViewModel
     }
     public double MaxBuildup { get => _maxBuildup; set => SetValue(ref _maxBuildup, value); }
     public int Count { get => _count; set => SetValue(ref _count, value); }
-
+    
     public MonsterAilmentViewModel(MonsterWidgetConfig config) : base(config.AutoHideAilmentsDelay) { }
 }

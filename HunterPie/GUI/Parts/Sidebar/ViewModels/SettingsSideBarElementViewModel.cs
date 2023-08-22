@@ -1,5 +1,7 @@
-﻿using HunterPie.Core.Architecture;
+﻿using Avalonia.Threading;
+using HunterPie.Core.Architecture;
 using HunterPie.Core.Client;
+using HunterPie.Core.Client.Localization;
 using HunterPie.Core.Domain.Generics;
 using HunterPie.Features.Account.Config;
 using HunterPie.GUI.Parts.Settings.ViewModels;
@@ -11,9 +13,6 @@ using HunterPie.UI.Controls.Flags;
 using HunterPie.UI.Controls.Settings.ViewModel;
 using HunterPie.UI.Settings;
 using System.Linq;
-using System.Windows;
-using System.Windows.Media;
-using Localization = HunterPie.Core.Client.Localization.Localization;
 
 namespace HunterPie.GUI.Parts.Sidebar.ViewModels;
 
@@ -21,7 +20,7 @@ internal class SettingsSideBarElementViewModel : ISideBarElement
 {
     public ImageSource Icon => Resources.Icon("ICON_SETTINGS");
 
-    public string Text => Localization.Query("//Strings/Client/Tabs/Tab[@Id='SETTINGS_STRING']").Attributes["String"].Value;
+    public string Text => Localization.FindString("Client", "Tabs", "Tab", "SETTINGS_STRING");
 
     public bool IsActivable => true;
 
@@ -39,7 +38,7 @@ internal class SettingsSideBarElementViewModel : ISideBarElement
 
     private async void RefreshSettingsWindow(bool forceRefresh = false)
     {
-        await Application.Current.Dispatcher.InvokeAsync(async () =>
+        await Dispatcher.UIThread.InvokeAsync(async () =>
         {
             ISettingElement[] settingTabs = VisualConverterManager.Build(ClientConfig.Config);
 
@@ -56,7 +55,7 @@ internal class SettingsSideBarElementViewModel : ISideBarElement
             GenericFileSelector _ = ClientConfig.Config.Client.Language;
 
             SettingHostViewModel vm = new(accountConfig);
-            var host = new SettingHost() { DataContext = vm };
+            var host = new SettingHost { DataContext = vm };
 
             // Also add feature flags if enabled
             if (ClientConfig.Config.Client.EnableFeatureFlags)

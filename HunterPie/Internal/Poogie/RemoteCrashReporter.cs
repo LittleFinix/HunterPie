@@ -1,7 +1,6 @@
 ﻿using HunterPie.Core.Client;
 using HunterPie.Core.Networking.Http;
 using HunterPie.Integrations.Poogie;
-using Microsoft.VisualBasic.Devices;
 using Newtonsoft.Json;
 using System;
 using System.Diagnostics;
@@ -47,7 +46,7 @@ public class RemoteCrashReporter
 
     public static void Send(Exception exception, bool isUIError = false)
     {
-        ComputerInfo computerInfo = new();
+        // ComputerInfo computerInfo = new();
         using var process = Process.GetCurrentProcess();
 
         CrashReportSchema schema = new()
@@ -59,7 +58,7 @@ public class RemoteCrashReporter
             IsUiError = isUIError,
             Context = new CrashReportContextSchema
             {
-                RamTotal = computerInfo.TotalPhysicalMemory,
+                RamTotal = ulong.MaxValue, // computerInfo.TotalPhysicalMemory,
                 RamUsed = process.PrivateMemorySize64,
                 WindowsVersion = Environment.OSVersion.ToString(),
             }

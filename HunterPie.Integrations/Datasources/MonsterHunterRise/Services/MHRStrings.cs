@@ -1,6 +1,5 @@
 ﻿using HunterPie.Core.Client.Localization;
 using HunterPie.Core.Domain.Process;
-using System.Xml;
 
 namespace HunterPie.Integrations.Datasources.MonsterHunterRise.Services;
 
@@ -17,17 +16,11 @@ public class MHRStrings
 
     public string GetMonsterNameById(int id)
     {
-        string query = $"//Strings/Monsters/Rise/Monster[@Id='{id}']";
-        XmlNode monster = Localization.Query(query);
-
-        return monster?.Attributes["String"]?.Value ?? $"Unknown [id: {id}]";
+        return Localization.FindString("Monsters", "Rise", "Monster", $"{id}");
     }
 
     public string GetStageNameById(int id)
     {
-        string query = $"//Strings/Stages/Rise/Stage[@Id='{id}']";
-        XmlNode monster = Localization.Query(query);
-
-        return monster?.Attributes["String"]?.Value ?? $"Unknown [id: {id}]";
+        return Localization.FindString("Monsters", "Rise", "Monster", $"{id}");
     }
 }

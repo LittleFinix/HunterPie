@@ -52,10 +52,15 @@
             <Rectangle x:Name="PART_Selection"
                        Fill="{StaticResource HUNTERPIE_ACCENT_COLOR}"
                        Width="2"
-                       Margin="{Binding SelectedButton}"
                        Height="{Binding ItemsHeight}"
                        VerticalAlignment="Top"
-                       HorizontalAlignment="Left"/>
+                       HorizontalAlignment="Left">
+                <Rectangle.Transitions>
+                    <Transitions>
+                        <ThicknessTransition Property="Margin" Delay="0.05" Duration="0.1" Easing="SineEaseInOut" /> 
+                    </Transitions>
+                </Rectangle.Transitions>
+            </Rectangle>
 
             <ItemsControl ItemsSource="{Binding #SideBarContainerControl.Elements}">
                 <ItemsControl.ItemTemplate>

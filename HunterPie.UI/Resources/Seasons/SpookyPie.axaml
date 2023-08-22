@@ -1,12 +1,12 @@
 ﻿<ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <LinearGradientBrush x:Key="HUNTERPIE_ACCENT_COLOR" EndPoint="1,1" StartPoint="0,1">
+    <LinearGradientBrush x:Key="HUNTERPIE_ACCENT_COLOR" EndPoint="100%,100%" StartPoint="0%,100%">
         <GradientStop Color="#ee924b"/>
         <GradientStop Color="#de8110" Offset="1"/>
     </LinearGradientBrush>
 
-    <LinearGradientBrush x:Key="HUNTERPIE_ACCENT_COLOR_TRANSPARENT" EndPoint="1,1" StartPoint="0,1">
+    <LinearGradientBrush x:Key="HUNTERPIE_ACCENT_COLOR_TRANSPARENT" EndPoint="100%,100%" StartPoint="0%,100%">
         <GradientStop Color="#50ee924b"/>
         <GradientStop Color="#50de8110" Offset="1"/>
     </LinearGradientBrush>

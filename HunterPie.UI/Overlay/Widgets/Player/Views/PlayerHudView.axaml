@@ -11,6 +11,7 @@
            xmlns:enums="clr-namespace:HunterPie.Core.Game.Enums;assembly=HunterPie.Core"
            xmlns:effects="using:HunterPie.UI.Architecture.Effects"
            x:TypeArguments="viewmodels:PlayerHudViewModel"
+           x:DataType="viewmodels:PlayerHudViewModel"
            mc:Ignorable="d"
            Width="800">
     <UserControl.Resources>
@@ -78,13 +79,13 @@
             <overlay:Bar Foreground="{StaticResource WIDGET_PLAYER_RECOVERABLE_FOREGROUND}"
                          Background="{StaticResource GRAY_500}"
                          Height="15"
-                         MaxValue="{Binding MaxHealth, Mode=OneWay}"
+                         Maximum="{Binding MaxHealth, Mode=OneWay}"
                          Value="{Binding RecoverableHealth, Mode=OneWay}"
-                         d:MaxValue="150"
+                         d:Maximum="150"
                          d:Value="100"
                          HorizontalAlignment="Left"
                          BorderThickness="2" 
-                         RenderTransformOrigin="0.5,0.5"
+                         RenderTransformOrigin="50%,50%"
                          VerticalAlignment="Top"
                          d:Width="500"
                          x:Name="PART_RecoverableHealthBar">
@@ -99,7 +100,7 @@
                                  Mode="OneWay"/>
                         <Binding Path="MaxExtendableHealth"
                                  Mode="OneWay"/>
-                        <Binding Path="Width"
+                        <Binding Path="Bounds.Width"
                                  Mode="OneWay"
                                  ElementName="PART_MaxHealthPossible"/>
                     </MultiBinding>
@@ -108,13 +109,13 @@
             <overlay:Bar Foreground="{StaticResource WIDGET_PLAYER_HEAL_FOREGROUND}"
                          Background="Transparent"
                          Height="15"
-                         d:MaxValue="150"
+                         d:Maximum="150"
                          d:Value="50"
-                         MaxValue="{Binding MaxHealth, Mode=OneWay}"
+                         Maximum="{Binding MaxHealth, Mode=OneWay}"
                          Value="{Binding Heal, Mode=OneWay}"
                          BorderThickness="2" 
                          HorizontalAlignment="Left"
-                         RenderTransformOrigin="0.5,0.5"
+                         RenderTransformOrigin="50%,50%"
                          VerticalAlignment="Top"
                          MarkersVisibility="False"
                          d:Width="500">
@@ -129,7 +130,7 @@
                                  Mode="OneWay"/>
                         <Binding Path="MaxExtendableHealth"
                                  Mode="OneWay"/>
-                        <Binding Path="Width"
+                        <Binding Path="Bounds.Width"
                                  Mode="OneWay"
                                  ElementName="PART_MaxHealthPossible"/>
                     </MultiBinding>
@@ -137,13 +138,13 @@
             </overlay:Bar>
             <overlay:Bar Background="Transparent"
                          Height="15"
-                         d:MaxValue="150"
+                         d:Maximum="150"
                          d:Value="64"
-                         MaxValue="{Binding MaxHealth, Mode=OneWay}"
+                         Maximum="{Binding MaxHealth, Mode=OneWay}"
                          Value="{Binding Health, Mode=OneWay}"
                          BorderThickness="2" 
                          HorizontalAlignment="Left"
-                         RenderTransformOrigin="0.5,0.5"
+                         RenderTransformOrigin="50%,50%"
                          VerticalAlignment="Top"
                          Foreground="{StaticResource WIDGET_PLAYER_HEALTH_FOREGROUND}"
                          BorderBrush="{StaticResource GRAY_300}"
@@ -160,7 +161,7 @@
                                  Mode="OneWay"/>
                         <Binding Path="MaxExtendableHealth"
                                  Mode="OneWay"/>
-                        <Binding Path="Width"
+                        <Binding Path="Bounds.Width"
                                  Mode="OneWay"
                                  ElementName="PART_MaxHealthPossible"/>
                     </MultiBinding>
@@ -210,8 +211,8 @@
                         <Binding Path="MaxRecoverableStamina"
                                  Mode="OneWay"/>
                         <Binding Path="MaxPossibleStamina"
-                                 Mode="OneWay"/>
-                        <Binding Path="Width"
+                                 Mode="OneWay"/> 
+                        <Binding Path="Bounds.Width"
                                  Mode="OneWay"
                                  ElementName="PART_MaxStaminaPossible"/>
                     </MultiBinding>
@@ -221,12 +222,12 @@
                          BorderBrush="{StaticResource GRAY_200}"
                          Background="#B2181A1B"
                          Height="8"
-                         d:MaxValue="2000"
+                         d:Maximum="2000"
                          d:Value="550"
-                         MaxValue="{Binding MaxStamina, Mode=OneWay}"
+                         Maximum="{Binding MaxStamina, Mode=OneWay}"
                          Value="{Binding Stamina, Mode=OneWay}"
                          BorderThickness="2" 
-                         RenderTransformOrigin="0.5,0.5"
+                         RenderTransformOrigin="50%,50%"
                          VerticalAlignment="Top"
                          HorizontalAlignment="Left"
                          d:Width="500"
@@ -243,7 +244,7 @@
                                  Mode="OneWay"/>
                         <Binding Path="MaxPossibleStamina"
                                  Mode="OneWay"/>
-                        <Binding Path="Width"
+                        <Binding Path="Bounds.Width"
                                  Mode="OneWay"
                                  ElementName="PART_MaxStaminaPossible"/>
                     </MultiBinding>
@@ -305,9 +306,9 @@
               Grid.ColumnSpan="2"
               Grid.RowSpan="2">
             <Rectangle StrokeThickness="1.5"
-                       RenderTransformOrigin="0.5,0.5">
+                       RenderTransformOrigin="50%,50%">
                 <Rectangle.Stroke>
-                    <LinearGradientBrush EndPoint="1,1" StartPoint="0.5,0.5">
+                    <LinearGradientBrush EndPoint="100%,100%" StartPoint="50%,50%">
                         <GradientStop Color="#FF2F3136" Offset="0"/>
                         <GradientStop Color="#FF2F303A" Offset="1"/>
                         <GradientStop Color="Black" Offset="0.476"/>
@@ -328,7 +329,7 @@
                 <Rectangle.Effect>
                 </Rectangle.Effect>
             </Rectangle>
-            <Rectangle RenderTransformOrigin="0.5,0.5"
+            <Rectangle RenderTransformOrigin="50%,50%"
                        StrokeThickness="0.5"
                        Margin="5">
                 <Rectangle.Fill>
@@ -338,7 +339,7 @@
                     </RadialGradientBrush>
                 </Rectangle.Fill>
                 <Rectangle.Stroke>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <LinearGradientBrush EndPoint="50%,100%" StartPoint="50%,0%">
                         <GradientStop Color="#7F323232"/>
                         <GradientStop Color="#7F333347" Offset="1"/>
                     </LinearGradientBrush>

@@ -1,7 +1,7 @@
-﻿using HunterPie.UI.Assets.Application;
+﻿using Avalonia.Data.Converters;
+using HunterPie.UI.Assets.Application;
 using System;
 using System.Globalization;
-using System.Windows.Data;
 
 namespace HunterPie.UI.Logger;
 

@@ -1,11 +1,11 @@
-﻿using System.Diagnostics;
+﻿using HunterPie.Core.System.Common;
 
 namespace HunterPie.Core.System;
 public static class BrowserService
 {
     public static void OpenUrl(string url) =>
-        Process.Start("explorer", url);
+        Launcher.Open(url);
 
     public static void OpenFolder(string path) =>
-        Process.Start("explorer", path);
+        Launcher.Open(path);
 }

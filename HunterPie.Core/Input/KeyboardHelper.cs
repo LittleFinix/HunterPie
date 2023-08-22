@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 namespace HunterPie.Core.Input;
 
+[SupportedOSPlatform("Windows")]
 public class KeyboardHookHelper
 {
     public enum KeyboardKeys

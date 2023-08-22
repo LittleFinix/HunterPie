@@ -1,21 +1,22 @@
-﻿using System;
+﻿using Avalonia;
+using Avalonia.Data.Converters;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Windows;
-using System.Windows.Data;
 using Converter = System.Convert;
 
 namespace HunterPie.UI.Architecture.Converters;
 
 public class CurrentValueToWidthConverter : IMultiValueConverter
 {
-    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    public object Convert(IList<object?> values, Type targetType, object parameter, CultureInfo culture)
     {
         try
         {
-            double currentValue = Converter.ToDouble(values[0]);
-            double maxValue = Converter.ToDouble(values[1]);
-            double maxWidth = Converter.ToDouble(values[2]);
+            double currentValue = ConverterHelper.ToDouble(values[0]);
+            double maxValue = ConverterHelper.ToDouble(values[1]);
+            double maxWidth = ConverterHelper.ToDouble(values[2]);
             Thickness border = ((Thickness?)values.ElementAtOrDefault(3)) ?? new Thickness();
             double sides = border.Left + border.Right;
 

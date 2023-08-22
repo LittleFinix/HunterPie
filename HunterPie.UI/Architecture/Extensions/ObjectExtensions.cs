@@ -1,7 +1,7 @@
-﻿using HunterPie.Core.Json;
+﻿using Avalonia;
+using HunterPie.Core.Json;
 using System;
 using System.Linq;
-using System.Windows;
 
 namespace HunterPie.UI.Architecture.Extensions;
 

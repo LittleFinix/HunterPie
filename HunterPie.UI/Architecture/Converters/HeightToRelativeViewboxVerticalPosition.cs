@@ -1,16 +1,17 @@
-﻿using System;
+﻿using Avalonia;
+using Avalonia.Data.Converters;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
-using System.Windows;
-using System.Windows.Data;
 
 namespace HunterPie.UI.Architecture.Converters;
 
 public class HeightToRelativeViewboxVerticalPosition : IMultiValueConverter
 {
 
-    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    public object Convert(IList<object?> values, Type targetType, object parameter, CultureInfo culture)
     {
-        if (values.Length < 2)
+        if (values.Count < 2)
             throw new ArgumentException("expected at least 2 values");
 
         double height = (double)values[0];

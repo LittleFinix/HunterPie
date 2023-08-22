@@ -59,7 +59,7 @@ public class MockAbnormalityBarViewModel : AbnormalityBarViewModel
     {
         foreach (MockAbnormalityData data in MockAbnormalityDatas)
         {
-            var mock = new AbnormalityViewModel()
+            var mock = new AbnormalityViewModel
             {
                 Icon = data.Icon,
                 Name = data.Name,

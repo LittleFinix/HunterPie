@@ -14,7 +14,7 @@ public class Observable<T> : Bindable
         get => _value;
         set => SetValue(ref _value, value);
     }
-
+    
     [JsonConstructor]
     public Observable(T value)
     {

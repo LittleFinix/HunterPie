@@ -1,6 +1,8 @@
-﻿using HunterPie.Core.Client.Configuration;
+﻿using Avalonia.Input;
+using HunterPie.Core.Client.Configuration;
 using HunterPie.Core.Client.Configuration.Overlay;
 using HunterPie.Core.Domain.Interfaces;
+using HunterPie.Core.Settings;
 using System;
 
 namespace HunterPie.Internal.Migrations;
@@ -15,13 +17,13 @@ internal class V2SettingsMigrator : ISettingsMigrator
         {
             OverlayClientConfig overlayClientConfig = new()
             {
-                ToggleDesignMode = config.Overlay.ToggleDesignMode,
+                ToggleDesignMode = KeyGesture.Parse(KeyGestureHelper.Migrate(config.Overlay.ToggleDesignMode.KeyCombo)),
                 HideWhenUnfocus = config.Overlay.HideWhenUnfocus,
             };
 
             config.Overlay.DamageMeterWidget = new();
 
-            var v2Config = new V2Config()
+            var v2Config = new V2Config
             {
                 Client = config.Client,
                 Rise = new()

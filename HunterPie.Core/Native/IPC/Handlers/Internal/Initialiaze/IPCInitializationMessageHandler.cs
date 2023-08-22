@@ -42,7 +42,7 @@ internal class IPCInitializationMessageHandler : IMessageHandler
 
         Buffer.BlockCopy(addresses, 0, buffer, 0, addresses.Length * Marshal.SizeOf<UIntPtr>());
 
-        var request = new RequestIPCInitializationMessage()
+        var request = new RequestIPCInitializationMessage
         {
             Header = new IPCMessage
             {

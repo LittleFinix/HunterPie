@@ -1,7 +1,7 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using System.Windows.Controls;
 
 namespace HunterPie.UI.Architecture.Validation;
 public class EmailValidationRule : ValidationRule
@@ -10,16 +10,16 @@ public class EmailValidationRule : ValidationRule
 
     private const string INVALID_EMAIL = "VALIDATION_FOR_EMAIL_FAIL";
 
-    public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+    public override ValidationResult? Validate(object value, CultureInfo cultureInfo)
     {
         if (value is not string email)
             throw new ArgumentException("value must be string");
 
         if (string.IsNullOrEmpty(email))
-            return new ValidationResult(true, INVALID_EMAIL);
+            return new ValidationResult(INVALID_EMAIL);
 
         bool isValid = Regex.IsMatch(email, EMAIL_PATTERN);
 
-        return new ValidationResult(isValid, isValid ? null : INVALID_EMAIL);
+        return isValid ? ValidationResult.Success : new ValidationResult(INVALID_EMAIL);
     }
 }

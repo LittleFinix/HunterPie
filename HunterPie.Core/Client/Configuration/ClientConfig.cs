@@ -4,6 +4,8 @@ using HunterPie.Core.Domain.Enums;
 using HunterPie.Core.Domain.Generics;
 using HunterPie.Core.Settings;
 using HunterPie.Core.Settings.Types;
+using System;
+using Range = HunterPie.Core.Settings.Types.Range;
 
 namespace HunterPie.Core.Client.Configuration;
 
@@ -41,7 +43,7 @@ public class ClientConfig : ISettings
     public Observable<bool> ShouldShutdownOnGameExit { get; set; } = false;
 
     [SettingField("ENABLE_NATIVE_MODULE_STRING", availableGames: GameProcess.MonsterHunterWorld)]
-    public Observable<bool> EnableNativeModule { get; set; } = true;
+    public Observable<bool> EnableNativeModule { get; set; } = OperatingSystem.IsWindows();
 
     [SettingField("RENDERING_STRATEGY_STRING", requiresRestart: true)]
     public Observable<RenderingStrategy> Render { get; set; } = RenderingStrategy.Software;

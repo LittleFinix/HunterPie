@@ -1,6 +1,5 @@
 ﻿using HunterPie.Core.Architecture;
 using System.Collections.ObjectModel;
-using System.Windows.Media;
 
 namespace HunterPie.UI.Overlay.Widgets.Chat.ViewModels;
 

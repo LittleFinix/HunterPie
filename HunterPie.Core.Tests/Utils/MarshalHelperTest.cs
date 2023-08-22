@@ -28,13 +28,13 @@ public class MarshalHelperTest
             0xEE, 0xFF, 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00,
             0x75, 0x77, 0x75
         };
-        var test = new TestStruct()
+        var test = new TestStruct
         {
             Unk0 = 0xDEADBEEF,
             Unk1 = 0xC0FFEE,
             Unk2 = new byte[] { 0x75, 0x77, 0x75 }
         };
-        TestStruct[] array = new[] { test };
+        TestStruct[] array = { test };
 
         byte[] buffer = MarshalHelper.StructureToBuffer(array);
 

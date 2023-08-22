@@ -1,5 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Data;
 
 namespace HunterPie.UI.Overlay.Widgets.Monster.Views;
 
@@ -10,24 +11,42 @@ public partial class BossMonsterAilmentView : UserControl
 {
     public double Current
     {
-        get => (double)GetValue(CurrentProperty);
+        get => GetValue(CurrentProperty);
         set => SetValue(CurrentProperty, value);
     }
     
     public static readonly StyledProperty<double> CurrentProperty =
-        AvaloniaProperty.Register<BossMonsterAilmentView, double>(nameof(Current), 0.0);
+        AvaloniaProperty.Register<BossMonsterAilmentView, double>(nameof(Current));
 
     public double Max
     {
-        get => (double)GetValue(MaxProperty);
+        get => GetValue(MaxProperty);
         set => SetValue(MaxProperty, value);
     }
     
     public static readonly StyledProperty<double> MaxProperty =
-        AvaloniaProperty.Register<BossMonsterAilmentView, double>(nameof(Max), 0.0);
+        AvaloniaProperty.Register<BossMonsterAilmentView, double>(nameof(Max));
+
+    public static readonly StyledProperty<bool> IsActiveProperty = AvaloniaProperty.Register<BossMonsterAilmentView, bool>(
+        "IsActive");
+
+    public bool IsActive
+    {
+        get => GetValue(IsActiveProperty);
+        set => SetValue(IsActiveProperty, value);
+    }
 
     public BossMonsterAilmentView()
     {
         InitializeComponent();
+    }
+
+    protected override void OnInitialized() 
+    {
+        base.OnInitialized();
+
+        this[!IsActiveProperty] = new Binding("IsActive");
+
+        PseudoClasses.Set(":active", this.GetObservable(IsActiveProperty));
     }
 }

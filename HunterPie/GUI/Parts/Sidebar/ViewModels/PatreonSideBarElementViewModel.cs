@@ -1,9 +1,8 @@
 ﻿using HunterPie.Core.Architecture;
 using HunterPie.Core.Client;
+using HunterPie.Core.Client.Localization;
+using HunterPie.Core.System.Common;
 using HunterPie.UI.Assets.Application;
-using System.Diagnostics;
-using System.Windows.Media;
-using Localization = HunterPie.Core.Client.Localization.Localization;
 
 namespace HunterPie.GUI.Parts.Sidebar.ViewModels;
 
@@ -14,13 +13,13 @@ internal class PatreonSideBarElementViewModel : Bindable, ISideBarElement
     private bool _shouldNotify;
 
     public ImageSource Icon => Resources.Icon("ICON_PATREON");
-    public string Text => Localization.QueryString("//Strings/Client/Tabs/Tab[@Id='PATREON_STRING']");
+    public string Text => Localization.FindString("Client", "Tabs", "Tab", "PATREON_STRING");
     public bool IsActivable => false;
     public bool IsEnabled => true;
     public bool ShouldNotify { get => _shouldNotify; set => SetValue(ref _shouldNotify, value); }
     public void ExecuteOnClick()
     {
-        _ = Process.Start("explorer", PATREON_URL);
+        Launcher.Open(PATREON_URL);
         RegistryConfig.Set(PATREON_HAS_CLICKED, true);
 
         ShouldNotify = false;

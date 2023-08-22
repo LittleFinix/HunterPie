@@ -1,7 +1,7 @@
-﻿using HunterPie.Features.Notification.ViewModels;
+﻿using Avalonia.Data.Converters;
+using HunterPie.Features.Notification.ViewModels;
 using System;
 using System.Globalization;
-using System.Windows.Data;
 
 namespace HunterPie.Features.Notification.Presentation;
 internal class AppNotificationTypeToAccentConverter : IValueConverter

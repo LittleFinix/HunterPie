@@ -1,5 +1,4 @@
-﻿using Avalonia.Animation;
-using Avalonia.Media;
+﻿using Avalonia.Media;
 using HunterPie.Core.Client.Configuration.Overlay;
 using HunterPie.Core.Extensions;
 using HunterPie.Core.Game.Enums;
@@ -29,7 +28,7 @@ public partial class PlayerHudView : View<PlayerHudViewModel>, IWidget<PlayerHud
     private readonly AbnormalityCategory[] _staminaCategoriesPriority = { AbnormalityCategory.Water, AbnormalityCategory.Ice };
     private readonly AbnormalityCategory[] _recoverableCategoriesPriority = { AbnormalityCategory.NaturalHealing };
 
-    private readonly Dictionary<AbnormalityCategory, Brush> _abnormalityColors = new Dictionary<AbnormalityCategory, Brush>()
+    private readonly Dictionary<AbnormalityCategory, Brush> _abnormalityColors = new Dictionary<AbnormalityCategory, Brush>
     {
         { AbnormalityCategory.Fire, ResourcesService.Get<Brush>("WIDGET_PLAYER_HEALTH_FIRE_FOREGROUND") },
         { AbnormalityCategory.Poison, ResourcesService.Get<Brush>("WIDGET_PLAYER_POISON_FOREGROUND") },

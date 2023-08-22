@@ -1,4 +1,5 @@
 ﻿using HunterPie.Core.Architecture;
+using HunterPie.Core.Client;
 using HunterPie.Core.Client.Configuration.Overlay;
 using HunterPie.Core.Events;
 using HunterPie.Core.Game;
@@ -8,11 +9,9 @@ using HunterPie.Core.Logger;
 using HunterPie.Core.Settings;
 using HunterPie.UI.Overlay.Components;
 using System.Collections.Generic;
-using ClientConfig = HunterPie.Core.Client.ClientConfig;
 
 namespace HunterPie.UI.Overlay;
 
-#nullable enable
 public class WidgetManager : Bindable
 {
     private IContext? _context;
@@ -65,7 +64,7 @@ public class WidgetManager : Bindable
         if (Instance.Widgets.ContainsKey(widget))
             return false;
 
-        var wnd = new WidgetBase() { Widget = widget };
+        var wnd = new WidgetBase { Widget = widget };
         Instance._widgets.Add(widget, wnd);
         wnd.Show();
 
@@ -100,6 +99,8 @@ public class WidgetManager : Bindable
     private void ToggleDesignMode()
     {
         IsDesignModeEnabled = !IsDesignModeEnabled;
+        
+        Log.Info($"Design Mode: {IsDesignModeEnabled}");
 
         foreach (WidgetBase widget in Widgets.Values)
             widget.HandleTransparencyFlag(!IsDesignModeEnabled);
@@ -108,5 +109,6 @@ public class WidgetManager : Bindable
     private void ToggleVisibility()
     {
         Settings.IsEnabled.Value = !Settings.IsEnabled;
+        Log.Info($"HUD Visibility: {Settings.IsEnabled.Value}");
     }
 }

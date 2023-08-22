@@ -1,4 +1,5 @@
-﻿using HunterPie.Core.Address.Map;
+﻿using Avalonia;
+using HunterPie.Core.Address.Map;
 using HunterPie.Core.Domain.Enums;
 using HunterPie.Core.Domain.Interfaces;
 using HunterPie.Core.Domain.Memory;
@@ -6,15 +7,14 @@ using HunterPie.Core.Domain.Process;
 using HunterPie.Core.Events;
 using HunterPie.Core.Extensions;
 using HunterPie.Core.Logger;
+using HunterPie.Core.System.Linux.Memory;
 using HunterPie.Core.System.Windows.Memory;
 using HunterPie.Core.System.Windows.Native;
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
-#nullable enable
 namespace HunterPie.Core.System.Common;
 
 internal abstract class ProcessManagerBase : IProcessManager, IEventDispatcher
@@ -46,6 +46,8 @@ internal abstract class ProcessManagerBase : IProcessManager, IEventDispatcher
     public int ProcessId { get; private set; }
 
     public bool IsRunning { get; private set; }
+    
+    public virtual PixelRect GameArea => Process.GetWindowClientArea();
 
     public bool IsProcessForeground
     {
@@ -71,7 +73,7 @@ internal abstract class ProcessManagerBase : IProcessManager, IEventDispatcher
     {
         Log.Info($"Started scanning for process {Name}...");
 
-        _pooler = new Thread(new ThreadStart(ExecutePolling)) { Name = "PollingBackgroundThread", IsBackground = true, };
+        _pooler = new Thread(ExecutePolling) { Name = "PollingBackgroundThread", IsBackground = true, };
         _pooler.Start();
     }
 
@@ -102,15 +104,21 @@ internal abstract class ProcessManagerBase : IProcessManager, IEventDispatcher
             return;
         }
 
-        Process? mhProcess = Process.GetProcessesByName(Name)
-            .FirstOrDefault(process => !string.IsNullOrEmpty(process.MainWindowTitle));
+        string name = Name;
+
+        // Process name is limited to 16 characters on linux
+        if (OperatingSystem.IsLinux())
+            name = name[..15];
+
+        Process? mhProcess = Process.GetProcessesByName(name).FirstOrDefault();
 
         if (mhProcess is null)
             return;
 
         if (Process is not null)
         {
-            IsProcessForeground = User32.GetForegroundWindow() == Process.MainWindowHandle;
+            // IsProcessForeground = User32.GetForegroundWindow() == Process.MainWindowHandle;
+            IsProcessForeground = true;
             mhProcess.Dispose();
             return;
         }
@@ -132,10 +140,36 @@ internal abstract class ProcessManagerBase : IProcessManager, IEventDispatcher
 
             IsRunning = true;
 
-            if 
-            _memory = new WindowsMemory(pHandle);
+            if (OperatingSystem.IsWindows())
+                _memory = new WindowsMemory(ProcessId);
+            else if (OperatingSystem.IsLinux())
+                _memory = new LinuxMemory(Process);
+            else
+                throw new PlatformNotSupportedException();
 
-            AddressMap.Add("BASE", (long)Process.MainModule.BaseAddress);
+            bool identified = false;
+            
+            for (int i = 0; i < Process.Modules.Count; i++)
+            {
+                if (Process.Modules[i].ModuleName.StartsWith("MonsterHunter"))
+                {
+                    AddressMap.Add("BASE", (long)Process.Modules[i].BaseAddress);
+                    identified = true;
+                    break;
+                }
+            }
+            
+            if (!identified && Process.MainModule.ModuleName.StartsWith("MonsterHunter"))
+            {
+                AddressMap.Add("BASE", (long)Process.MainModule.BaseAddress);
+                identified = true;
+            }
+            
+            if (!identified)
+            {
+                Log.Warn("Failed to find base address, using default");
+                AddressMap.Add("BASE", 0x140000000L);
+            }
 
             this.Dispatch(OnGameStart, new(Name));
         }
@@ -173,4 +207,3 @@ internal abstract class ProcessManagerBase : IProcessManager, IEventDispatcher
     }
 
 }
-#nullable restore

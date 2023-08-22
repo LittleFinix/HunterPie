@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Xml;
 
-#nullable enable
 namespace HunterPie.Core.Client.Localization;
 
 public class Localization
@@ -28,8 +27,13 @@ public class Localization
     private Localization()
     {
         string englishXml = Path.Combine(ClientInfo.LanguagesPath, "en-us.xml");
+
         document = new();
-        document.Load(englishXml);
+        
+        if (File.Exists(englishXml))
+            document.Load(englishXml);
+        else
+            Log.Error("Failed to load en-us localization");
 
         string xmlPath = Path.Combine(ClientInfo.LanguagesPath, ClientConfig.Config.Client.Language);
 
@@ -85,9 +89,38 @@ public class Localization
             : GetFullParentPath(node.ParentNode, $"{node.ParentNode.Name}/{path}");
     }
 
+    public static XmlNode? Find(params string[] keys)
+    {
+        if (keys.Length == 0)
+            return null;
+
+        string attr = keys[^1];
+        string query;
+
+        if (attr.StartsWith('/'))
+            query = attr;
+        else
+            query = "//Strings/" + string.Join('/', keys[..^1]) + $"[@Id='{attr}']";
+        
+        return Instance.document?.SelectSingleNode(query);
+    }
+    
+    public static string FindString(params string[] keys)
+    {
+        return Find(keys)?.Attributes?["String"]?.Value ?? string.Join('.', keys);
+    }
+    public static string FindDescription(params string[] keys)
+    {
+        return Find(keys)?.Attributes?["Description"]?.Value ?? string.Join('.', keys);
+    }
+
+    [Obsolete("Use Find, FindString, FindDescription, or GetEnumString")]
     public static XmlNode? Query(string query) => Instance.document?.SelectSingleNode(query);
-    public static XmlNodeList? QueryMany(string query) => Instance.document?.SelectNodes(query);
-    public static string QueryString(string query) => Instance.document?.SelectSingleNode(query)?.Attributes?["String"]?.Value ?? query;
+    
+    [Obsolete("Use Find, FindString, FindDescription, or GetEnumString")]
+    public static string QueryString(string query) => Query(query)?.Attributes?["String"]?.Value ?? query;
+    
+    [Obsolete("Use Find, FindString, FindDescription, or GetEnumString")]
     public static string QueryDescription(string query) => Query(query)?.Attributes?["Description"]?.Value ?? query;
 
     public static string GetEnumString<T>(T enumValue)
@@ -98,7 +131,8 @@ public class Localization
 
         LocalizationAttribute? attribute = memberInfo.GetCustomAttribute<LocalizationAttribute>();
 
+#pragma warning disable CS0618 // Type or member is obsolete
         return attribute is null ? enumValue.ToString()! : QueryString(attribute.XPath)!;
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }
-#nullable restore

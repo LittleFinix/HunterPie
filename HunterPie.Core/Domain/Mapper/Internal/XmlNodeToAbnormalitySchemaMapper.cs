@@ -8,7 +8,6 @@ using System.Xml;
 
 namespace HunterPie.Core.Domain.Mapper.Internal;
 
-#nullable enable
 internal class XmlNodeToAbnormalitySchemaMapper : IMapper<XmlNode, AbnormalitySchema>
 {
 

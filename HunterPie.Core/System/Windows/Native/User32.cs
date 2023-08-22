@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 namespace HunterPie.Core.System.Windows.Native;
 
+[SupportedOSPlatform("Windows")]
 public static class User32
 {
     [DllImport("user32.dll")]

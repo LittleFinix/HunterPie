@@ -1,3 +1,5 @@
+using HunterPie.Core.Native.IPC.Handlers.Internal.Initialiaze.Models;
+
 namespace HunterPie.Core.Native.IPC.Models;
 
 /// <summary>

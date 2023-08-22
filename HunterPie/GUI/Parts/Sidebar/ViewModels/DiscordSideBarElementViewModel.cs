@@ -1,7 +1,6 @@
-﻿using HunterPie.UI.Assets.Application;
-using System.Diagnostics;
-using System.Windows.Media;
-using Localization = HunterPie.Core.Client.Localization.Localization;
+﻿using HunterPie.Core.Client.Localization;
+using HunterPie.Core.System.Common;
+using HunterPie.UI.Assets.Application;
 
 namespace HunterPie.GUI.Parts.Sidebar.ViewModels;
 
@@ -11,7 +10,7 @@ internal class DiscordSideBarElementViewModel : ISideBarElement
 
     public ImageSource Icon => Resources.Icon("ICON_DISCORD");
 
-    public string Text => Localization.Query("//Strings/Client/Tabs/Tab[@Id='DISCORD_STRING']").Attributes["String"].Value;
+    public string Text => Localization.FindString("Client", "Tabs", "Tab", "DISCORD_STRING");
 
     public bool IsActivable => false;
 
@@ -19,5 +18,5 @@ internal class DiscordSideBarElementViewModel : ISideBarElement
 
     public bool ShouldNotify => false;
 
-    public void ExecuteOnClick() => Process.Start("explorer", DiscordUrl);
+    public void ExecuteOnClick() => Launcher.Open(DiscordUrl);
 }

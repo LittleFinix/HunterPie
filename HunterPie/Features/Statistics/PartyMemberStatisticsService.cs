@@ -12,7 +12,6 @@ using System.Linq;
 
 namespace HunterPie.Features.Statistics;
 
-#nullable enable
 internal class PartyMemberStatisticsService : IHuntStatisticsService<PartyMemberModel>
 {
     private readonly IPartyMember _partyMember;

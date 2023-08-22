@@ -13,7 +13,7 @@ public class TestFeature
 
         // TODO: Find a way to test if a method was called in MSTest
         public string TestCalls = "Nothing";
-        public int CallCount = 0;
+        public int CallCount;
 
         protected override void OnEnable()
         {

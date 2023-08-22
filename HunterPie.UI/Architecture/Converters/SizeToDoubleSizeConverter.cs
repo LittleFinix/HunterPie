@@ -1,20 +1,24 @@
-﻿using System;
+﻿using Avalonia;
+using Avalonia.Data.Converters;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
-using System.Windows;
-using System.Windows.Data;
 
 namespace HunterPie.UI.Architecture.Converters;
 
 public class SizeToDoubleSizeConverter : IMultiValueConverter
 {
-    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    public object Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
     {
-        if (values.Length < 3)
-            return new Thickness(0, 0, 0, 0);
+        if (values.Count < 3)
+            return new Thickness(0);
 
-        double size = (double)values[0];
-        double parentSize = (double)values[2];
-        var parentMargin = (Thickness)values[1];
+        double size = (double?)values[0] ?? 0.0;
+        double parentSize = (double?)values[2] ?? 0.0;
+        var parentMargin = (Thickness?)values[1] ?? new(0);
+
+        if (double.IsNaN(size) || double.IsNaN(parentSize))
+            return new Thickness(0);
 
         double diff = size - parentSize;
 

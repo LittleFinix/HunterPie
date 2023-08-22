@@ -90,7 +90,7 @@
                        Width="25"
                        Height="25"
                        HorizontalAlignment="Left" 
-                       RenderTransformOrigin="0.5,0.5">
+                       RenderTransformOrigin="50%,50%">
                 <Rectangle.RenderTransform>
                     <TransformGroup>
                         <RotateTransform Angle="45"/>

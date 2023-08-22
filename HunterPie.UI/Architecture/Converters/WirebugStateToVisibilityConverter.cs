@@ -1,8 +1,7 @@
-﻿using HunterPie.Integrations.Datasources.MonsterHunterRise.Entity.Enums;
+﻿using Avalonia.Data.Converters;
+using HunterPie.Integrations.Datasources.MonsterHunterRise.Entity.Enums;
 using System;
 using System.Globalization;
-using System.Windows;
-using System.Windows.Data;
 
 namespace HunterPie.UI.Architecture.Converters;
 

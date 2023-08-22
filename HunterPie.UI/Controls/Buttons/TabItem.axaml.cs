@@ -1,7 +1,6 @@
 ﻿using Avalonia;
 using Avalonia.Animation;
 using Avalonia.Controls;
-using System;
 
 namespace HunterPie.UI.Controls.Buttons;
 
@@ -14,7 +13,7 @@ public partial class TabItem : UserControl
     
     public string Title
     {
-        get => (string)GetValue(TitleProperty);
+        get => GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
     }
     
@@ -23,7 +22,7 @@ public partial class TabItem : UserControl
 
     public string Description
     {
-        get => (string)GetValue(DescriptionProperty);
+        get => GetValue(DescriptionProperty);
         set => SetValue(DescriptionProperty, value);
     }
     
@@ -32,7 +31,7 @@ public partial class TabItem : UserControl
 
     public ImageSource Icon
     {
-        get => (ImageSource)GetValue(IconProperty);
+        get => GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
     public static readonly StyledProperty<ImageSource> IconProperty =

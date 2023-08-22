@@ -6,20 +6,29 @@ using System;
 using System.Buffers;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Text;
 
 namespace HunterPie.Core.System.Windows.Memory;
 
+[SupportedOSPlatform("Windows")]
 public class WindowsMemory : IMemory
 {
-    private const long NULLPTR = 0;
-
     private readonly IntPtr _pHandle;
     private readonly ArrayPool<byte> _bufferPool = ArrayPool<byte>.Shared;
 
     public WindowsMemory(IntPtr processHandle)
     {
         _pHandle = processHandle;
+    }
+
+    public WindowsMemory(int pid)
+    {
+        _pHandle = Kernel32.OpenProcess(Kernel32.PROCESS_ALL_ACCESS, false, pid);
+
+        if (_pHandle == IntPtr.Zero)
+            throw new Win32Exception();
+
     }
 
     public string Read(long address, uint length, Encoding encoding = null)
@@ -45,37 +54,6 @@ public class WindowsMemory : IMemory
         return type.IsPrimitive ? ReadPrimitive<T>(address, count) : ReadStructure<T>(address, count);
     }
 
-    public long Read(long address, int[] offsets)
-    {
-        foreach (int offset in offsets)
-        {
-            long tmp = Read<long>(address);
-
-            if (tmp == NULLPTR)
-                return NULLPTR;
-
-            address = tmp + offset;
-        }
-
-        return address;
-    }
-
-    public long ReadPtr(long address, int[] offsets)
-    {
-        foreach (int offset in offsets)
-        {
-            long newAddress = address + offset;
-            long tmp = Read<long>(newAddress);
-
-            if (tmp == NULLPTR)
-                return NULLPTR;
-
-            address = tmp;
-        }
-
-        return address;
-    }
-
     private T[] ReadStructure<T>(long address, uint count) where T : struct
     {
         int size = Marshal.SizeOf<T>() * (int)count;
@@ -97,18 +75,6 @@ public class WindowsMemory : IMemory
         _ = Kernel32.ReadProcessMemory(_pHandle, (IntPtr)address, buffer, lpByteCount, out _);
 
         return buffer;
-    }
-
-    public T Deref<T>(long address, int[] offsets) where T : struct
-    {
-        long ptr = Read(address, offsets);
-        return Read<T>(ptr);
-    }
-
-    public T DerefPtr<T>(long address, int[] offsets) where T : struct
-    {
-        long ptr = ReadPtr(address, offsets);
-        return Read<T>(ptr);
     }
 
     public void Write<T>(long address, T data) where T : struct => throw new NotImplementedException();
@@ -162,7 +128,7 @@ public class WindowsMemory : IMemory
         if (dllNamePtr == IntPtr.Zero)
             throw new Win32Exception();
 
-        Write((long)dllNamePtr, dllPath);
+        Write(dllNamePtr, dllPath);
 
         Log.Debug("Wrote DLL name at {0:X}", dllNamePtr);
 

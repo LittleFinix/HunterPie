@@ -1,4 +1,5 @@
-﻿using HunterPie.Core.Client;
+﻿using Avalonia.Threading;
+using HunterPie.Core.Client;
 using HunterPie.Core.Client.Configuration.Overlay;
 using HunterPie.Core.Domain.Enums;
 using HunterPie.Core.Game;
@@ -50,12 +51,12 @@ public class ChatWidgetContextHandler : IContextHandler
         _viewModel.Categories.Add(General);
 
         foreach (IChatMessage message in _context.Game.Chat.Messages)
-            _view.Dispatcher.Invoke(() =>
+            Dispatcher.UIThread.Invoke(() =>
             {
                 if (message.Type != AuthorType.Player)
                     return;
 
-                General.Elements.Add(new ChatElementViewModel()
+                General.Elements.Add(new ChatElementViewModel
                 {
                     Author = message.Author,
                     Text = message.Message,
@@ -87,12 +88,12 @@ public class ChatWidgetContextHandler : IContextHandler
     }
     private void OnNewChatMessage(object sender, IChatMessage e)
     {
-        _view.Dispatcher.Invoke(() =>
+        Dispatcher.UIThread.Invoke(() =>
         {
             if (e.Type != AuthorType.Player)
                 return;
 
-            General.Elements.Add(new ChatElementViewModel()
+            General.Elements.Add(new ChatElementViewModel
             {
                 Author = e.Author,
                 Text = e.Message,

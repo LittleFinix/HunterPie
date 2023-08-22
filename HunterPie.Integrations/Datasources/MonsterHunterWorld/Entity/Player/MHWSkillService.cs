@@ -1,6 +1,7 @@
 ﻿using HunterPie.Core.Address.Map;
 using HunterPie.Core.Domain;
 using HunterPie.Core.Domain.Process;
+using HunterPie.Core.Extensions;
 using HunterPie.Core.Game.Entity.Player.Skills;
 using HunterPie.Integrations.Datasources.MonsterHunterWorld.Definitions;
 

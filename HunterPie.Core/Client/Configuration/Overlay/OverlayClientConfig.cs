@@ -1,6 +1,6 @@
-﻿using HunterPie.Core.Architecture;
+﻿using Avalonia.Input;
+using HunterPie.Core.Architecture;
 using HunterPie.Core.Settings;
-using HunterPie.Core.Settings.Types;
 
 namespace HunterPie.Core.Client.Configuration.Overlay;
 
@@ -11,10 +11,10 @@ public class OverlayClientConfig : ISettings
     public Observable<bool> IsEnabled { get; set; } = true;
 
     [SettingField("OVERLAY_KEYBINDING_TOGGLE_VISIBILITY_STRING")]
-    public Keybinding ToggleVisibility { get; set; } = "Ctrl+Alt+O";
+    public KeyGesture ToggleVisibility { get; set; } = KeyGesture.Parse("Ctrl+Alt+V");
 
     [SettingField("OVERLAY_KEYBINDING_TOGGLE_DESIGN_MODE", requiresRestart: true)]
-    public Keybinding ToggleDesignMode { get; set; } = "ScrollLock";
+    public KeyGesture ToggleDesignMode { get; set; } = KeyGesture.Parse("Scroll");
 
     [SettingField("OVERLAY_HIDE_WHEN_GAME_UNFOCUS_STRING")]
     public Observable<bool> HideWhenUnfocus { get; set; } = false;

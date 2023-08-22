@@ -24,7 +24,7 @@
                    Grid.ColumnSpan="3"
                    Height="2">
             <Rectangle.Fill>
-                <LinearGradientBrush EndPoint="1,1" StartPoint="0,1">
+                <LinearGradientBrush EndPoint="100%,100%" StartPoint="0%,100%">
                     <GradientStop Color="#00000000"/>
                     <GradientStop Color="#33FFFFFF" Offset="0.902"/>
                     <GradientStop Color="#AAFFFFFF" Offset="1"/>

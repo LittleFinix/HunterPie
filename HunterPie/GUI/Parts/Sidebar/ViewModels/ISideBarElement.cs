@@ -1,6 +1,4 @@
-﻿using System.Windows.Media;
-
-namespace HunterPie.GUI.Parts.Sidebar.ViewModels;
+﻿namespace HunterPie.GUI.Parts.Sidebar.ViewModels;
 
 public interface ISideBarElement
 {

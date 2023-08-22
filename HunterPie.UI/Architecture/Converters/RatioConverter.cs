@@ -1,21 +1,22 @@
-﻿using System;
+﻿using Avalonia.Data.Converters;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
-using System.Windows.Data;
 using Converter = System.Convert;
 
 namespace HunterPie.UI.Architecture.Converters;
 
 public class RatioConverter : IMultiValueConverter
 {
-    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+    public object Convert(IList<object?> values, Type targetType, object parameter, CultureInfo culture)
     {
-        if (values.Length < 2)
+        if (values.Count < 2)
             return 0.0;
 
         try
         {
-            double a = Converter.ToDouble(values[0]);
-            double b = Converter.ToDouble(values[1]);
+            double a = ConverterHelper.ToDouble(values[0]);
+            double b = ConverterHelper.ToDouble(values[1]);
 
             return a / Math.Max(1, b);
         }

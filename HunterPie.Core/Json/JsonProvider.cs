@@ -2,7 +2,6 @@
 using Newtonsoft.Json.Converters;
 using System;
 
-#nullable enable
 namespace HunterPie.Core.Json;
 
 public static class JsonProvider
@@ -21,7 +20,7 @@ public static class JsonProvider
 
     private static readonly Lazy<JsonSerializerSettings> NewSerializeSettings = new(() =>
     {
-        var serializer = new JsonSerializerSettings()
+        var serializer = new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.Auto,
             NullValueHandling = NullValueHandling.Ignore,
@@ -51,4 +50,3 @@ public static class JsonProvider
     public static T Deserialize<T>(string value) =>
         JsonConvert.DeserializeObject<T>(value)!;
 }
-#nullable restore

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Avalonia.Data.Converters;
+using System;
 using System.Globalization;
-using System.Windows.Data;
 using Converter = System.Convert;
 
 namespace HunterPie.UI.Architecture.Converters;
@@ -10,7 +10,7 @@ public class SecondsToTimeString : IValueConverter
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         string timeFormat = "mm\\:ss";
-        double val = Converter.ToDouble(value);
+        double val = ConverterHelper.ToDouble(value);
 
         if (val is double.NaN)
             val = 0.0;

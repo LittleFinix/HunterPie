@@ -14,7 +14,7 @@ internal class MockHarvestBoxViewModel : HarvestBoxViewModel
     private void SetupFertilizers()
     {
         Fertilizers.Add(
-            new HarvestFertilizerViewModel()
+            new HarvestFertilizerViewModel
             {
                 Amount = 8,
                 Fertilizer = Fertilizer.FungiL,
@@ -22,7 +22,7 @@ internal class MockHarvestBoxViewModel : HarvestBoxViewModel
             }
         );
         Fertilizers.Add(
-            new HarvestFertilizerViewModel()
+            new HarvestFertilizerViewModel
             {
                 Amount = 4,
                 Fertilizer = Fertilizer.GrowthL,
@@ -31,7 +31,7 @@ internal class MockHarvestBoxViewModel : HarvestBoxViewModel
             }
         );
         Fertilizers.Add(
-            new HarvestFertilizerViewModel()
+            new HarvestFertilizerViewModel
             {
                 Amount = 5,
                 Fertilizer = Fertilizer.HoneyL,
@@ -39,7 +39,7 @@ internal class MockHarvestBoxViewModel : HarvestBoxViewModel
             }
         );
         Fertilizers.Add(
-            new HarvestFertilizerViewModel()
+            new HarvestFertilizerViewModel
             {
                 Amount = 6,
                 Fertilizer = Fertilizer.PlantL,

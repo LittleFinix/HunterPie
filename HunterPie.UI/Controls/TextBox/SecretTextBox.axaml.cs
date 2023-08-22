@@ -1,7 +1,5 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
-using System;
 
 namespace HunterPie.UI.Controls.TextBox;
 
@@ -12,7 +10,7 @@ public partial class SecretTextBox : UserControl
 {
     public string Text
     {
-        get => (string)GetValue(TextProperty);
+        get => GetValue(TextProperty);
         set => SetValue(TextProperty, value);
     }
     public static readonly StyledProperty<string> TextProperty =
@@ -20,12 +18,12 @@ public partial class SecretTextBox : UserControl
 
     public bool IsContentVisible
     {
-        get => (bool)GetValue(IsContentVisibleProperty);
+        get => GetValue(IsContentVisibleProperty);
         set => SetValue(IsContentVisibleProperty, value);
     }
 
     public static readonly StyledProperty<bool> IsContentVisibleProperty =
-        AvaloniaProperty.Register<SecretTextBox, bool>(nameof(IsContentVisible), false);
+        AvaloniaProperty.Register<SecretTextBox, bool>(nameof(IsContentVisible));
 
     public SecretTextBox()
     {

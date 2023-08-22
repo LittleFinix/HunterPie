@@ -21,7 +21,7 @@ internal static class Steam
 
         try
         {
-            _ = Process.Start(new ProcessStartInfo()
+            _ = Process.Start(new ProcessStartInfo
             {
                 FileName = $"steam://run/{appId}",
                 UseShellExecute = true

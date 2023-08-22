@@ -1,8 +1,8 @@
-﻿using HunterPie.Core.Client.Localization;
+﻿using Avalonia.Data.Converters;
+using HunterPie.Core.Client.Localization;
 using HunterPie.Integrations.Datasources.MonsterHunterWorld.Entity.Environment.Activities.Enums;
 using System;
 using System.Globalization;
-using System.Windows.Data;
 
 namespace HunterPie.UI.Architecture.Converters;
 
@@ -27,7 +27,7 @@ public class FertilizerToNameConverter : IValueConverter
             _ => throw new ArgumentOutOfRangeException(nameof(value), value, null)
         };
 
-        return Localization.QueryString($"//Strings/Fertilizers/Fertilizer[@Id='{localizationId}']");
+        return Localization.FindString("Fertilizers", "Fertilizer", localizationId);
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();

@@ -2,9 +2,6 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using HunterPie.UI.Architecture.Extensions;
-using System;
-using System.ComponentModel;
 
 namespace HunterPie.UI.Windows;
 
@@ -41,12 +38,12 @@ public partial class WindowHeader : UserControl
 
     private void OnMinimizeButtonClick(object sender, RoutedEventArgs e) => Owner.WindowState = WindowState.Minimized;
 
-    private void OnLeftMouseDown(object sender, PointerPressedEventArgs e)
+    private void OnLoaded(object sender, RoutedEventArgs e) => Owner = (Window) TopLevel.GetTopLevel(this)!;
+
+    protected override void OnPointerPressed(PointerPressedEventArgs e)
     {
         IsMouseDown = true;
         Owner.BeginMoveDrag(e);
         IsMouseDown = false;
     }
-
-    private void OnLoaded(object sender, RoutedEventArgs e) => Owner = (Window) Window.GetTopLevel(this);
 }

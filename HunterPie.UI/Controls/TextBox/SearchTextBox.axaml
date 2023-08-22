@@ -26,7 +26,7 @@
                             Background="{StaticResource GRAY_300}"
                             BorderThickness="0,0,1,0"
                             BorderBrush="{StaticResource GRAY}"
-                            Command="{Binding $parent[local:SearchTextBox].OnSearchClick}"
+                            Click="OnSearchClick"
                             HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Stretch"
                             CornerRadius="4.5,0,0,4.5">
@@ -46,7 +46,7 @@
                      TextAlignment="Left"
                      FontFamily="{StaticResource HUNTERPIE_DEFAULT_FONT}"
                      d:Text="Search..."
-                     Text="{Binding SearchText.Value}"
+                     Text="{Binding $parent[local:SearchTextBox].SearchText}"
                      BorderThickness="0"
                      TextChanged="OnTextChanged"
                      KeyUp="OnKeyUp"
@@ -64,7 +64,6 @@
                     </RectangleGeometry>
                 </TextBox.Clip>
             </TextBox>
-            
         </Grid>
     </Border>
 </UserControl>

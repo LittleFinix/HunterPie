@@ -9,7 +9,7 @@ public partial class Prompt : UserControl
 {
     public Thickness IconMargin
     {
-        get => (Thickness)GetValue(IconMarginProperty);
+        get => GetValue(IconMarginProperty);
         set => SetValue(IconMarginProperty, value);
     }
 
@@ -19,7 +19,7 @@ public partial class Prompt : UserControl
 
     public ImageSource Icon
     {
-        get => (ImageSource)GetValue(IconProperty);
+        get => GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
 
@@ -29,7 +29,7 @@ public partial class Prompt : UserControl
 
     public string Message
     {
-        get => (string)GetValue(MessageProperty);
+        get => GetValue(MessageProperty);
         set => SetValue(MessageProperty, value);
     }
 

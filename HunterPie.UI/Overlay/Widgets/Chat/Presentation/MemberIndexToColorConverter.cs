@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Avalonia.Data.Converters;
+using Avalonia.Media;
+using System;
 using System.Globalization;
-using System.Windows.Data;
-using System.Windows.Media;
 
 namespace HunterPie.UI.Overlay.Widgets.Chat.Presentation;
 

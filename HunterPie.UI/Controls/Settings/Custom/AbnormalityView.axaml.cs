@@ -1,6 +1,5 @@
 ﻿using Avalonia.Controls;
 using HunterPie.UI.Controls.Settings.Custom.Abnormality;
-using System;
 
 namespace HunterPie.UI.Controls.Settings.Custom;
 

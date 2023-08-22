@@ -1,4 +1,6 @@
-﻿using HunterPie.Core.Client;
+﻿using Avalonia.Interactivity;
+using HunterPie.Core.Client;
+using HunterPie.Core.Client.Localization;
 using HunterPie.Core.Domain.Enums;
 using HunterPie.Core.Domain.Features;
 using HunterPie.Core.Settings;
@@ -10,12 +12,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Windows;
-using System.Windows.Data;
 using System.Xml;
-using Localization = HunterPie.Core.Client.Localization.Localization;
 using Range = HunterPie.Core.Settings.Types.Range;
-#nullable enable
+
 namespace HunterPie.UI.Settings;
 
 public class VisualConverterManager
@@ -71,9 +70,9 @@ public class VisualConverterManager
                 if (!metadata.AvailableGames.HasFlag(currentConfiguration))
                     continue;
 
-                XmlNode locNode = Localization.Query($"//Strings/Client/Settings/Setting[@Id='{metadata.Name}']");
-                string title = locNode?.Attributes["String"].Value ?? metadata.Name;
-                string description = locNode?.Attributes["Description"].Value ?? metadata.Description;
+                XmlNode? locNode = Localization.Find("Client", "Settings", "Setting", metadata.Name);
+                string title = locNode?.Attributes?["String"]?.Value ?? metadata.Name;
+                string description = locNode?.Attributes?["Description"]?.Value ?? metadata.Description;
 
                 SettingElementViewModel vm = new(title, description, metadata.Icon);
 
@@ -102,7 +101,7 @@ public class VisualConverterManager
             if (metadata is null)
                 continue;
 
-            XmlNode locNode = Localization.Query($"//Strings/Client/Settings/Setting[@Id='{metadata.Name}']");
+            XmlNode? locNode = Localization.Find("Client", "Settings", "Setting", metadata.Name);
             string title = locNode?.Attributes["String"]?.Value ?? metadata.Name;
             string description = locNode?.Attributes["Description"]?.Value ?? metadata.Description;
 
@@ -145,7 +144,7 @@ public class VisualConverterManager
                 if (!meta.AvailableGames.HasFlag(currentConfiguration))
                     continue;
 
-                XmlNode locNode = Localization.Query($"//Strings/Client/Settings/Setting[@Id='{meta.Name}']");
+                XmlNode? locNode = metadata is not null ? Localization.Find("Client", "Settings", "Setting", metadata.Name) : null;
                 string title = locNode?.Attributes?["String"]?.Value ?? meta.Name;
                 string description = locNode?.Attributes?["Description"]?.Value ?? meta.Description;
 
@@ -161,7 +160,7 @@ public class VisualConverterManager
                 if (metadata is null)
                     continue;
 
-                XmlNode locNode = Localization.Query($"//Strings/Client/Settings/Setting[@Id='{metadata.Name}']");
+                XmlNode? locNode = Localization.Find("Client", "Settings", "Setting", metadata.Name);
                 string title = locNode?.Attributes?["String"]?.Value ?? metadata.Name;
                 string description = locNode?.Attributes?["Description"]?.Value ?? metadata.Description;
 
@@ -202,11 +201,12 @@ public class VisualConverterManager
 
         return type.IsEnum
             ? ConvertElementHelper(typeof(Enum), parent, childInfo)
-            : !Instance._converters.ContainsKey(type) ? null : (UIElement)ConvertElementHelper(type, parent, childInfo);
+            : !Instance._converters.ContainsKey(type) ? null : ConvertElementHelper(type, parent, childInfo);
     }
 
     private static FrameworkElement ConvertElementHelper(Type type, object parent, PropertyInfo childInfo)
     {
+        // FrameworkElement uiElement = new Button();
         FrameworkElement uiElement = Instance._converters[type].Build(parent, childInfo);
 
         uiElement.Unloaded += UICleanup;
@@ -219,8 +219,7 @@ public class VisualConverterManager
         if (sender is FrameworkElement element)
         {
             element.Unloaded -= UICleanup;
-            BindingOperations.ClearAllBindings(element);
+            // BindingOperations.ClearAllBindings(element);
         }
     }
 }
-#nullable restore

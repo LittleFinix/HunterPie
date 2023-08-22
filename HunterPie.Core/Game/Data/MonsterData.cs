@@ -6,7 +6,6 @@ using System.Globalization;
 using System.Linq;
 using System.Xml;
 
-#nullable enable
 namespace HunterPie.Core.Game.Data;
 
 public class MonsterData
@@ -186,6 +185,5 @@ public class MonsterData
             : Monsters[id].Parts.Length == 0 || index >= Monsters[id].Parts.Length ? null : Monsters[id].Parts[index];
     }
 
-    public static AilmentDataSchema GetAilmentData(int id) => !Ailments.ContainsKey(id) ? new AilmentDataSchema() { String = $"{id}_UNKNOWN", IsUnknown = true } : Ailments[id];
+    public static AilmentDataSchema GetAilmentData(int id) => !Ailments.ContainsKey(id) ? new AilmentDataSchema { String = $"{id}_UNKNOWN", IsUnknown = true } : Ailments[id];
 }
-#nullable restore

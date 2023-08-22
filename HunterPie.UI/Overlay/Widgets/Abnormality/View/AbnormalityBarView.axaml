@@ -68,12 +68,10 @@
                                     </Style>
                                     <Style Selector="local|AbnormalityBarView.isBuildup ^">
                                         <Setter Property="Text">
-                                            <Template>
-                                                <MultiBinding Converter="{StaticResource RatioConverter}" StringFormat="{}{0:P0}">
-                                                    <Binding Path="DataContext.Timer" ElementName="PART_ABNORMALITY"/>
-                                                    <Binding Path="DataContext.MaxTimer" ElementName="PART_ABNORMALITY"/>
-                                                </MultiBinding>
-                                            </Template>
+                                            <MultiBinding Converter="{StaticResource RatioConverter}" StringFormat="{}{0:P0}">
+                                                <Binding Path="DataContext.Timer" ElementName="PART_ABNORMALITY"/>
+                                                <Binding Path="DataContext.MaxTimer" ElementName="PART_ABNORMALITY"/>
+                                            </MultiBinding>
                                         </Setter>
                                     </Style>
                                     <Style Selector="local|AbnormalityBarView.isInfinite ^">

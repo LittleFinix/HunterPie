@@ -3,7 +3,7 @@ using HunterPie.UI.Assets.Application;
 using HunterPie.UI.Controls.Settings.ViewModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows.Media;
+using System.Reflection;
 
 namespace HunterPie.UI.Controls.Flags;
 
@@ -13,7 +13,7 @@ public class FeatureFlagsView : ISettingElement
 
     public string Description => "Feature flags configuration";
 
-    public ImageSource Icon => Resources.Icon("ICON_FLAG");
+    public ImageSource? Icon => Resources.Icon("ICON_FLAG");
 
     public ObservableCollection<ISettingElementType> Elements { get; } = new();
 
@@ -21,7 +21,7 @@ public class FeatureFlagsView : ISettingElement
     {
         foreach ((string featName, IFeature feat) in features)
         {
-            System.Reflection.PropertyInfo info = feat.GetType().GetProperty(nameof(IFeature.IsEnabled));
+            PropertyInfo info = feat.GetType().GetProperty(nameof(IFeature.IsEnabled));
             //string name = featName.Replace("_", "__");
             ISettingElementType el = new SettingElementType(featName, featName, feat, info, true);
             Elements.Add(el);

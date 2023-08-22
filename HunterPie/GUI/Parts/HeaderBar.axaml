@@ -60,14 +60,25 @@
         
         <!-- Right container -->
         <StackPanel HorizontalAlignment="Right"
-                    Orientation="Horizontal">
-            <Button Width="{Binding Height, RelativeSource={RelativeSource Self}}"
-                           Padding="0"
-                           BorderThickness="0"
-                           Click="OnNotificationsClick"
-                           HorizontalContentAlignment="Stretch"
-                           VerticalContentAlignment="Stretch"
-                           x:Name="PART_NotificationButton">
+                    Orientation="Horizontal"
+                    Button.Height="{Binding $self.Height}"
+                    Button.Width="{Binding $self.Height}"
+                    >
+            <StackPanel.Styles>
+                <Style Selector="Button">
+                    <Setter Property="Height" Value="25" />
+                    <Setter Property="Width" Value="{Binding $self.Height}" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="ClipToBounds" Value="False" />
+                    <Setter Property="Background" Value="Transparent" />
+                </Style>
+            </StackPanel.Styles>
+            <Button Padding="0"
+                    BorderThickness="0"
+                    Click="OnNotificationsClick"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    x:Name="PART_NotificationButton">
                 <image:Icon Image="{StaticResource ICON_BELL}"
                             Foreground="{StaticResource WHITE_300}"
                             Margin="2"/>
@@ -77,20 +88,20 @@
                                      Center="12,12"/>
                 </Button.Clip>
             </Button>
-            <Button 
-                Content="_"
+            <Button
                 FontSize="14"
                 Command="{Binding MinimizeApplication}"
-                Width="{Binding Path=Height, RelativeSource={RelativeSource Self}}"
-                />
-            
+                VerticalContentAlignment="Bottom">
+                <Button.Content>
+                    <TextBlock Text="_" />
+                </Button.Content>
+            </Button>
             <Button 
                 Content="✕"
                 Background="{StaticResource HUNTERPIE_ACCENT_COLOR}"
                 FontSize="15"
-                Width="{Binding Path=Height, RelativeSource={RelativeSource Self}}"
                 Command="{Binding CloseApplication}"
-                HorizontalAlignment="Right"/>
+                HorizontalAlignment="Right" />
 
         </StackPanel>
     </Grid>

@@ -9,7 +9,6 @@ using System.Collections.Generic;
 
 namespace HunterPie.Features.Statistics;
 
-#nullable enable
 internal class MonsterStatisticsService : IHuntStatisticsService<MonsterModel>
 {
     private readonly IContext _context;

@@ -32,7 +32,7 @@ public partial class HeaderBar : View<HeaderBarViewModel>
 
     private void OnCloseButtonClick(object sender, EventArgs e) => ViewModel.CloseApplication();
     private void OnMinimizeButtonClick(object sender, EventArgs e) => ViewModel.MinimizeApplication();
-    private void OnLeftMouseDown(object sender, PointerPressedEventArgs e) => ViewModel.DragApplication();
+    private void OnLeftMouseDown(object sender, PointerPressedEventArgs e) => ViewModel.DragApplication(e);
     private void OnNotificationsClick(object sender, RoutedEventArgs e) => ViewModel.IsNotificationsToggled = !ViewModel.IsNotificationsToggled;
     private void HandleNotificationFeatureFlag()
     {

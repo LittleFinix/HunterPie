@@ -1,10 +1,9 @@
-﻿using HunterPie.Core.Architecture;
+﻿using Avalonia.Controls;
+using Avalonia.Interactivity;
+using Avalonia.Threading;
+using HunterPie.Core.Architecture;
 using HunterPie.UI.Overlay;
 using System;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Threading;
 
 namespace HunterPie.UI.Architecture;
 
@@ -13,7 +12,7 @@ public class View<TViewModel> : UserControl, IDisposable, IView<TViewModel>
 {
     public TViewModel ViewModel => (TViewModel)DataContext;
 
-    public Dispatcher UIThread => Application.Current.Dispatcher;
+    public Dispatcher UIThread => Dispatcher.UIThread;
 
     protected virtual TViewModel InitializeViewModel(params object[] args)
     {
@@ -28,7 +27,8 @@ public class View<TViewModel> : UserControl, IDisposable, IView<TViewModel>
 
         return Activator.CreateInstance<TViewModel>();
     }
-    protected bool IsDesignMode => DesignerProperties.GetIsInDesignMode(this);
+
+    protected bool IsDesignMode => false; // DesignerProperties.GetIsInDesignMode(this);
 
     public View()
     {
@@ -40,9 +40,9 @@ public class View<TViewModel> : UserControl, IDisposable, IView<TViewModel>
         DataContext = InitializeViewModel(args);
     }
 
-    protected override void OnInitialized(EventArgs e)
+    protected override void OnInitialized()
     {
-        base.OnInitialized(e);
+        base.OnInitialized();
 
         if (IsDesignMode)
             return;

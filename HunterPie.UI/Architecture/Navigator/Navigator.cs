@@ -1,8 +1,5 @@
-﻿using System.Windows;
+﻿namespace HunterPie.UI.Architecture.Navigator;
 
-namespace HunterPie.UI.Architecture.Navigator;
-
-#nullable enable
 public class Navigator
 {
     private static INavigator? _instance;

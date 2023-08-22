@@ -1,7 +1,7 @@
-﻿using HunterPie.Core.Client.Localization;
+﻿using Avalonia.Data.Converters;
+using HunterPie.Core.Client.Localization;
 using System;
 using System.Globalization;
-using System.Windows.Data;
 
 namespace HunterPie.UI.Architecture.Converters;
 

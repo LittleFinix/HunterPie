@@ -56,7 +56,7 @@
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Left"
                 Width="50"
-                RenderTransformOrigin="0.5,0.5"
+                RenderTransformOrigin="50%,50%"
                 Margin="-22,0,18,12">
             <Border.RenderTransform>
                 <SkewTransform AngleX="45"/>
@@ -68,7 +68,7 @@
                        Foreground="{StaticResource WHITE_300}"
                        FontWeight="Medium"
                        VerticalAlignment="Center"
-                       RenderTransformOrigin="0.5,0.5">
+                       RenderTransformOrigin="50%,50%">
                 <TextBlock.RenderTransform>
                     <SkewTransform AngleX="-45"/>
                 </TextBlock.RenderTransform>
@@ -83,7 +83,7 @@
                    Height="12"
                    VerticalAlignment="Bottom"
                    Margin="-9.5,0,18,1"
-                   RenderTransformOrigin="0.5,0.5"
+                   RenderTransformOrigin="50%,50%"
                    x:Name="PART_PiercingBindGauge">
             <Rectangle.RenderTransform>
                 <SkewTransform AngleX="45"/>
@@ -100,7 +100,7 @@
                 HorizontalAlignment="Left"
                 d:Width="150"
                 Margin="{Binding Margin, ElementName=PART_PiercingBindGauge, Mode=OneWay}"
-                RenderTransformOrigin="0.5,0.5">
+                RenderTransformOrigin="50%,50%">
             <Border.RenderTransform>
                 <SkewTransform AngleX="45"/>
             </Border.RenderTransform>
@@ -124,7 +124,7 @@
                 HorizontalAlignment="Left"
                 Width="50"
                 Margin="-22,12,0,0"
-                RenderTransformOrigin="0.5,0.5">
+                RenderTransformOrigin="50%,50%">
             <Border.RenderTransform>
                 <SkewTransform AngleX="-45"/>
             </Border.RenderTransform>
@@ -134,7 +134,7 @@
                        VerticalAlignment="Center"
                        Foreground="{StaticResource WHITE_300}"
                        FontWeight="Medium"
-                       RenderTransformOrigin="0.5,0.5">
+                       RenderTransformOrigin="50%,50%">
                 <TextBlock.RenderTransform>
                     <SkewTransform AngleX="45"/>
                 </TextBlock.RenderTransform>
@@ -210,7 +210,7 @@
                 Width="{Binding Height, RelativeSource={RelativeSource Self}}"
                 HorizontalAlignment="Left"
                 Margin="15" 
-                RenderTransformOrigin="0.5,0.5"
+                RenderTransformOrigin="50%,50%"
                 d:Background="{StaticResource COMMON_CLASS_HELPER_BACKGROUND}"
                 d:BorderBrush="{StaticResource GRAY_50}"
                 BorderThickness="1">
@@ -222,7 +222,7 @@
             <image:Icon Image="{StaticResource ICON_DEMON_MODE}"
                         d:Foreground="{StaticResource GRAY_50}"
                         Margin="8,8,5,5" 
-                        RenderTransformOrigin="0.5,0.5">
+                        RenderTransformOrigin="50%,50%">
                 <image:Icon.RenderTransform>
                     <TransformGroup>
                         <RotateTransform Angle="-45"/>

@@ -3,79 +3,82 @@
            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-           xmlns:local="using:HunterPie.UI.Overlay.Widgets.Monster.Views"
-           xmlns:arch="using:HunterPie.UI.Architecture"
+           xmlns:local="clr-namespace:HunterPie.UI.Overlay.Widgets.Monster.Views"
+           xmlns:arch="clr-namespace:HunterPie.UI.Architecture"
            xmlns:viewmodels="using:HunterPie.UI.Overlay.Widgets.Monster.ViewModels"
            xmlns:converters="using:HunterPie.UI.Architecture.Converters"
            xmlns:enums="clr-namespace:HunterPie.Core.Client.Configuration.Enums;assembly=HunterPie.Core"
            xmlns:overlay="using:HunterPie.UI.Overlay.Components"
+           xmlns:overlay1="clr-namespace:HunterPie.Core.Client.Configuration.Overlay;assembly=HunterPie.Core"
            mc:Ignorable="d"
            Classes.isDynamicSize="{Binding $self.Settings.DynamicResize}"
            x:TypeArguments="viewmodels:MonstersViewModel"
            x:DataType="viewmodels:MonstersViewModel">
+    <Design.DataContext>
+        <viewmodels:MonstersViewModel>
+            <viewmodels:MonstersViewModel.Monsters>
+                <viewmodels:MockBossMonsterViewModel />
+            </viewmodels:MonstersViewModel.Monsters>
+        </viewmodels:MonstersViewModel>
+    </Design.DataContext>
     <UserControl.Resources>
-        <converters:OrientationConverter x:Key="OrientationConverter"/>
-        <converters:DynamicMonsterBarSizeConverter x:Key="DynamicMonsterBarSizeConverter"/>
-        <converters:BindingMultiplierConverter x:Key="BindingMultiplierConverter"/>
-        <enums:Orientation x:Key="OHorizontal">Horizontal</enums:Orientation>
-        <enums:Orientation x:Key="OVertical">Vertical</enums:Orientation>
+        <converters:BindingMultiplierConverter x:Key="BindingMultiplierConverter" />
+        <converters:DynamicMonsterBarSizeConverter x:Key="DynamicMonsterBarSizeConverter" />
     </UserControl.Resources>
+    <UserControl.Styles>
+        <Style Selector="ItemsControl#PART_Monsters">
+            <!-- <Setter Property="Width" Value="{x:Static AvaloniaProperty.UnsetValue}"/> -->
+            <Style Selector="local|MonstersView.isDynamicSize[Orientation=Horizontal] ^">
+                <Setter Property="Width">
+                    <MultiBinding Converter="{StaticResource BindingMultiplierConverter}">
+                        <Binding Path="$parent[local:MonstersView].Settings.MinWidth.Current"/>
+                        <Binding Path="MonstersCount" />
+                    </MultiBinding>
+                </Setter>
+            </Style>
+        </Style>
+    </UserControl.Styles>
     <Grid>
-        <ItemsControl ItemsSource="{Binding Monsters}"
+        <ItemsControl x:DataType="viewmodels:MonstersViewModel"
+                      Name="PART_Monsters"
+                      ItemsSource="{Binding Monsters}"
                       HorizontalAlignment="Center">
-            <ItemsControl.Styles>
-                <Style Selector="ItemsControl">
-                    <Setter Property="Width" Value="NaN"/>
-                    <Style Selector="local|MonstersView.isDynamicSize[Orientation=Horizontal] ^">
-                        <Setter Property="Width">
-                            <Template>
-                                <MultiBinding Converter="{StaticResource BindingMultiplierConverter}">
-                                    <Binding Path="Settings.MinWidth.Current" RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"/>
-                                    <Binding Path="DataContext.MonstersCount" RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"/>
-                                </MultiBinding>
-                            </Template>
-                        </Setter>
-                    </Style>
-                </Style>
-            </ItemsControl.Styles>
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel Orientation="{Binding Settings.Orientation.Value, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}, Converter={StaticResource OrientationConverter}}"
-                               
+                    <WrapPanel Orientation="{Binding $parent[UserControl].Settings.Orientation.Value, Converter={StaticResource OrientationConverter}}"
+                               Width="{Binding $parent[ItemsControl].Width}"
+                               Height="{Binding $parent[ItemsControl].Height}"
                                HorizontalAlignment="Center"/>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
-
             <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type viewmodels:BossMonsterViewModel}">
-                    <local:BossMonsterView MinWidth="{Binding Settings.MinWidth.Current, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                                           MaxWidth="{Binding Settings.MaxWidth.Current, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                <DataTemplate DataType="viewmodels:BossMonsterViewModel">
+                    <local:BossMonsterView MinWidth="{Binding $parent[local:MonstersView].Settings.MinWidth.Current}"
+                                           MaxWidth="{Binding $parent[local:MonstersView].Settings.MaxWidth.Current}"
                                            Classes.isTarget="{Binding IsTarget}"
                                            Classes.isAlive="{Binding IsAlive}"
                                            Classes.isCapturable="{Binding IsCapturable}"
                                            >
                         <local:BossMonsterView.Styles>
                             <Style Selector="local|BossMonsterView">
-                                <Setter Property="IsVisible" Value="False"/>
-                                <Style Selector="^.isTarget">
-                                    <Setter Property="IsVisible" Value="True" />
-                                </Style>
-                                <Style Selector="^:not(.isAlive)">
-                                    <Setter Property="IsVisible" Value="False" />
-                                </Style>
-                                <Style Selector="local|MonstersView:not(.isDynamicSize) ^">
-                                    <Setter Property="Width" Value="{Binding Settings.MaxWidth.Current, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
-                                </Style>
-                                <Style Selector="local|MonstersView.isDynamicSize ^">
-                                    <Setter Property="Width">
-                                        <Template>
-                                            <MultiBinding Converter="{StaticResource DynamicMonsterBarSizeConverter}">
-                                                <Binding Path="Settings.MinWidth.Current" RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"/>
-                                                <Binding Path="DataContext.VisibleMonsters" RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"/>
-                                            </MultiBinding>
-                                        </Template>
-                                    </Setter>
-                                </Style>
+                            <Setter Property="IsVisible" Value="False"/>
+                            <Style Selector="^.isTarget">
+                                <Setter Property="IsVisible" Value="True" />
+                            </Style>
+                            <Style Selector="^:not(.isAlive)">
+                                <Setter Property="IsVisible" Value="False" />
+                            </Style>
+                            <Style Selector="local|MonstersView:not(.isDynamicSize) ^">
+                                <Setter Property="Width" Value="{Binding Settings.MaxWidth.Current, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+                            </Style>
+                            <Style Selector="local|MonstersView.isDynamicSize ^">
+                                <Setter Property="Width">
+                                    <MultiBinding Converter="{StaticResource DynamicMonsterBarSizeConverter}">
+                                        <Binding Path="Settings.MinWidth.Current" RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"/>
+                                        <Binding Path="DataContext.VisibleMonsters" RelativeSource="{RelativeSource AncestorType={x:Type UserControl}}"/>
+                                    </MultiBinding>
+                                </Setter>
+                            </Style>
                             </Style>
                         </local:BossMonsterView.Styles>
                     </local:BossMonsterView>

@@ -1,12 +1,11 @@
-﻿
-using DiscordRPC;
-using HunterPie.Core.Client;
+﻿using HunterPie.Core.Client;
 using HunterPie.Core.Client.Configuration.Integrations;
 using HunterPie.Core.Client.Localization;
 using HunterPie.Core.Game.Entity.Enemy;
 using HunterPie.Core.Game.Enums;
 using HunterPie.Integrations.Datasources.MonsterHunterSunbreakDemo;
 using HunterPie.Integrations.Datasources.MonsterHunterSunbreakDemo.Entity.Game;
+using NetDiscordRpc.RPC;
 using System.Linq;
 
 namespace HunterPie.Integrations.Discord;
@@ -50,7 +49,7 @@ internal sealed class RiseSunbreakDemoRichPresence : RichPresence
         }
 
         _ = Presence.WithDetails(description)
-            .WithAssets(new Assets()
+            .WithAssets(new Assets
             {
                 LargeImageText = MHRSunbreakDemoContext.Strings.GetStageNameById(game.Player.StageId),
                 LargeImageKey = game.Player.StageId == -1

@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Markup;
 
 namespace HunterPie.Internal.Initializers;
 
@@ -14,6 +12,7 @@ internal class CustomThemeInitializer : IInitializer
 {
     public Task Init()
     {
+        return Task.CompletedTask;
         string themePath = Path.Combine(ClientInfo.ThemesPath, ClientConfig.Config.Client.Theme);
 
         if (!Directory.Exists(themePath))
@@ -38,10 +37,10 @@ internal class CustomThemeInitializer : IInitializer
     {
         try
         {
-            using var stream = new FileStream(file, FileMode.Open, FileAccess.Read);
-
-            var resource = (ResourceDictionary)XamlReader.Load(stream);
-            Application.Current.Resources.MergedDictionaries.Add(resource);
+            // using var stream = new FileStream(file, FileMode.Open, FileAccess.Read);
+            //
+            // var resource = (ResourceDictionary)XamlReader.Load(stream);
+            // Application.Current.Resources.MergedDictionaries.Add(resource);
         }
         catch (Exception err)
         {

@@ -3,11 +3,9 @@ using System.Linq;
 
 namespace HunterPie.Domain.Sidebar;
 
-#nullable enable
 internal static class SideBar
 {
-    public static ISideBarElement[] Menu { get; } = new ISideBarElement[]
-    {
+    public static ISideBarElement[] Menu { get; } = {
         new ConsoleSideBarElementViewModel(),
         new SettingsSideBarElementViewModel(),
         new PatchNotesSideBarElementViewModel(),

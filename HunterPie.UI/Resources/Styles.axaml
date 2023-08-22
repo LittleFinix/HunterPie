@@ -15,6 +15,8 @@
     <StyleInclude Source="Controls/ScrollViewer.axaml" />
     <StyleInclude Source="Controls/ListBox.axaml" />
     <StyleInclude Source="Controls/Flyout.axaml" />
+    
+    <StyleInclude Source="../Overlay/Controls/Bar.axaml" />
 
     <Style Selector="RepeatButton">
         <Setter Property="IsVisible" Value="False"/>
@@ -57,53 +59,53 @@
         <!--         </Style> -->
         <!--     </Template> -->
         <!-- </Setter> -->
-        <Setter Property="Template">
-            <ControlTemplate TargetType="ComboBox">
-                <Grid>
-                    <ToggleButton Name="ToggleButton" 
-                                  Grid.Column="0"
-                                  ClickMode="Press" 
-                                  Focusable="False"
-                                  IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
-                    <ContentPresenter Name="ContentSite" 
-                                      Margin="5,3,40,3" 
-                                      IsHitTestVisible="False"
-                                      HorizontalAlignment="Left" 
-                                      VerticalAlignment="Center"
-                                      Content="{TemplateBinding ComboBox.SelectionBoxItem}"
-                                      ContentTemplate="{TemplateBinding ComboBox.ItemTemplate}" />
-                    <TextBox Name="PART_EditableTextBox" 
-                             Margin="3,3,23,3"
-                             IsEnabled="{TemplateBinding IsEnabled}"
-                             IsVisible="{Binding Hidden}" 
-                             Background="Transparent"
-                             HorizontalAlignment="Left" 
-                             VerticalAlignment="Center"
-                             Focusable="True">
-                    </TextBox>
-                    <!-- Popup showing items -->
-                    <Popup Name="Popup" 
-                           Placement="Bottom"
-                           Focusable="False"
-                           IsOpen="{TemplateBinding ComboBox.IsDropDownOpen}">
-                        <Grid Name="DropDown" 
-                              MinWidth="{TemplateBinding Width}"
-                              MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                            <Border Name="DropDownBorder" 
-                                    Background="{StaticResource GRAY_100}" 
-                                    Margin="0,0,0,0"
-                                    CornerRadius="5" 
-                                    BorderThickness="1,1,1,1"
-                                    BorderBrush="{StaticResource GRAY}"/>
-                            <ScrollViewer Margin="0" 
-                                          >
-                                <ItemsPresenter Cursor="Hand"/>
-                            </ScrollViewer>
-                        </Grid>
-                    </Popup>
-                </Grid>
-            </ControlTemplate>
-        </Setter>
+        <!-- <Setter Property="Template"> -->
+        <!--     <ControlTemplate TargetType="ComboBox"> -->
+        <!--         <Grid> -->
+        <!--             <ToggleButton Name="ToggleButton"  -->
+        <!--                           Grid.Column="0" -->
+        <!--                           ClickMode="Press"  -->
+        <!--                           Focusable="False" -->
+        <!--                           IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" /> -->
+        <!--             <ContentPresenter Name="ContentSite"  -->
+        <!--                               Margin="5,3,40,3"  -->
+        <!--                               IsHitTestVisible="False" -->
+        <!--                               HorizontalAlignment="Left"  -->
+        <!--                               VerticalAlignment="Center" -->
+        <!--                               Content="{TemplateBinding ComboBox.SelectionBoxItem}" -->
+        <!--                               ContentTemplate="{TemplateBinding ComboBox.ItemTemplate}" /> -->
+        <!--             <TextBox Name="PART_EditableTextBox"  -->
+        <!--                      Margin="3,3,23,3" -->
+        <!--                      IsEnabled="{TemplateBinding IsEnabled}" -->
+        <!--                      IsVisible="{Binding Hidden}"  -->
+        <!--                      Background="Transparent" -->
+        <!--                      HorizontalAlignment="Left"  -->
+        <!--                      VerticalAlignment="Center" -->
+        <!--                      Focusable="True"> -->
+        <!--             </TextBox> -->
+        <!--             ~1~ Popup showing items @1@ -->
+        <!--             <Popup Name="PART_Popup"  -->
+        <!--                    Placement="Bottom" -->
+        <!--                    Focusable="False" -->
+        <!--                    IsOpen="{TemplateBinding ComboBox.IsDropDownOpen}"> -->
+        <!--                 <Grid Name="DropDown"  -->
+        <!--                       MinWidth="{TemplateBinding Width}" -->
+        <!--                       MaxHeight="{TemplateBinding MaxDropDownHeight}"> -->
+        <!--                     <Border Name="DropDownBorder"  -->
+        <!--                             Background="{StaticResource GRAY_100}"  -->
+        <!--                             Margin="0,0,0,0" -->
+        <!--                             CornerRadius="5"  -->
+        <!--                             BorderThickness="1,1,1,1" -->
+        <!--                             BorderBrush="{StaticResource GRAY}"/> -->
+        <!--                     <ScrollViewer Margin="0"  -->
+        <!--                                   > -->
+        <!--                         <ItemsPresenter Cursor="Hand"/> -->
+        <!--                     </ScrollViewer> -->
+        <!--                 </Grid> -->
+        <!--             </Popup> -->
+        <!--         </Grid> -->
+        <!--     </ControlTemplate> -->
+        <!-- </Setter> -->
     </Style>
 
     <!-- Highlight -->

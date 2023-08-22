@@ -1,7 +1,7 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using HunterPie.Core.Architecture;
 using HunterPie.UI.Controls.TextBox.Events;
 using System;
 using TB = Avalonia.Controls.TextBox;
@@ -18,15 +18,22 @@ public partial class SearchTextBox : UserControl
     /// <summary>
     /// Event fired every time the search string has changed
     /// </summary>
-    public event EventHandler<SearchTextChangedEventArgs> OnSearchTextChanged;
+    public event EventHandler<SearchTextChangedEventArgs>? OnSearchTextChanged;
 
     /// <summary>
     /// Event fired every time the search button is clicked or when the user press enter while
     /// the SearchBox is focused
     /// </summary>
-    public event EventHandler<SearchTextChangedEventArgs> OnSearch;
+    public event EventHandler<SearchTextChangedEventArgs>? OnSearch;
 
-    public Observable<string> SearchText { get; } = SearchPlaceholder;
+    public static readonly StyledProperty<string> SearchTextProperty = AvaloniaProperty.Register<SearchTextBox, string>(
+        "SearchText");
+
+    public string SearchText
+    {
+        get => GetValue(SearchTextProperty);
+        set => SetValue(SearchTextProperty, value);
+    }
 
     private bool IsPlaceholderVisible { get; set; } = true;
 
@@ -42,7 +49,7 @@ public partial class SearchTextBox : UserControl
             OnSearchTextChanged?.Invoke(this, new(SearchText));
     }
 
-    private void OnSearchClick()
+    private void OnSearchClick(object sender, RoutedEventArgs e)
     {
         if (!IsPlaceholderVisible)
             OnSearch?.Invoke(this, new(SearchText));

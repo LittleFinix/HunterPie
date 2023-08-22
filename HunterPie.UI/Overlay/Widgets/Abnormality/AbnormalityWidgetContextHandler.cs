@@ -1,11 +1,10 @@
-﻿using HunterPie.Core.Client.Configuration.Overlay;
+﻿using Avalonia.Threading;
+using HunterPie.Core.Client.Configuration.Overlay;
 using HunterPie.Core.Game;
 using HunterPie.Core.Game.Entity.Player;
 using HunterPie.UI.Overlay.Widgets.Abnormality.View;
 using HunterPie.UI.Overlay.Widgets.Abnormality.ViewModel;
 using System.Linq;
-using System.Windows;
-using System.Windows.Threading;
 
 namespace HunterPie.UI.Overlay.Widgets.Abnormality;
 
@@ -38,7 +37,7 @@ internal class AbnormalityWidgetContextHandler : IContextHandler
 
     private void OnAbnormalityEnd(object sender, IAbnormality e)
     {
-        _ = Application.Current.Dispatcher.InvokeAsync(() =>
+        _ = Dispatcher.UIThread.InvokeAsync(() =>
         {
             AbnormalityContextHandler handler = ViewModel.Abnormalities.Cast<AbnormalityContextHandler>()
                 .FirstOrDefault(vm => vm.Context == e);
@@ -53,7 +52,7 @@ internal class AbnormalityWidgetContextHandler : IContextHandler
 
     private void OnAbnormalityStart(object sender, IAbnormality e)
     {
-        _ = Application.Current.Dispatcher.InvokeAsync(() =>
+        _ = Dispatcher.UIThread.InvokeAsync(() =>
         {
             if (!Config.AllowedAbnormalities.Contains(e.Id))
                 return;
@@ -71,7 +70,7 @@ internal class AbnormalityWidgetContextHandler : IContextHandler
 
     private void UpdateData()
     {
-        Application.Current.Dispatcher.Invoke(() =>
+        Dispatcher.UIThread.Invoke(() =>
         {
             foreach (IAbnormality abnormality in Context.Game.Player.Abnormalities)
             {

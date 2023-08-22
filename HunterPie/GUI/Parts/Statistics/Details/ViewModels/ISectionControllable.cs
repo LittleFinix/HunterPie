@@ -1,5 +1,4 @@
-﻿using LiveCharts.Wpf;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace HunterPie.GUI.Parts.Statistics.Details.ViewModels;
 

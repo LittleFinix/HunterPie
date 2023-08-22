@@ -47,7 +47,20 @@ internal class FileStreamLogger : ILogger, IDisposable
             await Stream.WriteAsync(Encoding.UTF8.GetBytes($"[{DateTime.Now.ToLongTimeString()}][{level}] {message}\n"));
             await Stream.FlushAsync();
         }
-        catch { }
+        finally
+        {
+            Semaphore.Release();
+        }
+    }
+
+    private void Dispose(bool disposing)
+    {
+        Semaphore.Wait();
+        try
+        {
+            if (disposing)
+                Stream.Dispose();
+        }
         finally
         {
             Semaphore.Release();
@@ -56,15 +69,12 @@ internal class FileStreamLogger : ILogger, IDisposable
 
     public void Dispose()
     {
-        try
-        {
-            Semaphore.Wait();
-            Stream.Dispose();
-        }
-        catch { }
-        finally
-        {
-            Semaphore.Release();
-        }
+        GC.SuppressFinalize(this);
+        Dispose(true);
+    }
+
+    ~FileStreamLogger()
+    {
+        Dispose(false);
     }
 }

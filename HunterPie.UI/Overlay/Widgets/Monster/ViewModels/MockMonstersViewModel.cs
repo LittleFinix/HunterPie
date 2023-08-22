@@ -50,6 +50,7 @@ public class MockMonstersViewModel : MonstersViewModel
             CaptureThreshold = 0.5,
             IsCapturable = true,
         });
+        
         VisibleMonsters = 1;
         MonstersCount = 3;
 

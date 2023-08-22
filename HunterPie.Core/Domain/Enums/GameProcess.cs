@@ -3,7 +3,7 @@
 namespace HunterPie.Core.Domain.Enums;
 
 [Flags]
-public enum GameProcess : int
+public enum GameProcess
 {
     None = 0,
     MonsterHunterRise = 1 << 0,

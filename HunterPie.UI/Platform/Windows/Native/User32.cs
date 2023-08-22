@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 namespace HunterPie.UI.Platform.Windows.Native;
 
+[SupportedOSPlatform("Windows")]
 public static class User32
 {
     [DllImport("user32.dll")]
@@ -28,7 +30,7 @@ public static class User32
     public const int WM_FONTCHANGE = 0x001D;
 
     [Flags]
-    public enum EX_WINDOW_STYLES : int
+    public enum EX_WINDOW_STYLES
     {
         WS_EX_TOPMOST = 0x8,
         WS_EX_TRANSPARENT = 0x20,

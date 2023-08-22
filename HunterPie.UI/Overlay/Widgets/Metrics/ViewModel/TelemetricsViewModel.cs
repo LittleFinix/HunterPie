@@ -1,12 +1,11 @@
-﻿using HunterPie.Core.Architecture;
+﻿using Avalonia.Media;
+using HunterPie.Core.Architecture;
 using HunterPie.Core.Extensions;
 using HunterPie.UI.Architecture.Graphs;
-using LiveCharts;
-using LiveCharts.Defaults;
+using LiveChartsCore.Defaults;
 using System;
 using System.Diagnostics;
 using System.Timers;
-using System.Windows.Media;
 
 namespace HunterPie.UI.Overlay.Widgets.Metrics.ViewModel;
 
@@ -17,22 +16,6 @@ public class TelemetricsViewModel : Bindable
     private float _cpuUsage;
     private int _threads;
     private readonly Timer _dispatcher;
-
-    private PerformanceCounter _cpuPerfCounter;
-    private PerformanceCounter CpuPerfCounter
-    {
-        get
-        {
-            // Lazy initializer
-            if (_cpuPerfCounter is null)
-            {
-                using var self = Process.GetCurrentProcess();
-                _cpuPerfCounter = new("Process", "% Processor Time", self.ProcessName, true);
-            }
-
-            return _cpuPerfCounter;
-        }
-    }
 
     public long Memory
     {
@@ -55,15 +38,15 @@ public class TelemetricsViewModel : Bindable
     public SeriesCollection CPUSeries { get; private set; }
     public SeriesCollection RAMSeries { get; private set; }
 
-    private readonly ChartValues<ObservablePoint> CPUPoints = new();
-    private readonly ChartValues<ObservablePoint> WorkingSetPoints = new();
-    private readonly ChartValues<ObservablePoint> PrivateSetPoints = new();
+    private readonly ChartSeries CPUPoints = new();
+    private readonly ChartSeries WorkingSetPoints = new();
+    private readonly ChartSeries PrivateSetPoints = new();
 
     public Func<double, string> BytesFormatter { get; } =
-        new Func<double, string>((value) => ((long)value).FormatBytes());
+        value => ((long)value).FormatBytes();
 
     public Func<double, string> PercentageFormatter { get; } =
-        new Func<double, string>((value) => $"{value:0.0}%");
+        value => $"{value:0.0}%";
 
     public TelemetricsViewModel()
     {
@@ -73,8 +56,8 @@ public class TelemetricsViewModel : Bindable
             .Build();
 
         RAMSeries = new LinearSeriesCollectionBuilder()
-            .AddSeries(WorkingSetPoints, "Working", (Color)ColorConverter.ConvertFromString("#5C97F8"))
-            .AddSeries(PrivateSetPoints, "Private", (Color)ColorConverter.ConvertFromString("#7B65F0"))
+            .AddSeries(WorkingSetPoints, "Working", Color.Parse("#5C97F8"))
+            .AddSeries(PrivateSetPoints, "Private", Color.Parse("#7B65F0"))
             .Build();
 
         _dispatcher = new Timer(5000)
@@ -88,10 +71,10 @@ public class TelemetricsViewModel : Bindable
     private double start = double.MaxValue;
     public void UpdateInformation(object source, ElapsedEventArgs e)
     {
-        double elapsed = TimeSpan.FromTicks(e.SignalTime.Ticks).TotalSeconds;
-        start = Math.Min(start, elapsed);
+        double current = TimeSpan.FromTicks(e.SignalTime.Ticks).TotalSeconds;
+        start = Math.Min(start, current);
 
-        elapsed -= start;
+        double elapsed = current - start;
 
         using (var self = Process.GetCurrentProcess())
         {
@@ -101,7 +84,7 @@ public class TelemetricsViewModel : Bindable
             PrivateSetPoints.Add(new ObservablePoint(elapsed, self.PrivateMemorySize64));
         }
 
-        CPU = CpuPerfCounter.NextValue() / Environment.ProcessorCount;
+        CPU = (float)((Process.GetCurrentProcess().TotalProcessorTime.TotalSeconds / Environment.ProcessorCount) / current);
         CPUPoints.Add(new ObservablePoint(elapsed, CPU));
 
         if (CPUPoints.Count > 50)

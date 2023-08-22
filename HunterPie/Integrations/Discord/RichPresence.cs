@@ -1,12 +1,12 @@
-﻿using DiscordRPC;
-using DiscordRPC.Message;
-using HunterPie.Core.Client.Configuration.Integrations;
+﻿using HunterPie.Core.Client.Configuration.Integrations;
 using HunterPie.Core.Game.Entity.Game;
 using HunterPie.Core.Logger;
+using NetDiscordRpc.Message.Messages;
+using NetDiscordRpc.RPC;
 using System;
 using System.ComponentModel;
 using System.Timers;
-using DiscordPresence = DiscordRPC.RichPresence;
+using DiscordPresence = NetDiscordRpc.RPC.RichPresence;
 
 namespace HunterPie.Integrations.Discord;
 
@@ -18,7 +18,7 @@ internal abstract class RichPresence : IDisposable
     protected readonly DiscordPresence Presence = new();
 
     private readonly IGame _game;
-    private readonly DiscordRpcClient _client;
+    private readonly NetDiscordRpc.DiscordRPC _client;
     private readonly Timer _timer = new(DEFAULT_INTERVAL) { AutoReset = true };
 
     private Timestamps _locationTime = Timestamps.Now;

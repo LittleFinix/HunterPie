@@ -1,4 +1,5 @@
-﻿using HunterPie.UI.Architecture;
+﻿using HunterPie.GUI.Parts.Host;
+using HunterPie.UI.Architecture;
 
 namespace HunterPie.GUI.ViewModels;
 
@@ -10,4 +11,5 @@ internal class MainViewModel : ViewModel
     public bool IsNotificationsOpen { get => _isNotificationsOpen; set => SetValue(ref _isNotificationsOpen, value); }
     public bool ShouldShowPromo { get => _shouldShowPromo; set => SetValue(ref _shouldShowPromo, value); }
 
+    public MainApplicationNavigator Navigator => MainApplicationNavigator.Instance;
 }

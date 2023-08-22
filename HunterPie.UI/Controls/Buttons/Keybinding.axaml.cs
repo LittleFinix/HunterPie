@@ -2,7 +2,6 @@
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using System;
 using System.Collections.ObjectModel;
 using System.Text;
 
@@ -17,7 +16,7 @@ public partial class Keybinding : UserControl
 
     public string HotKey
     {
-        get => (string)GetValue(HotKeyProperty);
+        get => GetValue(HotKeyProperty);
         set => SetValue(HotKeyProperty, value);
     }
 

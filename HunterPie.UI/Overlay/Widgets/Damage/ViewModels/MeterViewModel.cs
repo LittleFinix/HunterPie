@@ -2,7 +2,6 @@
 using HunterPie.Core.Client.Configuration.Overlay;
 using HunterPie.Core.Extensions;
 using HunterPie.UI.Architecture;
-using LiveCharts;
 using System;
 using System.Collections.ObjectModel;
 
@@ -19,7 +18,7 @@ public class MeterViewModel : ViewModel
     private bool _hasPetsToBeDisplayed;
 
     public Func<double, string> TimeFormatter { get; set; } =
-        new Func<double, string>((value) => TimeSpan.FromSeconds(value).ToString("mm\\:ss"));
+        value => TimeSpan.FromSeconds(value).ToString("mm\\:ss");
 
     public Func<double, string> DamageFormatter { get => _damageFormatter; set => SetValue(ref _damageFormatter, value); }
 
@@ -60,7 +59,7 @@ public class MeterViewModel : ViewModel
         SetupFormatters();
     }
 
-    private void SetupFormatters() => DamageFormatter = new Func<double, string>((value) => FormatDamageByStrategy(value));
+    private void SetupFormatters() => DamageFormatter = value => FormatDamageByStrategy(value);
 
     private string FormatDamageByStrategy(double damage)
     {

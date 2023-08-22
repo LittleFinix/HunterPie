@@ -1,14 +1,14 @@
-﻿using HunterPie.Core.Client.Localization;
+﻿using Avalonia.Media;
+using HunterPie.Core.Client.Localization;
 using HunterPie.Core.Extensions;
 using HunterPie.Features.Statistics.Models;
 using HunterPie.GUI.Parts.Statistics.Details.ViewModels;
 using HunterPie.UI.Architecture.Adapter;
 using HunterPie.UI.Assets.Application;
-using LiveCharts.Wpf;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Media;
 
 namespace HunterPie.GUI.Parts.Statistics.Details.Builders;
 internal static class MonsterDetailsViewModelBuilder
@@ -47,22 +47,22 @@ internal static class MonsterDetailsViewModelBuilder
         double activationsTotalSeconds = status.Activations.Select(it => it.FinishedAt - it.StartedAt)
             .Sum(it => it.TotalSeconds);
 
-        var activations = status.Activations.Select(it => new AxisSection
-        {
-            StrokeThickness = 1,
-            Stroke = new SolidColorBrush(Colors.Red) { Opacity = 0.15 },
-            Fill = new SolidColorBrush(Colors.Red) { Opacity = 0.05 },
-            StrokeDashArray = new DoubleCollection { 4, 4 },
-            Value = (it.StartedAt - quest.StartedAt).TotalSeconds,
-            SectionWidth = (it.FinishedAt - it.StartedAt).TotalSeconds
-        }).ToList();
+        // var activations = status.Activations.Select(it => new AxisSection
+        // {
+        //     StrokeThickness = 1,
+        //     Stroke = new SolidColorBrush(Colors.Red) { Opacity = 0.15 },
+        //     Fill = new SolidColorBrush(Colors.Red) { Opacity = 0.05 },
+        //     StrokeDashArray = new DoubleCollection { 4, 4 },
+        //     Value = (it.StartedAt - quest.StartedAt).TotalSeconds,
+        //     SectionWidth = (it.FinishedAt - it.StartedAt).TotalSeconds
+        // }).ToList();
 
         return new StatusDetailsViewModel
         {
             Color = EnrageBrush,
             Name = Localization.QueryString("//Strings/Ailments/Rise/Ailment[@Id='STATUS_ENRAGE']"),
             UpTime = activationsTotalSeconds / Math.Max(1.0, timeElapsed),
-            Activations = activations
+            Activations = new List<AxisSection>() // activations
         };
     }
 }

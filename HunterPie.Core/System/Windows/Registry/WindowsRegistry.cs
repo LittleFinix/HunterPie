@@ -1,9 +1,12 @@
 ﻿using HunterPie.Core.Domain.Interfaces;
 using Microsoft.Win32;
 using System;
+using System.Runtime.Versioning;
 using Regedit = Microsoft.Win32.Registry;
 
 namespace HunterPie.Core.System.Windows.Registry;
+
+[SupportedOSPlatform("Windows")]
 internal class WindowsRegistry : ILocalRegistry
 {
     private readonly RegistryKey _key;

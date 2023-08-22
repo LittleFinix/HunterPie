@@ -2,7 +2,6 @@
 using Avalonia.Interactivity;
 using HunterPie.GUI.Parts.Sidebar.Service;
 using HunterPie.GUI.Parts.Sidebar.ViewModels;
-using System;
 
 namespace HunterPie.GUI.Parts.Sidebar;
 

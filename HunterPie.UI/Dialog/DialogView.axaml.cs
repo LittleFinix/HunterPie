@@ -4,8 +4,6 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Media.Imaging;
 using Avalonia.Styling;
 using HunterPie.Core.Domain.Dialog;
-using HunterPie.UI.Architecture.Extensions;
-using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
@@ -16,56 +14,39 @@ namespace HunterPie.UI.Dialog;
 /// </summary>
 public partial class DialogView : Window, INativeDialog, INotifyPropertyChanged
 {
-    private NativeDialogButtons _buttons;
+    public NativeDialogResult DialogResult { get; private set; }
 
-    private string _description = "This is a default dialog text";
-    private string _dialogTitle;
-    public new NativeDialogResult DialogResult { get; private set; }
+    public static readonly StyledProperty<NativeDialogButtons> ButtonsProperty = AvaloniaProperty.Register<DialogView, NativeDialogButtons>(
+        "Buttons");
+
     public NativeDialogButtons Buttons
     {
-        get => _buttons;
-        set
-        {
-            if (value != _buttons)
-            {
-                _buttons = value;
-                this.N(PropertyChanged);
-            }
-        }
+        get => GetValue(ButtonsProperty);
+        set => SetValue(ButtonsProperty, value);
     }
+
+    public static readonly StyledProperty<string> DialogTitleProperty = AvaloniaProperty.Register<DialogView, string>(
+        "DialogTitle");
 
     public string DialogTitle
     {
-        get => _dialogTitle;
-        set
-        {
-            if (value != _dialogTitle)
-            {
-                _dialogTitle = value;
-                this.N(PropertyChanged);
-            }
-        }
+        get => GetValue(DialogTitleProperty);
+        set => SetValue(DialogTitleProperty, value);
     }
+
+    public static readonly StyledProperty<string> DescriptionProperty = AvaloniaProperty.Register<DialogView, string>(
+        "Description", "This is a default dialog text");
 
     public string Description
     {
-        get => _description;
-        set
-        {
-            if (value != _description)
-            {
-                _description = value;
-                this.N(PropertyChanged);
-            }
-        }
+        get => GetValue(DescriptionProperty);
+        set => SetValue(DescriptionProperty, value);
     }
 
     public DialogView()
     {
         InitializeComponent();
     }
-
-    public event PropertyChangedEventHandler PropertyChanged;
 
     public void Warn(string title, string description, NativeDialogButtons buttons) => SetDialogInfo(title, description, "ICON_WARN", buttons);
 

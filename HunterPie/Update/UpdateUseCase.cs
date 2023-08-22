@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 
 namespace HunterPie.Update;
 
-#nullable enable
 internal static class UpdateUseCase
 {
     private const string JUST_UPDATED_KEY = "JustUpdated";
@@ -39,7 +38,7 @@ internal static class UpdateUseCase
 
         if (ClientConfig.Config.Client.EnableAutoUpdateConfirmation)
         {
-            NativeDialogResult result = DialogManager.Warn(
+            NativeDialogResult result = await DialogManager.Warn(
                 Localization.QueryString("//Strings/Client/Dialogs/Dialog[@Id='UPDATE_TITLE_STRING']"),
                 Localization.QueryString("//Strings/Client/Dialogs/Dialog[@Id='UPDATE_CONFIRMATION_DESCRIPTION_STRING']").Replace("{Latest}", $"{latest}"),
                 NativeDialogButtons.Accept | NativeDialogButtons.Reject

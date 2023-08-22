@@ -20,7 +20,7 @@ internal class WindowsCredentialVault : ICredentialVault
         string encryptedPassword = CryptoService.Encrypt(password);
         byte[] passwordBytes = Encoding.Unicode.GetBytes(encryptedPassword);
 
-        var credential = new NativeCredential()
+        var credential = new NativeCredential
         {
             AttributeCount = 0,
             Attributes = IntPtr.Zero,
@@ -71,7 +71,7 @@ internal class WindowsCredentialVault : ICredentialVault
 
         CredFree(handle);
 
-        return new Credential()
+        return new Credential
         {
             Username = username,
             Password = decryptedPassword

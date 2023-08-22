@@ -3,7 +3,6 @@ using HunterPie.Core.Domain.Enums;
 using HunterPie.UI.Assets.Application;
 using System;
 using System.Collections.ObjectModel;
-using System.Windows.Media;
 
 namespace HunterPie.UI.Controls.Settings.ViewModel;
 

@@ -1,11 +1,11 @@
-﻿using HunterPie.UI.Assets.Application;
+﻿using Avalonia.Controls;
+using Avalonia.Layout;
+using Avalonia.Markup.Xaml.Templates;
+using HunterPie.UI.Assets.Application;
 using HunterPie.UI.Settings.Converter;
 using System;
 using System.Collections.ObjectModel;
 using System.Reflection;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 
 namespace HunterPie.UI.Settings.Internal;
 
@@ -15,8 +15,7 @@ internal class EnumVisualConverter : IVisualConverter
 
     public FrameworkElement Build(object parent, PropertyInfo childInfo)
     {
-        object observable = childInfo.GetValue(parent);
-        Binding binding = VisualConverterHelper.CreateBinding(observable);
+        var observable = childInfo.GetValue(parent) as IObservable<object>;
 
         ObservableCollection<object> elements = new();
 
@@ -28,9 +27,9 @@ internal class EnumVisualConverter : IVisualConverter
             ItemsSource = elements,
             ItemTemplate = EnumElementDataTemplate,
             MinHeight = 35,
-            VerticalAlignment = VerticalAlignment.Center
+            VerticalAlignment = VerticalAlignment.Center,
+            [ComboBox.SelectedItemProperty] = childInfo.GetValue(parent) as IObservable<object>
         };
-        _ = BindingOperations.SetBinding(box, ComboBox.SelectedItemProperty, binding);
 
         return box;
     }

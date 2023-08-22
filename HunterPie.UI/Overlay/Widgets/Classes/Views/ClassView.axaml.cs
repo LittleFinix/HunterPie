@@ -1,8 +1,8 @@
-﻿using Avalonia.Threading;
+﻿using Avalonia;
+using Avalonia.Threading;
 using HunterPie.Core.Client.Configuration.Overlay.Class;
 using HunterPie.Core.Settings;
 using HunterPie.UI.Architecture;
-using HunterPie.UI.Architecture.Extensions;
 using HunterPie.UI.Overlay.Enums;
 using HunterPie.UI.Overlay.Widgets.Classes.ViewModels;
 using System;
@@ -19,13 +19,19 @@ public partial class ClassView : View<ClassViewModel>, IWidget<ClassWidgetConfig
 
     public WidgetType Type => WidgetType.ClickThrough;
 
+    private IWidgetSettings _settings;
+
+    public static readonly DirectProperty<ClassView, IWidgetSettings> SettingsProperty = AvaloniaProperty.RegisterDirect<ClassView, IWidgetSettings>(
+        "Settings", o => o.Settings);
+
     public IWidgetSettings Settings
     {
-        get => _config;
+        get => _settings;
         private set
         {
-            _config = (ClassWidgetConfig)value;
-            this.N(PropertyChanged);
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+            if (_settings is null)
+                SetAndRaise(SettingsProperty, ref _settings!, value);
         }
     }
 
@@ -45,13 +51,11 @@ public partial class ClassView : View<ClassViewModel>, IWidget<ClassWidgetConfig
         Settings = ViewModel.CurrentSettings;
     }
 
-    private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
+    private void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName != nameof(ClassViewModel.CurrentSettings))
             return;
 
         Dispatcher.UIThread.Invoke(() => Settings = ViewModel.CurrentSettings);
     }
-
-    public event PropertyChangedEventHandler PropertyChanged;
 }

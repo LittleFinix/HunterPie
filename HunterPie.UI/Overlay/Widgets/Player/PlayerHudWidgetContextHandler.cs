@@ -20,7 +20,7 @@ public class PlayerHudWidgetContextHandler : IContextHandler
 
     public PlayerHudWidgetContextHandler(IContext context)
     {
-        PlayerHudWidgetConfig config = ClientConfigHelper.DeferOverlayConfig(ProcessManager.Game, (config) => config.PlayerHudWidget);
+        PlayerHudWidgetConfig config = ClientConfigHelper.DeferOverlayConfig(ProcessManager.Game, config => config.PlayerHudWidget);
 
         _view = new PlayerHudView(config);
         _viewModel = _view.ViewModel;

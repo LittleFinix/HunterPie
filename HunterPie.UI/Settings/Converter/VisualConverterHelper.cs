@@ -1,5 +1,5 @@
-﻿using HunterPie.Core.Architecture;
-using System.Windows.Data;
+﻿using Avalonia.Data;
+using HunterPie.Core.Architecture;
 
 namespace HunterPie.UI.Settings.Converter;
 

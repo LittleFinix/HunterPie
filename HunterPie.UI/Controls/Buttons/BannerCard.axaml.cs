@@ -12,7 +12,7 @@ public partial class BannerCard : UserControl
 
     public string Banner
     {
-        get => (string)GetValue(BannerProperty);
+        get => GetValue(BannerProperty);
         set => SetValue(BannerProperty, value);
     }
 
@@ -22,7 +22,7 @@ public partial class BannerCard : UserControl
 
     public string Title
     {
-        get => (string)GetValue(TitleProperty);
+        get => GetValue(TitleProperty);
         set => SetValue(TitleProperty, value);
     }
 
@@ -32,7 +32,7 @@ public partial class BannerCard : UserControl
 
     public string Description
     {
-        get => (string)GetValue(DescriptionProperty);
+        get => GetValue(DescriptionProperty);
         set => SetValue(DescriptionProperty, value);
     }
 
@@ -42,7 +42,7 @@ public partial class BannerCard : UserControl
 
     public string Link
     {
-        get => (string)GetValue(LinkProperty);
+        get => GetValue(LinkProperty);
         set => SetValue(LinkProperty, value);
     }
 

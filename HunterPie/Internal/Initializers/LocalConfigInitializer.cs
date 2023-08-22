@@ -1,10 +1,10 @@
 ﻿using HunterPie.Core.Client;
 using HunterPie.Core.Domain.Interfaces;
 using HunterPie.Core.Settings.Types;
+using HunterPie.Core.System.Common.Registry;
 using HunterPie.Core.System.Windows.Registry;
 using HunterPie.Domain.Interfaces;
 using System;
-using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
@@ -28,10 +28,12 @@ public class LocalConfigInitializer : IInitializer
     {
         ILocalRegistry registry;
 
-        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        if (OperatingSystem.IsWindows())
             registry = new WindowsRegistry();
+        else if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS())
+            registry = new FileRegistry();
         else
-            throw new NotImplementedException("unsupported OS");
+            throw new PlatformNotSupportedException();
 
         RegistryConfig.Initialize(registry);
     }

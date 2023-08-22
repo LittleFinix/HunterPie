@@ -19,23 +19,23 @@ public partial class Pagination : UserControl
 
     public int CurrentPage
     {
-        get => (int)GetValue(CurrentPageProperty);
+        get => GetValue(CurrentPageProperty);
         set => SetValue(CurrentPageProperty, value);
     }
 
     // Using a DependencyProperty as the backing store for CurrentPage.  This enables animation, styling, binding, etc...
     public static readonly StyledProperty<int> CurrentPageProperty =
-        AvaloniaProperty.Register<Pagination, int>(nameof(CurrentPage), 0);
+        AvaloniaProperty.Register<Pagination, int>(nameof(CurrentPage));
 
     public int LastPage
     {
-        get => (int)GetValue(LastPageProperty);
+        get => GetValue(LastPageProperty);
         set => SetValue(LastPageProperty, value);
     }
 
     // Using a DependencyProperty as the backing store for LastPage.  This enables animation, styling, binding, etc...
     public static readonly StyledProperty<int> LastPageProperty =
-        AvaloniaProperty.Register<Pagination, int>(nameof(LastPage), 0);
+        AvaloniaProperty.Register<Pagination, int>(nameof(LastPage));
 
     public Pagination()
     {

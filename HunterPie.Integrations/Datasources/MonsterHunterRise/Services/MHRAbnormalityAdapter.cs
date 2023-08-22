@@ -8,7 +8,7 @@ public static class MHRAbnormalityAdapter
     public static MHRAbnormalityData Convert(AbnormalitySchema schema, MHRAbnormalityStructure abnormality)
     {
         if (schema.IsInteger)
-            return new MHRAbnormalityData { Timer = (float)abnormality.Timer };
+            return new MHRAbnormalityData { Timer = abnormality.Timer };
 
         return schema.Category switch
         {

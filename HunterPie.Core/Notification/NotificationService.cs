@@ -2,7 +2,6 @@
 
 namespace HunterPie.Core.Notification;
 
-#nullable enable
 public class NotificationService
 {
     private readonly INotificationService _service;

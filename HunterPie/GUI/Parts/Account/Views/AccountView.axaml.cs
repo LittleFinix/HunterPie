@@ -1,5 +1,4 @@
-﻿using Avalonia.Controls;
-using Avalonia.Input;
+﻿using Avalonia.Input;
 using Avalonia.Interactivity;
 using HunterPie.Features.Account;
 using HunterPie.Features.Account.Config;
@@ -42,7 +41,7 @@ public partial class AccountView : View<AccountViewModel>
     {
         ISettingElement[] accountConfig = await LocalAccountConfig.CreateAccountSettingsTab();
 
-        var host = new SettingHost()
+        var host = new SettingHost
         {
             DataContext = new SettingHostViewModel(accountConfig)
         };

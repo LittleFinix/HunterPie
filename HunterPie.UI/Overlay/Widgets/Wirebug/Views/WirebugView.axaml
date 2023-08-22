@@ -25,7 +25,7 @@
                  Height="1"
                  VerticalAlignment="Center"
                  HorizontalAlignment="Center"
-                 RenderTransformOrigin="0.5,0.5"
+                 RenderTransformOrigin="50%,50%"
                  Fill="#FF5B86E5">
             <Ellipse.RenderTransform>
                 <TransformGroup>
@@ -37,7 +37,7 @@
         <Ellipse Fill="#B2000000"/>
         <Arc StrokeThickness="3">
             <Arc.Stroke>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <LinearGradientBrush EndPoint="50%,100%" StartPoint="50%,0%">
                     <GradientStop Color="#36D1DC"/>
                     <GradientStop Color="#5B86E5" Offset="1"/>
                 </LinearGradientBrush>
@@ -54,7 +54,7 @@
         <Arc StrokeThickness="3"
                       Margin="3">
             <Arc.Stroke>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <LinearGradientBrush EndPoint="50%,100%" StartPoint="50%,0%">
                     <GradientStop Color="#FFCD3F52" Offset="1"/>
                     <GradientStop Color="#FFC1416F" Offset="0"/>
                 </LinearGradientBrush>
@@ -81,7 +81,7 @@
             <Arc Stroke="#80000000"
                           StrokeThickness="20"
                           Margin="5" 
-                          RenderTransformOrigin="0.5,0.5">
+                          RenderTransformOrigin="50%,50%">
                 <Arc.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform ScaleX="-1"/>
@@ -116,9 +116,9 @@
                  Opacity="1"/>
         <Ellipse Fill="{StaticResource RED_LIGHT_300}"
                  IsVisible="{Binding WirebugState, Mode=OneWay, Converter={StaticResource WirebugStateToVisibilityConverter}}">
-            <Ellipse.OpacityMask>
-                <ImageBrush Source="{StaticResource ICON_ERROR_MASK}"/>
-            </Ellipse.OpacityMask>
+            <!-- <Ellipse.OpacityMask> -->
+            <!--     <ImageBrush Source="{StaticResource ICON_ERROR_MASK}"/> -->
+            <!-- </Ellipse.OpacityMask> -->
         </Ellipse>
     </Grid>
 </UserControl>

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 namespace HunterPie.Core.Domain.Cache;
 
-#nullable enable
 public interface IAsyncCache
 {
     public Task<T?> Get<T>(string key);

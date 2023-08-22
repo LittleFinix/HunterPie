@@ -3,7 +3,6 @@ using HunterPie.Core.Logger;
 
 namespace HunterPie.Core.Client;
 
-#nullable enable
 public static class ClientConfig
 {
     public const string CONFIG_NAME = "config.json";

@@ -6,7 +6,6 @@ using System.Linq;
 
 namespace HunterPie.Core.Extensions;
 
-#nullable enable
 public static class IEnumerableExtensions
 {
 

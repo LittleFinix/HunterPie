@@ -7,13 +7,12 @@ using System.Text;
 
 namespace HunterPie.Core.Networking.Http;
 
-#nullable enable
 public class HttpClientBuilder
 {
 
     private HttpMethod _method = HttpMethod.Get;
     private string _path = string.Empty;
-    private HttpContent? _content = null;
+    private HttpContent? _content;
     private TimeSpan _timeout = TimeSpan.MaxValue;
     private readonly List<string> _urls = new();
     private readonly Dictionary<string, string?> _headers = new();

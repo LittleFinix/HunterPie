@@ -1,16 +1,15 @@
-﻿<UserControl x:Class="HunterPie.UI.Overlay.Widgets.Monster.Views.BossMonsterSeverablePartView"
-             xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="using:HunterPie.UI.Overlay.Widgets.Monster.Views"
-             xmlns:converters="using:HunterPie.UI.Architecture.Converters"
-             xmlns:overlay="using:HunterPie.UI.Overlay.Controls"
-             xmlns:vm="using:HunterPie.UI.Overlay.Widgets.Monster.ViewModels"
-             Classes.isPartBroken="{Binding IsPartBroken}"
-             Classes.isPartSevered="{Binding IsPartSevered}"
-             mc:Ignorable="d" 
-             d:DesignWidth="200">
+﻿<local:BossMonsterPartViewBase x:Class="HunterPie.UI.Overlay.Widgets.Monster.Views.BossMonsterSeverablePartView"
+                               xmlns="https://github.com/avaloniaui"
+                               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                               xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                               xmlns:local="using:HunterPie.UI.Overlay.Widgets.Monster.Views"
+                               xmlns:converters="using:HunterPie.UI.Architecture.Converters"
+                               xmlns:overlay="using:HunterPie.UI.Overlay.Controls"
+                               xmlns:vm="using:HunterPie.UI.Overlay.Widgets.Monster.ViewModels"
+                               x:DataType="vm:MonsterPartViewModel"
+                               mc:Ignorable="d" 
+                               d:DesignWidth="200">
     <UserControl.Resources>
         <converters:MonsterPartIdToNameConverter x:Key="MonsterPartIdToNameConverter"/>
     </UserControl.Resources>
@@ -40,9 +39,9 @@
                          Margin="4.5,0,5,0"
                          Background="{StaticResource HUNTERPIE_BACKGROUND_DARKER}"
                          d:Value="50"
-                         d:MaxValue="100"
+                         d:Maximum="100"
                          BorderThickness="0"
-                         RenderTransformOrigin="0.5,0.5">
+                         RenderTransformOrigin="50%,50%">
                 <overlay:Bar.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -55,13 +54,13 @@
                     <Style Selector="overlay|Bar">
                         <Setter Property="Foreground" Value="{StaticResource MONSTER_PART_BREAKABLE_FOREGROUND}"/>
                         <Setter Property="ForegroundDelayed" Value="#FFFFE1AC"/>
-                        <Setter Property="MaxValue" Value="{Binding MaxHealth, Mode=OneWay}"/>
+                        <Setter Property="Maximum" Value="{Binding MaxHealth, Mode=OneWay}"/>
                         <Setter Property="Value" Value="{Binding Health, Mode=OneWay}"/>
                     </Style>
                     <Style Selector="local|BossMonsterSeverablePartView.isPartBroken overlay|Bar">
                         <Setter Property="Foreground" Value="{StaticResource MonsterHealthUnenraged}"/>
                         <Setter Property="ForegroundDelayed" Value="{StaticResource MonsterHealthUnenragedDelayed}"/>
-                        <Setter Property="MaxValue" Value="{Binding MaxFlinch, Mode=OneWay}"/>
+                        <Setter Property="Maximum" Value="{Binding MaxFlinch, Mode=OneWay}"/>
                         <Setter Property="Value" Value="{Binding Flinch, Mode=OneWay}"/>
                     </Style>
                 </overlay:Bar.Styles>
@@ -74,12 +73,12 @@
                          VerticalAlignment="Top"
                          Margin="4.5,5,5,0"
                          Background="{StaticResource HUNTERPIE_BACKGROUND_DARKER}"
-                         MaxValue="{Binding MaxSever, Mode=OneWay}"
+                         Maximum="{Binding MaxSever, Mode=OneWay}"
                          Value="{Binding Sever, Mode=OneWay}"
                          d:Value="50"
-                         d:MaxValue="100"
+                         d:Maximum="100"
                          BorderThickness="0"
-                         RenderTransformOrigin="0.5,0.5">
+                         RenderTransformOrigin="50%,50%">
                 <overlay:Bar.RenderTransform>
                     <TransformGroup>
                         <SkewTransform AngleX="-45"/>
@@ -165,4 +164,4 @@
             </Label>
         </Grid>
     </Grid>
-</UserControl>
+</local:BossMonsterPartViewBase>

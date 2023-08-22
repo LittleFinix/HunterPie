@@ -3,13 +3,11 @@ using HunterPie.Features.Account;
 using HunterPie.Features.Account.Event;
 using HunterPie.Features.Account.Model;
 using HunterPie.UI.Architecture;
-using Microsoft.Win32;
 using System;
 using System.Threading.Tasks;
 
 namespace HunterPie.GUI.Parts.Account.ViewModels;
 
-#nullable enable
 public class AccountPreferencesViewModel : ViewModel, IDisposable
 {
     private string _username = string.Empty;
@@ -47,19 +45,19 @@ public class AccountPreferencesViewModel : ViewModel, IDisposable
 
     public async void UploadAvatar()
     {
-        var dialog = new OpenFileDialog
-        {
-            InitialDirectory = Environment.CurrentDirectory,
-            Filter = "Image Files|*.png;",
-            RestoreDirectory = true
-        };
-
-        if (dialog.ShowDialog() != true)
-            return;
-
-        IsUploadingAvatar = true;
-        await AccountManager.UploadAvatar(dialog.FileName);
-        IsUploadingAvatar = false;
+        // var dialog = new OpenFileDialog
+        // {
+        //     InitialDirectory = Environment.CurrentDirectory,
+        //     Filter = "Image Files|*.png;",
+        //     RestoreDirectory = true
+        // };
+        //
+        // if (dialog.ShowDialog() != true)
+        //     return;
+        //
+        // IsUploadingAvatar = true;
+        // await AccountManager.UploadAvatar(dialog.FileName);
+        // IsUploadingAvatar = false;
     }
 
     private async Task ApplyAccountInfo(UserAccount account)
@@ -72,4 +70,3 @@ public class AccountPreferencesViewModel : ViewModel, IDisposable
 
     public void Dispose() => AccountManager.OnAvatarChange -= OnAvatarChange;
 }
-#nullable restore

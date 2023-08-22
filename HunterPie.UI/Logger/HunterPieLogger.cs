@@ -1,9 +1,10 @@
-﻿using HunterPie.Core.Logger;
+﻿using Avalonia;
+using Avalonia.Threading;
+using HunterPie.Core.Logger;
 using System;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace HunterPie.UI.Logger;
 
@@ -36,7 +37,7 @@ public class HunterPieLogger : ILogger
         if (Application.Current is null)
             return;
 
-        await Application.Current.Dispatcher.InvokeAsync(() =>
+        await Dispatcher.UIThread.InvokeAsync(() =>
         {
             ViewModel.Add(new LogString
             {

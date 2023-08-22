@@ -1,20 +1,50 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Authors>Haato</Authors>
-    <Configurations>Debug;Release;Deploy</Configurations>
-    <AssemblyVersion>2.9.0.58</AssemblyVersion>
-    <FileVersion>2.9.0.58</FileVersion>
-    <LangVersion>10.0</LangVersion>
- </PropertyGroup>
+    <Import Project="../Common/Common.csproj"/>
 
-  <ItemGroup>
-    <PackageReference Include="ClrHeapAllocationAnalyzer" Version="3.0.0" Condition="'$(ConfigurationName)' == 'Debug'" />
-    <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
+    <PropertyGroup>
+        <OutputType>Library</OutputType>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <AvaloniaAccessUnstablePrivateApis>true</AvaloniaAccessUnstablePrivateApis>
+    </PropertyGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties BuildVersion_StartDate="2000/1/1" /></VisualStudio></ProjectExtensions>
+    <ItemGroup>
+        <PackageReference Include="ClrHeapAllocationAnalyzer" Version="3.0.0" Condition="'$(ConfigurationName)' == 'Debug'"/>
+        <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
+        <PackageReference Include="Avalonia" Version="[11.0.3]"/>
+        <PackageReference Include="Avalonia.X11" Version="[11.0.3]"/>
+        <PackageReference Include="Avalonia.Win32" Version="[11.0.3]"/>
+        <PackageReference Include="X11" Version="1.0.6" />
+        <PackageReference Include="YamlDotNet" Version="13.0.0" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <_Parameter1>HunterPie.Core</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="System\Linux\Secret\SecretSchema.Managed.cs">
+        <DependentUpon>SecretSchema.cs</DependentUpon>
+      </Compile>
+      <Compile Update="System\Linux\Secret\SecretSchemaAttribute.Managed.cs">
+        <DependentUpon>SecretSchemaAttribute.cs</DependentUpon>
+      </Compile>
+
+
+    </ItemGroup>
+
+
+
+
+
+
+    <ProjectExtensions>
+        <VisualStudio>
+            <UserProperties BuildVersion_StartDate="2000/1/1"/>
+        </VisualStudio>
+    </ProjectExtensions>
 
 </Project>

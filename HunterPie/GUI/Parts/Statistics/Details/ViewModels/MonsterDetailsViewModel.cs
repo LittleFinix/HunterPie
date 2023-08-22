@@ -1,8 +1,6 @@
 ﻿using HunterPie.Core.Extensions;
 using HunterPie.Core.Game.Enums;
 using HunterPie.UI.Architecture;
-using LiveCharts;
-using LiveCharts.Wpf;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -41,9 +39,9 @@ public class MonsterDetailsViewModel : ViewModel
 
     public SectionsCollection Sections { get; } = new();
 
-    public Func<double, string> TimeFormatter => new((value) => TimeSpan.FromSeconds(value).ToString("mm\\:ss"));
+    public Func<double, string> TimeFormatter => value => TimeSpan.FromSeconds(value).ToString("mm\\:ss");
 
-    public Func<double, string> DamageFormatter => new((damage) => $"{damage:0.00}/s");
+    public Func<double, string> DamageFormatter => damage => $"{damage:0.00}/s";
 
     public void SetupView()
     {
@@ -78,10 +76,10 @@ public class MonsterDetailsViewModel : ViewModel
     {
         controllable.IsToggled = state ?? !controllable.IsToggled;
 
-        if (controllable.IsToggled)
-            Sections.AddRange(controllable.Activations);
-        else
-            controllable.Activations.ForEach(it => Sections.Remove(it));
+        // if (controllable.IsToggled)
+        //     Sections.AddRange(controllable.Activations);
+        // else
+        //     controllable.Activations.ForEach(it => Sections.Remove(it));
     }
 
     private void EnableEnrageSections()

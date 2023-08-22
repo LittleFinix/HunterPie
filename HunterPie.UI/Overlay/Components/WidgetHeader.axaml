@@ -57,10 +57,6 @@
                                 Click="OnHideButtonClick">
                     <image:Icon d:Image="{StaticResource ICON_EYE}"
                                 d:Foreground="{StaticResource GREEN_100}">
-                        <image:Icon.Styles>
-                            <Style Selector="image|Icon">
-                            </Style>
-                        </image:Icon.Styles>
                     </image:Icon>
                 </Button>
                 <Button Width="20"

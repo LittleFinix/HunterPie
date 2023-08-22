@@ -1,7 +1,9 @@
 ﻿using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 
 namespace HunterPie.UI.Platform.Windows.Native;
 
+[SupportedOSPlatform("Windows")]
 internal static class Gdi32
 {
     private const string DLL_NAME = "gdi32.dll";

@@ -9,7 +9,6 @@ using System.Collections.Generic;
 
 namespace HunterPie.Core.Game.Entity.Game;
 
-#nullable enable
 public interface IGame : IDisposable
 {
 

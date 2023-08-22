@@ -1,15 +1,14 @@
-﻿<UserControl x:Class="HunterPie.UI.Overlay.Widgets.Monster.Views.BossMonsterBreakablePartView"
-             xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="using:HunterPie.UI.Overlay.Widgets.Monster.Views"
-             xmlns:converters="using:HunterPie.UI.Architecture.Converters"
-             xmlns:overlay="using:HunterPie.UI.Overlay.Controls"
-             xmlns:vm="using:HunterPie.UI.Overlay.Widgets.Monster.ViewModels"
-             
-             mc:Ignorable="d"
-             d:DesignWidth="200">
+﻿<local:BossMonsterPartViewBase x:Class="HunterPie.UI.Overlay.Widgets.Monster.Views.BossMonsterBreakablePartView"
+                         xmlns="https://github.com/avaloniaui"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                         xmlns:local="using:HunterPie.UI.Overlay.Widgets.Monster.Views"
+                         xmlns:converters="using:HunterPie.UI.Architecture.Converters"
+                         xmlns:overlay="using:HunterPie.UI.Overlay.Controls"
+                         xmlns:vm="using:HunterPie.UI.Overlay.Widgets.Monster.ViewModels"
+                         mc:Ignorable="d"
+                         d:DesignWidth="200">
     <UserControl.Resources>
         <converters:MonsterPartIdToNameConverter x:Key="MonsterPartIdToNameConverter"/>
     </UserControl.Resources>
@@ -38,12 +37,12 @@
                          VerticalAlignment="Top"
                          Margin="4.5,0,5,0"
                          Background="{StaticResource HUNTERPIE_BACKGROUND_DARKER}"
-                         MaxValue="{Binding MaxHealth, Mode=OneWay}"
+                         Maximum="{Binding MaxHealth, Mode=OneWay}"
                          Value="{Binding Health, Mode=OneWay}"
                          d:Value="50"
-                         d:MaxValue="100"
+                         d:Maximum="100"
                          BorderThickness="0"
-                         RenderTransformOrigin="0.5,0.5">
+                         RenderTransformOrigin="50%,50%">
                 <overlay:Bar.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -65,12 +64,12 @@
                          VerticalAlignment="Top"
                          Margin="4.5,5,5,0"
                          Background="{StaticResource HUNTERPIE_BACKGROUND_DARKER}"
-                         MaxValue="{Binding MaxFlinch, Mode=OneWay}"
+                         Maximum="{Binding MaxFlinch, Mode=OneWay}"
                          Value="{Binding Flinch, Mode=OneWay}"
                          d:Value="50"
-                         d:MaxValue="100"
+                         d:Maximum="100"
                          BorderThickness="0"
-                         RenderTransformOrigin="0.5,0.5">
+                         RenderTransformOrigin="50%,50%">
                 <overlay:Bar.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -100,4 +99,4 @@
             </Label>
         </Grid>
     </Grid>
-</UserControl>
+</local:BossMonsterPartViewBase>

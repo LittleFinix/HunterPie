@@ -12,7 +12,7 @@ public static class MockBehavior
     {
         runnables[runnable] = true;
         // Yes, this is a memory leak, but will only be used for mocking purposes anyways
-        var timer = new Timer((_) =>
+        var timer = new Timer(_ =>
         {
             bool completed = runnables[runnable];
 

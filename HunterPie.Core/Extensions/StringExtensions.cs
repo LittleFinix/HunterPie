@@ -3,7 +3,6 @@ using System.Text.RegularExpressions;
 
 namespace HunterPie.Core.Extensions;
 
-#nullable enable
 public static class StringExtensions
 {
     /// <summary>
@@ -14,7 +13,7 @@ public static class StringExtensions
     /// <returns>Pretty string</returns>
     public static string RemoveChars(this string value, char[]? chars = null)
     {
-        chars ??= new char[] { ' ', '\x0A', '\x0B', '\x0C', '\x0D' };
+        chars ??= new[] { ' ', '\x0A', '\x0B', '\x0C', '\x0D' };
 
         // Apparently this is faster than using Regex to replace
         string[] temp = value.Split(chars, StringSplitOptions.RemoveEmptyEntries);

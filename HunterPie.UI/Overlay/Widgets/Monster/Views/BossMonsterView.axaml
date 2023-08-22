@@ -10,12 +10,19 @@
              xmlns:assets="using:HunterPie.UI.Architecture.Assets" 
              xmlns:viewmodels="using:HunterPie.UI.Overlay.Widgets.Monster.ViewModels" 
              xmlns:view="using:HunterPie.UI.Overlay.Widgets.Monster.Views"
-             xmlns:ocomponents="using:HunterPie.UI.Overlay.Components"
              xmlns:loading="using:HunterPie.UI.Controls.Loading"
              xmlns:selectors="using:HunterPie.UI.Architecture.Selectors"
              xmlns:genums="clr-namespace:HunterPie.Core.Game.Enums;assembly=HunterPie.Core"
              xmlns:system="clr-namespace:System;assembly=System.Runtime"
-             IsHitTestVisible="False"
+             xmlns:components="clr-namespace:HunterPie.UI.Overlay.Components"
+             xmlns:templates="clr-namespace:HunterPie.UI.Architecture.Templates"
+             x:DataType="viewmodels:BossMonsterViewModel"
+             Classes.isEnraged="{Binding IsEnraged}"
+             Classes.isAlive="{Binding IsAlive}"
+             Classes.isCapturable="{Binding IsCapturable}"
+             Classes.hideInactiveAilments="{Binding $parent[components:WidgetBase].Widget.Settings.AutomaticallyHideAilments.Value}"
+             Classes.hideInactiveParts="{Binding $parent[components:WidgetBase].Widget.Settings.AutoHideParts.Value}"
+             Classes.hideUnknownParts="{Binding $parent[components:WidgetBase].Widget.Settings.HideUnknownParts.Value}"
              d:DesignWidth="600">
     <UserControl.Resources>
         <converters:DoubleToDecimalConverter x:Key="DoubleToDecimalConverter"/>
@@ -28,46 +35,44 @@
         <converters:PercentageToLeftMarginDistanceConverter x:Key="PercentageToLeftMarginDistanceConverter"/>
         <converters:MonsterTypeToLocalizationConverter x:Key="MonsterTypeToLocalizationConverter"/>
 
-        <LinearGradientBrush x:Key="MonsterHealthEnraged" EndPoint="1,1" StartPoint="0,1">
+        <LinearGradientBrush x:Key="MonsterHealthEnraged" EndPoint="100%,100%" StartPoint="0%,100%">
             <GradientStop Color="#d42c2c"/>
             <GradientStop Color="#e63f29" Offset="1"/>
         </LinearGradientBrush>
         <SolidColorBrush x:Key="MonsterHealthEnragedDelayed" Color="#FFEB6C5B"/>
-
-        <Styles x:Key="{x:Type local:BossMonsterAilmentView}" >
-            <Style Selector=":is(local|BossMonsterAilmentView)">
-                
-            </Style>
-        </Styles>
-        <Styles x:Key="BEHAVIOR_PART_VIEW">
-            <Style Selector=":is(UserControl)">
-                
-            </Style>
-        </Styles>
-
-        <DataTemplate x:Key="TEMPLATE_PART_DEFAULT">
-            <view:BossMonsterPartView Width="200" />
-        </DataTemplate>
-
-        <DataTemplate x:Key="TEMPLATE_PART_SEVERABLE">
-            <view:BossMonsterSeverablePartView Width="200" />
-        </DataTemplate>
-
-        <DataTemplate x:Key="TEMPLATE_PART_BREAKABLE">
-            <view:BossMonsterBreakablePartView Width="200" />
-        </DataTemplate>
-
-        <DataTemplate x:Key="TEMPLATE_PART_QURIO">
-            <view:BossMonsterQurioPartView Width="200" />
-        </DataTemplate>
-
-        <converters:MonsterPartTypeToDataTemplateConverter x:Key="MonsterPartTypeToDataTemplateConverter"
-                                               DefaultTemplate="{StaticResource TEMPLATE_PART_DEFAULT}"
-                                               SeverableTemplate="{StaticResource TEMPLATE_PART_SEVERABLE}"
-                                               BreakableTemplate="{StaticResource TEMPLATE_PART_BREAKABLE}"
-                                               QurioTemplate="{StaticResource TEMPLATE_PART_QURIO}"/>
-
     </UserControl.Resources>
+    <UserControl.DataTemplates>
+        <templates:MonsterPartDataTemplate PartType="Severable">
+            <view:BossMonsterSeverablePartView Width="200" />
+        </templates:MonsterPartDataTemplate>
+        <templates:MonsterPartDataTemplate PartType="Breakable">
+            <view:BossMonsterBreakablePartView Width="200" />
+        </templates:MonsterPartDataTemplate>
+        <templates:MonsterPartDataTemplate PartType="Qurio">
+            <view:BossMonsterQurioPartView Width="200" />
+        </templates:MonsterPartDataTemplate>
+        <templates:MonsterPartDataTemplate>
+            <view:BossMonsterPartView Width="200" />
+        </templates:MonsterPartDataTemplate>
+    </UserControl.DataTemplates>
+    <UserControl.Styles>
+        <Style Selector="local|BossMonsterAilmentView">
+            <Setter Property="IsVisible"
+                    Value="{Binding !$parent[components:WidgetBase].DataContext.Widget.Settings.EnableAilments.Value}"
+                    />
+        </Style>
+        <Style Selector=".hideInactiveAilments local|BossMonsterAilmentView:not(:active)">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+        <Style Selector="local|BossMonsterPartView">
+            <Setter Property="IsVisible"
+                    Value="{Binding !$parent[components:WidgetBase].DataContext.Widget.Settings.EnableParts.Value}"
+                    />
+        </Style>
+        <Style Selector=".hideInactiveParts local|BossMonsterPartView:not(:active)">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+    </UserControl.Styles>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -136,20 +141,20 @@
             </StackPanel>
             <!-- Stamina Bar -->
             <overlay:Bar Height="8"
-                         MaxValue="{Binding MaxStamina, Mode=OneWay}"
-                         d:MaxValue="100"
+                         Maximum="{Binding MaxStamina, Mode=OneWay}"
+                         d:Maximum="100"
                          Background="#B2181A1B"
                          Value="{Binding Stamina, Mode=OneWay}"
                          d:Value="50"
                          VerticalAlignment="Top" 
                          BorderThickness="2"
-                         RenderTransformOrigin="0.5,0.5"
+                         RenderTransformOrigin="50%,50%"
                          Margin="13,47,10,0" 
                          ForegroundDelayed="#FFFFCFA8" 
                          BorderBrush="#C7212426"
-                         IsVisible="{Binding $parent[ocomponents:WidgetBase].Settings.EnableStamina.Value}">
+                         IsVisible="{Binding $parent[components:WidgetBase].Settings.EnableStamina.Value}">
                 <overlay:Bar.Foreground>
-                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,1">
+                    <LinearGradientBrush EndPoint="100%,100%" StartPoint="0%,100%">
                         <GradientStop Color="#FFFF9A36" Offset="1"/>
                         <GradientStop Color="#FFFF2E00" Offset="0"/>
                     </LinearGradientBrush>
@@ -171,7 +176,7 @@
                        FontFamily="{StaticResource HUNTERPIE_DEFAULT_FONT}"
                        FontWeight="Medium"
                        FontSize="13"
-                       IsVisible="{Binding $parent[ocomponents:WidgetBase].Settings.EnableStamina.Value}">
+                       IsVisible="{Binding $parent[components:WidgetBase].Settings.EnableStamina.Value}">
                 <TextBlock.Effect>
                     <DropShadowEffect Color="Black"
                                       BlurRadius="4" />
@@ -190,14 +195,14 @@
             <overlay:Bar Height="15"
                          Foreground="{StaticResource MonsterHealthUnenraged}"
                          ForegroundDelayed="{StaticResource MonsterHealthUnenragedDelayed}"
-                         MaxValue="{Binding MaxHealth, Mode=OneWay}"
+                         Maximum="{Binding MaxHealth, Mode=OneWay}"
                          Background="#B2181A1B"
-                         d:MaxValue="100"
+                         d:Maximum="100"
                          Value="{Binding Health, Mode=OneWay}"
                          d:Value="50"
                          BorderThickness="2"
                          VerticalAlignment="Top" 
-                         RenderTransformOrigin="0.5,0.5"
+                         RenderTransformOrigin="50%,50%"
                          Margin="10,32,10,0" 
                          BorderBrush="#C7212426">
                 <overlay:Bar.RenderTransform>
@@ -209,7 +214,9 @@
                     </TransformGroup>
                 </overlay:Bar.RenderTransform>
                 <overlay:Bar.Styles>
-                    <Style Selector=":is(overlay|Bar)">
+                    <Style Selector="local|BossMonsterView.isEnraged overlay|Bar">
+                        <Setter Property="Foreground" Value="{StaticResource MonsterHealthEnraged}" />
+                        <Setter Property="ForegroundDelayed" Value="{StaticResource MonsterHealthEnragedDelayed}" />
                     </Style>
                 </overlay:Bar.Styles>
             </overlay:Bar>
@@ -226,11 +233,11 @@
                                       BlurRadius="4" 
                                       />
                 </TextBlock.Effect>
-            <Run Text="{Binding Health, Mode=OneWay, StringFormat=\{0:F1\}}"
+            <Run Text="{Binding Health, Mode=OneWay, StringFormat={}{0:F1}}"
                  d:Text="25000.0"
                  FontWeight="Normal"/>
             <Run Text="/"/>
-            <Run Text="{Binding MaxHealth, Mode=OneWay, StringFormat=\{0:F1\}}"
+            <Run Text="{Binding MaxHealth, Mode=OneWay, StringFormat={}{0:F1}}"
                  d:Text="25000.0" 
                  FontWeight="Light"
                  Foreground="{StaticResource HUNTERPIE_FOREGROUND_SECONDARY}"/>
@@ -247,7 +254,7 @@
                                       BlurRadius="4" 
                                       />
                 </TextBlock.Effect>
-            <Run Text="{Binding HealthPercentage, Mode=OneWay, Converter={StaticResource FloatFloorConverter}}"
+            <Run Text="{Binding HealthPercentage, Mode=OneWay, StringFormat={}{0:D0}}"
                  d:Text="90"
                  FontWeight="Normal"
                  FontSize="16"/><!--
@@ -268,8 +275,8 @@
                        Width="10"/>
                 <StackPanel.Margin>
                     <MultiBinding Converter="{StaticResource PercentageToLeftMarginDistanceConverter}" ConverterParameter="0,30,0,0">
-                        <Binding Path="Width" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Grid}}"/>
-                        <Binding Path="DataContext.CaptureThreshold" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type local:BossMonsterView}}"/>
+                        <Binding Path="$parent[Grid].Bounds.Width"/>
+                        <Binding Path="CaptureThreshold"/>
                     </MultiBinding>
                 </StackPanel.Margin>
             </StackPanel>
@@ -293,7 +300,7 @@
               Margin="20,47,0,0"
               Height="40">
             <Rectangle Fill="#FF191A1B"
-                       RenderTransformOrigin="0.5,0.5" 
+                       RenderTransformOrigin="50%,50%" 
                        Stroke="#FF343434">
                 <Rectangle.RenderTransform>
                     <TransformGroup>
@@ -303,13 +310,9 @@
             </Rectangle>
 
             <Image d:Source="{assets:MonsterIcon World_16}"
+                   Source="{Binding Icon, Mode=OneWay, TargetNullValue={assets:MonsterIcon Rise_Unknown}}"
                    Classes.isLoading="{Binding !IsLoadingIcon}"
                    Width="40">
-                <Image.Styles>
-                    <Style Selector="Image.isLoading">
-                        <Setter Property="Source" Value="{Binding Icon, Mode=OneWay, TargetNullValue={assets:MonsterIcon Rise_Unknown}}"/>
-                    </Style>
-                </Image.Styles>
             </Image>
             <loading:CircleLoading Height="15"
                                    Width="15"
@@ -326,7 +329,7 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="{x:Type genums:Element}">
                     <local:BossMonsterWeaknessView Width="20"
-                                                   Height="{Binding Width, RelativeSource={RelativeSource Self}}"
+                                                   Height="{Binding Bounds.Width, RelativeSource={RelativeSource Self}}"
                                                    Margin="2,0,0,0"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -349,12 +352,12 @@
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel Orientation="Horizontal"
-                                   IsVisible="{Binding $parent[ocomponents:WidgetBase].Widget.Settings.EnableAilments.Value}"/>
+                                   IsVisible="{Binding $parent[components:WidgetBase].Widget.Settings.EnableAilments.Value}"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
 
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="{x:Type viewmodels:MonsterAilmentViewModel}">
+                    <DataTemplate>
                         <view:BossMonsterAilmentView Width="80"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -365,15 +368,16 @@
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel Orientation="Horizontal"
-                                   IsVisible="{Binding $parent[ocomponents:WidgetBase].Widget.Settings.EnableParts.Value}"/>
+                                   IsVisible="{Binding $parent[components:WidgetBase].Widget.Settings.EnableParts.Value}"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
 
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <ContentPresenter ContentTemplate="{Binding Type, Converter={StaticResource MonsterPartTypeToDataTemplateConverter}}"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
+                <!-- <ItemsControl.ItemTemplate> -->
+                <!--     <DataTemplate DataType="viewmodels:MonsterPartViewModel"> -->
+                <!--         <ContentPresenter  -->
+                <!--             ContentTemplate="{Binding Type, Converter={StaticResource MonsterPartTypeToDataTemplateConverter}}" /> -->
+                <!--     </DataTemplate> -->
+                <!-- </ItemsControl.ItemTemplate> -->
             </ItemsControl>
         </StackPanel>
     </Grid>

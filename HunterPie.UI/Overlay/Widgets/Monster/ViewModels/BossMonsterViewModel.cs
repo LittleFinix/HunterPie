@@ -170,7 +170,7 @@ public class BossMonsterViewModel : ViewModel
 
     private async Task<string> FetchQurioIcon(string defaultImagePath)
     {
-        string maskPath = ClientInfo.GetPathFor($"Assets/Monsters/Masks/qurio_mask.png");
+        string maskPath = ClientInfo.GetPathFor("Assets/Monsters/Masks/qurio_mask.png");
         string imageName = $"{Em}_qurio";
         string imagePath = ClientInfo.GetPathFor($"Assets/Monsters/Icons/{imageName}.png");
 

@@ -1,12 +1,11 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Diagnostics;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using Avalonia.Media;
 using Avalonia.Threading;
 using HunterPie.Core.Client;
+using HunterPie.Core.Client.Localization;
 using HunterPie.Core.Domain.Dialog;
 using HunterPie.Core.Logger;
 using HunterPie.Features.Account;
@@ -15,15 +14,12 @@ using HunterPie.Features.Account.UseCase;
 using HunterPie.Features.Debug;
 using HunterPie.Features.Notification.ViewModels;
 using HunterPie.GUI.Parts.Account.Views;
-using HunterPie.GUI.Parts.Host;
 using HunterPie.GUI.ViewModels;
 using HunterPie.Internal;
 using HunterPie.UI.Controls.Notfication;
 using HunterPie.Usecases;
 using System;
-using System.ComponentModel;
 using System.Threading.Tasks;
-using Localization = HunterPie.Core.Client.Localization.Localization;
 
 namespace HunterPie;
 

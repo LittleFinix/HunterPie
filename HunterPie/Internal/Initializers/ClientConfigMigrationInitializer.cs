@@ -1,4 +1,5 @@
 ﻿using HunterPie.Core.Client;
+using HunterPie.Core.Client.Configuration;
 using HunterPie.Core.Client.Configuration.Versions;
 using HunterPie.Core.Domain.Interfaces;
 using HunterPie.Core.Json;
@@ -10,11 +11,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Config = HunterPie.Core.Client.Configuration.Config;
+using ClientConfig = HunterPie.Core.Client.ClientConfig;
 
 namespace HunterPie.Internal.Initializers;
 
-#nullable enable
 internal class ClientConfigMigrationInitializer : IInitializer
 {
     private static readonly Dictionary<int, ISettingsMigrator> _migrators = new()

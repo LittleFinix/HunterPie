@@ -9,7 +9,7 @@ public partial class LabeledText : UserControl
 {
     public string Label
     {
-        get => (string)GetValue(LabelProperty);
+        get => GetValue(LabelProperty);
         set => SetValue(LabelProperty, value);
     }
 

@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Avalonia.Data.Converters;
+using Avalonia.Media;
+using System;
 using System.Globalization;
-using System.Windows.Data;
-using System.Windows.Media;
-using MediaBrushes = System.Windows.Media.Brushes;
+using MediaBrushes = Avalonia.Media.Brushes;
 
 namespace HunterPie.UI.Architecture.Converters;
 public class ColorToBrushConverter : IValueConverter
 {
-    private static readonly SolidColorBrush Default = MediaBrushes.White;
+    private static readonly IBrush Default = MediaBrushes.White;
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
@@ -15,7 +15,6 @@ public class ColorToBrushConverter : IValueConverter
             return Default;
 
         var brush = new SolidColorBrush(color);
-        brush.Freeze();
 
         return brush;
     }

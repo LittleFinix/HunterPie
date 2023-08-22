@@ -31,7 +31,7 @@ internal class InsectGlaiveWidgetMocker : IWidgetMocker
 
     private static InsectGlaiveViewModel MockViewModel()
     {
-        var vm = new InsectGlaiveViewModel()
+        var vm = new InsectGlaiveViewModel
         {
             AttackTimer = 90,
             ChargeTimer = 250,

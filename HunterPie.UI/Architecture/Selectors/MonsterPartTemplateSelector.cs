@@ -1,8 +1,7 @@
-﻿using HunterPie.Core.Game.Enums;
+﻿using Avalonia.Markup.Xaml.Templates;
+using HunterPie.Core.Game.Enums;
 using HunterPie.UI.Overlay.Widgets.Monster.ViewModels;
 using System;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace HunterPie.UI.Architecture.Selectors;
 

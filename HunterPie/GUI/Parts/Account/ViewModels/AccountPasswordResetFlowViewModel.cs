@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace HunterPie.GUI.Parts.Account.ViewModels;
 
-#nullable enable
 public class AccountPasswordResetFlowViewModel : ViewModel
 {
     private readonly PoogieAccountConnector _accountConnector = new();

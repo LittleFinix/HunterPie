@@ -9,6 +9,7 @@
         xmlns:DEBUG="DEBUG_MODE"
         xmlns:enums="using:HunterPie.UI.Overlay.Enums"
         mc:Ignorable="d"
+        x:DataType="local:WidgetBase"
         Title="{Binding Widget.Title, Mode=OneWay}"
         SystemDecorations="None"
         Background="#01000000"
@@ -23,12 +24,16 @@
         ShowInTaskbar="False"
         CanResize="False"
         TransparencyBackgroundFallback="{x:Null}"
+        Classes.gameHudOpen="{Binding IsGameHudOpen, Source={x:Static overlay:WidgetManager.Instance}}"
+        Classes.hideWhenUIOpen="{Binding Widget.Settings.HideWhenUiOpen.Value}"
+        Classes.hideWhenUnfocus="{Binding Settings.HideWhenUnfocus, Source={x:Static overlay:WidgetManager.Instance}}"
+        Classes.isGameFocused="{Binding IsGameFocused, Source={x:Static overlay:WidgetManager.Instance}}"
+        Classes.isDesignModeEnabled="{Binding IsDesignModeEnabled, Source={x:Static overlay:WidgetManager.Instance}}"
+        Classes.overlayEnabled="{Binding Overlay.IsEnabled.Value, Source={x:Static client:ClientConfig.Config}}"
         PointerWheelChanged="InputElement_OnPointerWheelChanged">
-    <Window.Resources>
-        <enums:WidgetType x:Key="WidgetType_Window">Window</enums:WidgetType>
-    </Window.Resources>
-    <Grid>
+    <Panel>
         <Grid x:Name="PART_Base"
+              IsVisible="{Binding IsDesignModeEnabled, Source={x:Static overlay:WidgetManager.Instance}}"
               d:Opacity="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
@@ -48,56 +53,34 @@
         </Grid>
 
         <!-- Widget content -->
-        <Grid Margin="10,30,10,10">
-            <ContentControl Content="{Binding Widget}"
+        <Panel Margin="10,30,10,10">
+            <ContentControl x:DataType="local:WidgetBase" 
+                            Content="{Binding Widget}"
                             Opacity="{Binding Widget.Settings.Opacity.Current, Mode=OneWay}"
-                            Classes.hideWhenUIOpen="{Binding Widget.Settings.HideWhenUiOpen.Value}"
-                            Classes.gameHudOpen="{Binding IsGameHudOpen, Source={x:Static overlay:WidgetManager.Instance}}"
-                            Classes.hideWhenUnfocus="{Binding Settings.HideWhenUnfocus, Source={x:Static overlay:WidgetManager.Instance}}"
-                            Classes.isGameFocused="{Binding IsGameFocused, Source={x:Static overlay:WidgetManager.Instance}}"
-                            Classes.isDesignModeEnabled="{Binding IsDesignModeEnabled, Source={x:Static overlay:WidgetManager.Instance}}"
-                            Classes.overlayEnabled="{Binding Overlay.IsEnabled.Value, Source={x:Static client:ClientConfig.Config}}"
-                            >
+            >
                 <ContentControl.Styles>
                     <Style Selector="ContentControl">
                         <Setter Property="IsVisible" Value="{Binding Widget.Settings.Enabled.Value}"/>
                         
-                        <Style Selector="^.hideWhenUIOpen.isGameHudOpen">
-                            <Setter Property="IsVisible" Value="False"/>
-                        </Style>
-                        <Style Selector="^.hideWhenUnfocus:not(.isGameFocused)">
-                            <Setter Property="IsVisible" Value="False"/>
-                        </Style>
-                        <Style Selector="^.isDesignModeEnabled">
-                            <Setter Property="IsVisible" Value="True"/>
-                        </Style>
-                        <Style Selector="^:not(.overlayEnabled)">
-                            <Setter Property="IsVisible" Value="False"/>
-                        </Style>
+                        <!-- <Style Selector="^.hideWhenUIOpen.isGameHudOpen"> -->
+                        <!--     <Setter Property="IsVisible" Value="False"/> -->
+                        <!-- </Style> -->
+                        <!-- <Style Selector="^.hideWhenUnfocus:not(.isGameFocused)"> -->
+                        <!--     <Setter Property="IsVisible" Value="False"/> -->
+                        <!-- </Style> -->
+                        <!-- <Style Selector="^.isDesignModeEnabled"> -->
+                        <!--     <Setter Property="IsVisible" Value="True"/> -->
+                        <!-- </Style> -->
+                        <!-- <Style Selector="^:not(.overlayEnabled)"> -->
+                        <!--     <Setter Property="IsVisible" Value="False"/> -->
+                        <!-- </Style> -->
                     </Style>
                 </ContentControl.Styles>
+                <ContentControl.RenderTransform>
+                    <ScaleTransform ScaleX="{Binding Widget.Settings.Scale.Current, Mode=OneWay}"
+                                    ScaleY="{Binding Widget.Settings.Scale.Current, Mode=OneWay}" />
+                </ContentControl.RenderTransform>
             </ContentControl>
-
-            <mc:AlternateContent>
-                <mc:Choice Requires="DEBUG">
-                    <TextBlock Background="#50000000"
-                               Foreground="{StaticResource HUNTERPIE_FOREGROUND_PRIMARY}"
-                               FontFamily="{StaticResource HUNTERPIE_DEFAULT_FONT}"
-                               VerticalAlignment="Top"
-                               HorizontalAlignment="Left"
-                               Padding="5">
-                        <Run Text="{Binding RenderingTime, Mode=OneWay, StringFormat=\{0:F0\}}"
-                             d:Text="16"/><!--
-                     --><Run Text="ms"
-                             Foreground="{StaticResource HUNTERPIE_FOREGROUND_DARK}"/>
-                    </TextBlock>
-                </mc:Choice>
-            </mc:AlternateContent>
-        </Grid>
-        <Grid.RenderTransform>
-            <ScaleTransform ScaleX="{Binding Widget.Settings.Scale.Current, Mode=OneWay}"
-                            ScaleY="{Binding Widget.Settings.Scale.Current, Mode=OneWay}" />
-        </Grid.RenderTransform>
-    </Grid>
-    
+        </Panel>
+    </Panel>
 </Window>

@@ -1,10 +1,10 @@
-﻿using HunterPie.Core.Logger;
+﻿using Avalonia.Threading;
+using HunterPie.Core.Logger;
 using HunterPie.Domain.Interfaces;
 using HunterPie.Internal.Initializers;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Windows.Threading;
 
 namespace HunterPie.Internal;
 
@@ -28,6 +28,7 @@ internal class InitializerManager
         new ClientConfigInitializer(),
         new ConfigManagerInitializer(),
 
+        new DebugLoggerInitializer(),
         new NativeLoggerInitializer(),
         new HunterPieLoggerInitializer(),
         new MapperFactoryInitializer(),
@@ -68,7 +69,7 @@ internal class InitializerManager
         Log.Benchmark();
 
         // Make sure to run UI initializers in the main thread
-        Dispatcher.CurrentDispatcher.Invoke(async () =>
+        Dispatcher.UIThread.Invoke(async () =>
         {
             foreach (IInitializer initializer in UiInitializers)
                 await initializer.Init();

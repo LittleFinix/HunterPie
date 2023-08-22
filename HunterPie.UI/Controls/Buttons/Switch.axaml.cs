@@ -10,11 +10,11 @@ public partial class Switch : ClickableControl
 {
     public bool IsActive
     {
-        get => (bool)GetValue(IsActiveProperty);
+        get => GetValue(IsActiveProperty);
         set => SetValue(IsActiveProperty, value);
     }
     public static readonly StyledProperty<bool> IsActiveProperty =
-        AvaloniaProperty.Register<Switch, bool>(nameof(IsActive), false);
+        AvaloniaProperty.Register<Switch, bool>(nameof(IsActive));
 
     public Switch()
     {

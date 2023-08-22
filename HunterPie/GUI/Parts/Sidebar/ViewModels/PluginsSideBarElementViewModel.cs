@@ -1,6 +1,5 @@
-﻿using HunterPie.UI.Assets.Application;
-using System.Windows.Media;
-using Localization = HunterPie.Core.Client.Localization.Localization;
+﻿using HunterPie.Core.Client.Localization;
+using HunterPie.UI.Assets.Application;
 
 namespace HunterPie.GUI.Parts.Sidebar.ViewModels;
 
@@ -8,7 +7,7 @@ internal class PluginsSideBarElementViewModel : ISideBarElement
 {
     public ImageSource Icon => Resources.Icon("ICON_PLUGIN");
 
-    public string Text => Localization.Query("//Strings/Client/Tabs/Tab[@Id='PLUGINS_STRING']").Attributes["String"].Value;
+    public string Text => Localization.FindString("Client", "Tabs", "Tab", "PLUGINS_STRING");
 
     public bool IsActivable => true;
 

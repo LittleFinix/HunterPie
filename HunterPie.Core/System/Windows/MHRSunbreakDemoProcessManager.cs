@@ -2,12 +2,13 @@
 using HunterPie.Core.Client;
 using HunterPie.Core.Domain.Enums;
 using HunterPie.Core.Logger;
+using HunterPie.Core.System.Common;
 using System.Diagnostics;
 using System.IO;
 
 namespace HunterPie.Core.System.Windows;
 
-internal class MHRSunbreakDemoProcessManager : WindowsProcessManager
+internal class MHRSunbreakDemoProcessManager : ProcessManagerBase
 {
 
     public override string Name => "MHRiseSunbreakDemo";

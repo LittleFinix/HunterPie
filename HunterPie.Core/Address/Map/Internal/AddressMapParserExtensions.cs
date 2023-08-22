@@ -1,7 +1,6 @@
 ﻿using HunterPie.Core.Logger;
 using System;
 using System.Linq;
-using AddressMapType = HunterPie.Core.Address.Map.Internal.AddressMapKeyWords.AddressMapType;
 
 namespace HunterPie.Core.Address.Map.Internal;
 
@@ -14,7 +13,7 @@ internal static class AddressMapParserExtensions
                 .ToArray();
     }
 
-    public static void AddValueByType(this IAddressMapParser self, AddressMapType type, string key, string value)
+    public static void AddValueByType(this IAddressMapParser self, AddressMapKeyWords.AddressMapType type, string key, string value)
     {
         void TryAdd<T>(string key, T value)
         {
@@ -30,17 +29,13 @@ internal static class AddressMapParserExtensions
 
         switch (type)
         {
-            case AddressMapType.Long:
+            case AddressMapKeyWords.AddressMapType.Long:
                 TryAdd(key, Convert.ToInt64(value, 16));
                 break;
 
-            case AddressMapType.VecInt32:
+            case AddressMapKeyWords.AddressMapType.VecInt32:
                 TryAdd(key, ParseStringToVecInt32(value));
                 break;
-
-            default:
-                break;
-
         }
     }
 }

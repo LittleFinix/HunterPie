@@ -1,8 +1,7 @@
-﻿using HunterPie.Core.Settings.Types;
+﻿using Avalonia.Data;
+using HunterPie.Core.Settings.Types;
 using HunterPie.UI.Settings.Converter;
 using System.Reflection;
-using System.Windows;
-using System.Windows.Data;
 using KeybindingControl = HunterPie.UI.Controls.Buttons.Keybinding;
 
 namespace HunterPie.UI.Settings.Internal;
@@ -14,9 +13,7 @@ public class KeybindingVisualConverter : IVisualConverter
         var key = (Keybinding)childInfo.GetValue(parent);
         Binding binding = VisualConverterHelper.CreateBinding(key, nameof(Keybinding.KeyCombo));
 
-        KeybindingControl control = new();
-
-        _ = BindingOperations.SetBinding(control, KeybindingControl.HotKeyProperty, binding);
+        KeybindingControl control = new() { [KeybindingControl.HotKeyProperty] = binding };
 
         return control;
     }

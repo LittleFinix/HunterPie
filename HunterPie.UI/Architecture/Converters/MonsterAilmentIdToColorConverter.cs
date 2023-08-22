@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Data.Converters;
+using Avalonia.Media;
+using System;
 using System.Globalization;
-using System.Windows;
-using System.Windows.Data;
-using System.Windows.Media;
 
 namespace HunterPie.UI.Architecture.Converters;
 
@@ -13,7 +14,7 @@ public class MonsterAilmentIdToColorConverter : IValueConverter
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        var brush = Application.Current.TryFindResource($"COLOR_MONSTER_{value}") as Brush;
+        var brush = Application.Current.FindResource($"COLOR_MONSTER_{value}") as Brush;
         return brush ?? _default;
     }
 

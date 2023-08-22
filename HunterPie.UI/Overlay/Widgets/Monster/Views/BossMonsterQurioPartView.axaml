@@ -1,15 +1,14 @@
-﻿<UserControl x:Class="HunterPie.UI.Overlay.Widgets.Monster.Views.BossMonsterQurioPartView"
-             xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="using:HunterPie.UI.Overlay.Widgets.Monster.Views"
-             xmlns:vm="using:HunterPie.UI.Overlay.Widgets.Monster.ViewModels"
-             xmlns:overlay="using:HunterPie.UI.Overlay.Controls"
-             xmlns:converters="using:HunterPie.UI.Architecture.Converters"
-             
-             mc:Ignorable="d"
-             d:DesignWidth="200">
+﻿<local:BossMonsterPartViewBase x:Class="HunterPie.UI.Overlay.Widgets.Monster.Views.BossMonsterQurioPartView"
+                         xmlns="https://github.com/avaloniaui"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                         xmlns:local="using:HunterPie.UI.Overlay.Widgets.Monster.Views"
+                         xmlns:vm="using:HunterPie.UI.Overlay.Widgets.Monster.ViewModels"
+                         xmlns:overlay="using:HunterPie.UI.Overlay.Controls"
+                         xmlns:converters="using:HunterPie.UI.Architecture.Converters"
+                         mc:Ignorable="d"
+                         d:DesignWidth="200">
     <UserControl.Resources>
         <converters:MonsterPartIdToNameConverter x:Key="MonsterPartIdToNameConverter"/>
 
@@ -58,12 +57,12 @@
                          VerticalAlignment="Top"
                          Margin="4.5,0,5,0"
                          Background="{StaticResource GRAY_500}"
-                         MaxValue="{Binding QurioMaxHealth, Mode=OneWay}"
+                         Maximum="{Binding QurioMaxHealth, Mode=OneWay}"
                          Value="{Binding QurioHealth, Mode=OneWay}"
                          d:Value="50"
-                         d:MaxValue="100"
+                         d:Maximum="100"
                          BorderThickness="0"
-                         RenderTransformOrigin="0.5,0.5">
+                         RenderTransformOrigin="50%,50%">
                 <overlay:Bar.Foreground>
                     <LinearGradientBrush EndPoint="1,1" StartPoint="0,1">
                         <GradientStop Color="#FFEE4B96" Offset="1"/>
@@ -104,4 +103,4 @@
             </TextBlock>
         </Grid>
     </Grid>
-</UserControl>
+</local:BossMonsterPartViewBase>

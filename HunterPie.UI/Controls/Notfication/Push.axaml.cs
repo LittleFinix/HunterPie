@@ -9,23 +9,23 @@ namespace HunterPie.UI.Controls.Notfication;
 /// </summary>
 public partial class Push : ClickableControl
 {
-    public new Brush Background
+    public new IBrush Background
     {
-        get => (Brush)GetValue(BackgroundProperty);
+        get => (IBrush)GetValue(BackgroundProperty);
         set => SetValue(BackgroundProperty, value);
     }
 
-    public static new readonly StyledProperty<Brush> BackgroundProperty =
-        AvaloniaProperty.Register<Push, Brush>(nameof(Background));
+    public static new readonly StyledProperty<IBrush> BackgroundProperty =
+        AvaloniaProperty.Register<Push, IBrush>(nameof(Background));
 
-    public new Brush Foreground
+    public new IBrush Foreground
     {
-        get => (Brush)GetValue(ForegroundProperty);
+        get => (IBrush)GetValue(ForegroundProperty);
         set => SetValue(ForegroundProperty, value);
     }
 
-    public static new readonly StyledProperty<Brush> ForegroundProperty =
-        AvaloniaProperty.Register<Push, Brush>(nameof(Foreground));
+    public static new readonly StyledProperty<IBrush> ForegroundProperty =
+        AvaloniaProperty.Register<Push, IBrush>(nameof(Foreground));
 
 
     public string Message
@@ -39,7 +39,7 @@ public partial class Push : ClickableControl
 
     public IImage Icon
     {
-        get => (IImage)GetValue(IconProperty);
+        get => GetValue(IconProperty);
         set => SetValue(IconProperty, value);
     }
 

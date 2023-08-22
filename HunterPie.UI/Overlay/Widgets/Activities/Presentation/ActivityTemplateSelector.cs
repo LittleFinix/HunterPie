@@ -1,8 +1,7 @@
-﻿using HunterPie.Core.Game.Entity.Environment;
+﻿using Avalonia.Markup.Xaml.Templates;
+using HunterPie.Core.Game.Entity.Environment;
 using HunterPie.Core.Game.Enums;
 using System;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace HunterPie.UI.Overlay.Widgets.Activities.Presentation;
 

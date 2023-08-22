@@ -1,8 +1,7 @@
-﻿using HunterPie.Core.Domain.Dialog;
+﻿using Avalonia.Data.Converters;
+using HunterPie.Core.Domain.Dialog;
 using System;
 using System.Globalization;
-using System.Windows;
-using System.Windows.Data;
 
 namespace HunterPie.UI.Architecture.Converters;
 

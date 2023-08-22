@@ -90,38 +90,38 @@
                     VerticalAlignment="Bottom"
                     Margin="5"
                     StartAngle="60"
-                    RenderTransformOrigin="0.5,0.5">
+                    RenderTransformOrigin="50%,50%">
             <Arc.RenderTransform>
                 <TransformGroup>
                     <RotateTransform Angle="0"/>
                 </TransformGroup>
             </Arc.RenderTransform>
-            <Arc.Styles>
-                <Style Selector="Arc[IsVisible=True]">
-                    <Style.Animations>
-                        <Animation IterationCount="INFINITE">
-                            <KeyFrame KeyTime="1">
-                                <Setter Property="StartAngle" Value="-90" />
-                                <Setter Property="RenderTransform">
-                                    <TransformGroup>
-                                        <RotateTransform Angle="0" />
-                                    </TransformGroup>
-                                </Setter>
-                            </KeyFrame>
-                            <KeyFrame KeyTime="1.8">
-                                <Setter Property="RenderTransform">
-                                    <TransformGroup>
-                                        <RotateTransform Angle="360" />
-                                    </TransformGroup>
-                                </Setter>
-                            </KeyFrame>
-                            <KeyFrame KeyTime="2">
-                                <Setter Property="StartAngle" Value="60" />
-                            </KeyFrame>
-                        </Animation>
-                    </Style.Animations>
-                </Style>
-            </Arc.Styles>
+            <!-- <Arc.Styles> -->
+            <!--     <Style Selector="Arc[IsVisible=True]"> -->
+            <!--         <Style.Animations> -->
+            <!--             <Animation IterationCount="INFINITE"> -->
+            <!--                 <KeyFrame KeyTime="1"> -->
+            <!--                     <Setter Property="StartAngle" Value="-90" /> -->
+            <!--                     <Setter Property="RenderTransform"> -->
+            <!--                         <TransformGroup> -->
+            <!--                             <RotateTransform Angle="0" /> -->
+            <!--                         </TransformGroup> -->
+            <!--                     </Setter> -->
+            <!--                 </KeyFrame> -->
+            <!--                 <KeyFrame KeyTime="1.8"> -->
+            <!--                     <Setter Property="RenderTransform"> -->
+            <!--                         <TransformGroup> -->
+            <!--                             <RotateTransform Angle="360" /> -->
+            <!--                         </TransformGroup> -->
+            <!--                     </Setter> -->
+            <!--                 </KeyFrame> -->
+            <!--                 <KeyFrame KeyTime="2"> -->
+            <!--                     <Setter Property="StartAngle" Value="60" /> -->
+            <!--                 </KeyFrame> -->
+            <!--             </Animation> -->
+            <!--         </Style.Animations> -->
+            <!--     </Style> -->
+            <!-- </Arc.Styles> -->
         </Arc>
     </Grid>
     <Window.Transitions>

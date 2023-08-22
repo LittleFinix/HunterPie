@@ -1,4 +1,5 @@
-﻿using HunterPie.Core.Client;
+﻿using Avalonia.Threading;
+using HunterPie.Core.Client;
 using HunterPie.Core.Client.Configuration;
 using HunterPie.Core.Client.Configuration.Overlay;
 using HunterPie.Core.Game;
@@ -32,7 +33,7 @@ public class MonsterWidgetContextHandler : IContextHandler
         HookEvents();
     }
 
-    private void UpdateData()
+    public void UpdateData()
     {
         foreach (IMonster monster in _context.Game.Monsters)
         {
@@ -54,7 +55,7 @@ public class MonsterWidgetContextHandler : IContextHandler
         _context.Game.OnMonsterSpawn -= OnMonsterSpawn;
         _context.Game.OnMonsterDespawn -= OnMonsterDespawn;
 
-        _view.Dispatcher.Invoke(() =>
+        Dispatcher.UIThread.Invoke(() =>
         {
             foreach (MonsterContextHandler ctxHandler in _viewModel.Monsters.Cast<MonsterContextHandler>())
                 ctxHandler.Dispose();
@@ -67,7 +68,7 @@ public class MonsterWidgetContextHandler : IContextHandler
 
     private void OnMonsterDespawn(object sender, IMonster e)
     {
-        _view.Dispatcher.Invoke(() =>
+        Dispatcher.UIThread.Invoke(() =>
         {
             MonsterContextHandler monster = _viewModel.Monsters
                 .Cast<MonsterContextHandler>()
@@ -87,7 +88,7 @@ public class MonsterWidgetContextHandler : IContextHandler
 
     private void OnMonsterSpawn(object sender, IMonster e)
     {
-        _view.Dispatcher.Invoke(() => _viewModel.Monsters.Add(new MonsterContextHandler(e, Settings)));
+        Dispatcher.UIThread.Invoke(() => _viewModel.Monsters.Add(new MonsterContextHandler(e, Settings)));
 
         e.OnTargetChange += OnTargetChange;
         CalculateVisibleMonsters();

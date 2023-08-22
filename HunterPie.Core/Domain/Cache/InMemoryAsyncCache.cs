@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace HunterPie.Core.Domain.Cache;
 
-#nullable enable
 /// <summary>
 /// A thread safe and asynchronous in-memory cache
 /// </summary>

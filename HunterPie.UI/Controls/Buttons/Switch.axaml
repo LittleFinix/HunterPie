@@ -7,24 +7,29 @@
                        xmlns:arch="using:HunterPie.UI.Architecture"
                        xmlns:sys="clr-namespace:System;assembly=mscorlib"
                        xmlns:converters="using:HunterPie.UI.Architecture.Converters"
+                       xmlns:buttons="clr-namespace:HunterPie.UI.Controls.Buttons"
                        mc:Ignorable="d" 
                        Width="60"
                        Height="30">
     <arch:ClickableControl.Resources>
-        <converters:RelativeSizeConverter x:Key="RelativeSizeConverter"/>
         <converters:SizeToDoubleSizeConverter x:Key="SizeToDoubleSizeConverter"/>
     </arch:ClickableControl.Resources>
+    <Design.DesignStyle>
+        <Style Selector="buttons|Switch:pointerover">
+            <Setter Property="IsActive" Value="True" />
+        </Style>
+    </Design.DesignStyle>
     <Grid>
         <Rectangle Fill="{StaticResource GRAY_100}"
-                   RadiusX="{Binding Height, RelativeSource={RelativeSource Self}, Converter={StaticResource RelativeSizeConverter}, ConverterParameter=0.5}"
-                   RadiusY="{Binding RadiusX, RelativeSource={RelativeSource Self}}"
+                   RadiusX="{Binding $self.Height}"
+                   RadiusY="{Binding $self.RadiusX}"
                    Stroke="{StaticResource GRAY}"
                    StrokeThickness="1"/>
 
         <Rectangle x:Name="PART_Bubble"
                    Fill="{StaticResource WHITE_100}"
                    Width="0"
-                   Height="{Binding Width, RelativeSource={RelativeSource Self}}"
+                   Height="{Binding $self.Width}"
                    VerticalAlignment="Stretch"
                    HorizontalAlignment="Left"
                    Opacity="0"
@@ -32,34 +37,29 @@
                    RadiusX="20"
                    RadiusY="20">
             <Rectangle.Margin>
-                <MultiBinding Converter="{StaticResource SizeToDoubleSizeConverter}">
-                    <Binding ElementName="PART_Bubble" 
-                             Path="Width" 
+                <MultiBinding Converter="{StaticResource SizeToDoubleSizeConverter}" ConverterParameter="5.0">
+                    <Binding ElementName="PART_Bubble"
+                             Path="Width"
                              Mode="OneWay" />
-                    <Binding ElementName="PART_Slider" 
-                             Path="Margin" 
+                    <Binding ElementName="PART_Slider"
+                             Path="Margin"
                              Mode="OneWay" />
-                    <Binding ElementName="PART_Slider" 
-                             Path="Width" 
+                    <Binding ElementName="PART_Slider"
+                             Path="Width"
                              Mode="OneWay" />
-                    <MultiBinding.ConverterParameter>
-                        <sys:Double>5</sys:Double>
-                    </MultiBinding.ConverterParameter>
                 </MultiBinding>
             </Rectangle.Margin>
         </Rectangle>
         
         <Rectangle x:Name="PART_Slider"
                    Fill="{StaticResource GRAY}"
-                   Height="{Binding Height, Converter={StaticResource RelativeSizeConverter}, ConverterParameter=0.70, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}}"
-                   Width="{Binding Path=Height, RelativeSource={RelativeSource Self}}"
+                   Height="{Binding $parent[Grid].Height}"
+                   Width="{Binding $self.Height}"
                    Margin="5,0,0,0"
                    Cursor="Hand"
                    VerticalAlignment="Stretch"
                    HorizontalAlignment="Left"
                    RadiusX="20"
                    RadiusY="20" />
-
-        
     </Grid>
 </arch:ClickableControl>

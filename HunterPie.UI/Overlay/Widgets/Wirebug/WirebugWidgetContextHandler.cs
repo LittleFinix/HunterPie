@@ -1,4 +1,5 @@
-﻿using HunterPie.Core.Client;
+﻿using Avalonia.Threading;
+using HunterPie.Core.Client;
 using HunterPie.Core.Client.Configuration.Overlay;
 using HunterPie.Integrations.Datasources.MonsterHunterRise;
 using HunterPie.Integrations.Datasources.MonsterHunterRise.Entity.Player;
@@ -57,7 +58,7 @@ public class WirebugWidgetContextHandler : IContextHandler
 
     private void OnWirebugsRefresh(object sender, MHRWirebug[] e)
     {
-        _view.Dispatcher.Invoke(() =>
+        Dispatcher.UIThread.Invoke(() =>
         {
             foreach (WirebugViewModel vm in _viewModel.Elements)
                 if (vm is WirebugContextHandler model)
