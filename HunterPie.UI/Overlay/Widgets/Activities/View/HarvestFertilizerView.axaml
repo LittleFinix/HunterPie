@@ -39,7 +39,7 @@
         <!-- Background bar -->
         <Grid Grid.Column="1"
               HorizontalAlignment="Left"
-              MaxWidth="{Binding Width, ElementName=PART_BarBorder}"
+              MaxWidth="{Binding #PART_BarBorder.Bounds.Width}"
               Margin="1,1,0,1"
               ClipToBounds="True"
               d:Width="200">

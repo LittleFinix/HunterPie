@@ -23,7 +23,7 @@
               Grid.ColumnSpan="2"
               HorizontalAlignment="Left"
               d:Width="40"
-              MaxWidth="{Binding Width, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"
+              MaxWidth="{Binding $parent[Grid].Bounds.Width}"
               Margin="1"
               ClipToBounds="True">
             <Grid.Width>

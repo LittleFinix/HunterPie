@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="using:HunterPie.UI.Overlay.Widgets.Activities.View"
-             
+             xmlns:local="clr-namespace:HunterPie.UI.Overlay.Widgets.Activities.View"
              xmlns:vm="using:HunterPie.UI.Overlay.Widgets.Activities.ViewModel"
              xmlns:converters="using:HunterPie.UI.Architecture.Converters"
              xmlns:loc="using:HunterPie.UI.Architecture.Assets"
@@ -25,7 +24,7 @@
               Grid.ColumnSpan="2"
               HorizontalAlignment="Left"
               d:Width="40"
-              MaxWidth="{Binding Width, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}"
+              MaxWidth="{Binding $parent[Grid].Bounds.Width}"
               Margin="1"
               ClipToBounds="True">
             <Grid.Width>
@@ -64,22 +63,16 @@
                     <ColumnDefinition Width="40"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Rectangle Margin="3"
-                           Grid.RowSpan="2" 
-                           Grid.Column="0"
-                           Fill="WhiteSmoke"
-                           Opacity="0.7">
-                    <Rectangle.OpacityMask>
-                        <ImageBrush Source="{StaticResource ICON_DOJO}" 
-                                    Stretch="Uniform"/>
-                    </Rectangle.OpacityMask>
-                    <Rectangle.Effect>
+                <Image 
+                       Grid.Column="0"
+                       Grid.RowSpan="2" 
+                       Opacity="0.7" Margin="3" Source="{StaticResource ICON_DOJO}">
+                    <Image.Effect>
                         <DropShadowEffect BlurRadius="5"
                                               Color="Black"
                                               />
-                    </Rectangle.Effect>
-                </Rectangle>
-
+                    </Image.Effect>
+                </Image>
                 <StackPanel Orientation="Horizontal"
                             Margin="0,0,-16,0" 
                             Grid.Row="0" 

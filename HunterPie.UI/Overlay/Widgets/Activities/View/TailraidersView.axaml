@@ -11,11 +11,6 @@
              d:DesignHeight="40" 
              d:DesignWidth="135"
              d:Background="#DF202327">
-             
-    <UserControl.Resources>
-        
-        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
-    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40"/>
@@ -46,7 +41,7 @@
                    HorizontalAlignment="Center"
                    FontWeight="Medium"
                    d:IsVisible="Collapsed"
-                   IsVisible="{Binding IsDeployed, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
+                   IsVisible="{Binding IsDeployed}"/>
 
         <TextBlock Grid.Column="1"
                    d:Text="5"
