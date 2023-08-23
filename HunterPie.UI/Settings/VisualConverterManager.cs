@@ -134,6 +134,9 @@ public class VisualConverterManager
             if (prop.PropertyType.GetInterfaces().Contains(typeof(ISettings)))
             {
                 var meta = (SettingsGroup)Attribute.GetCustomAttribute(prop.PropertyType, typeof(SettingsGroup));
+                
+                if (meta is null)
+                    continue;
 
                 if (meta.DependsOnFeature is not null &&
                     !FeatureFlagManager.IsEnabled(meta.DependsOnFeature))
@@ -144,7 +147,7 @@ public class VisualConverterManager
                 if (!meta.AvailableGames.HasFlag(currentConfiguration))
                     continue;
 
-                XmlNode? locNode = metadata is not null ? Localization.Find("Client", "Settings", "Setting", metadata.Name) : null;
+                XmlNode? locNode = Localization.Find("Client", "Settings", "Setting", meta.Name);
                 string title = locNode?.Attributes?["String"]?.Value ?? meta.Name;
                 string description = locNode?.Attributes?["Description"]?.Value ?? meta.Description;
 
