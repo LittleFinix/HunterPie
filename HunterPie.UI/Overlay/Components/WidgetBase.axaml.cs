@@ -207,4 +207,20 @@ public partial class WidgetBase : Window
             _isChangingPosition = false;
         }
     }
+
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        base.OnPropertyChanged(change);
+        
+        if (change.Property == IsVisibleProperty)
+        {
+            if (change.NewValue is true)
+            {
+                // When visibility is changed, the task bar icon reappears.
+                // This fixes this.
+                ShowInTaskbar = true;
+                ShowInTaskbar = false;
+            }
+        }
+    }
 }

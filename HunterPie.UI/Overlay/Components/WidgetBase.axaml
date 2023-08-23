@@ -24,6 +24,7 @@
         ShowInTaskbar="False"
         CanResize="False"
         TransparencyBackgroundFallback="{x:Null}"
+        IsVisible="{Binding Overlay.IsEnabled.Value, Source={x:Static client:ClientConfig.Config}}"
         Classes.gameHudOpen="{Binding IsGameHudOpen, Source={x:Static overlay:WidgetManager.Instance}}"
         Classes.hideWhenUIOpen="{Binding Widget.Settings.HideWhenUiOpen.Value}"
         Classes.hideWhenUnfocus="{Binding Settings.HideWhenUnfocus, Source={x:Static overlay:WidgetManager.Instance}}"
