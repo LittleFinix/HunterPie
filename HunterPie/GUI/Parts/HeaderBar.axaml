@@ -93,7 +93,7 @@
                 Command="{Binding MinimizeApplication}"
                 VerticalContentAlignment="Bottom">
                 <Button.Content>
-                    <TextBlock Text="_" />
+                    <TextBlock ClipToBounds="False" Text="_" />
                 </Button.Content>
             </Button>
             <Button 
