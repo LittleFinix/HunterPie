@@ -4,6 +4,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="avares://HunterPie.UI/Resources/Themes.axaml" />
+                
                 <ResourceInclude Source="avares://HunterPie.UI/Resources/Constants.axaml"/>
                 <ResourceInclude Source="avares://HunterPie.UI/Resources/Colors.axaml"/>
                 <ResourceInclude Source="avares://HunterPie.UI/Resources/Brushes.axaml"/>

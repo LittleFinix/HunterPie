@@ -93,6 +93,19 @@
                     </ItemsControl>
                 </DataTemplate>
             </TabControl.ContentTemplate>
+            <TabControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel />
+                </ItemsPanelTemplate>
+            </TabControl.ItemsPanel>
+            <TabControl.Styles>
+                <Style Selector="TabItem">
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </TabControl.Styles>
             <TabControl.ItemTemplate>
                 <DataTemplate DataType="viewModel:ISettingElement">
                     <native:TabItem Padding="10,5,10,5"
@@ -103,6 +116,30 @@
                                     FontSize="13" />
                 </DataTemplate>
             </TabControl.ItemTemplate>
+            <TabControl.Template>
+                <ControlTemplate>
+                    <Border Padding="{TemplateBinding Padding}"
+                            HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                        <DockPanel>
+                            <viewer:SmoothScrollViewer>
+                                <ItemsPresenter Name="PART_ItemsPresenter"
+                                                ItemsPanel="{TemplateBinding ItemsPanel}" />
+                            </viewer:SmoothScrollViewer>
+                            <ContentPresenter Name="PART_SelectedContentHost"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Content="{TemplateBinding SelectedContent}"
+                                              ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </TabControl.Template>
         </TabControl>
     
         <StackPanel Grid.Row="2"
