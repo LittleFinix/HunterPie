@@ -216,8 +216,10 @@ public partial class WidgetBase : Window
         {
             if (change.NewValue is true)
             {
-                // When visibility is changed, the task bar icon reappears.
+                // When visibility is changed, the task bar icon reappears and topmost is lost.
                 // This fixes this.
+                Topmost = false;
+                Topmost = true;
                 ShowInTaskbar = true;
                 ShowInTaskbar = false;
             }
