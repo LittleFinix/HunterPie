@@ -26,6 +26,12 @@ public static class Posix
         [In, Out] IntPtr data
     );
 
+    [DllImport("c", CharSet = CharSet.Ansi)]
+    private static extern int getuid();
+    
+    [DllImport("c", CharSet = CharSet.Ansi)]
+    private static extern int geteuid();
+
     /// <summary>
     /// Resolves the given path, if it is a symlink
     /// </summary>
@@ -41,6 +47,14 @@ public static class Posix
             return new(buf[..len]);
         throw new NativeErrorException();
     }
+
+    public static int UID => getuid();
+    
+    public static int EffectiveUID => geteuid();
+
+    public static bool IsRoot => EffectiveUID == 0;
+    
+    public static bool IsRealRoot => UID == 0;
 
     /// <summary>
     /// Resolves the given path, if it is a symlink.

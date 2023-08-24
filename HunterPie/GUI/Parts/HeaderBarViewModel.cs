@@ -4,6 +4,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Input;
 using HunterPie.Core.Architecture;
 using HunterPie.Core.Client;
+using HunterPie.Core.System.Linux;
 using HunterPie.Integrations.Poogie.Common.Models;
 using HunterPie.Integrations.Poogie.Supporter;
 using HunterPie.Integrations.Poogie.Supporter.Models;
@@ -83,7 +84,7 @@ public class HeaderBarViewModel : Bindable
 
         if (OperatingSystem.IsLinux())
         {
-            return Environment.GetEnvironmentVariable("UID") == "0";
+            return Posix.IsRoot;
         }
 
         return false;
