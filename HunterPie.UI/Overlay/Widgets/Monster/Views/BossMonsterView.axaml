@@ -56,18 +56,8 @@
         </templates:MonsterPartDataTemplate>
     </UserControl.DataTemplates>
     <UserControl.Styles>
-        <Style Selector="local|BossMonsterAilmentView">
-            <Setter Property="IsVisible"
-                    Value="{Binding !$parent[components:WidgetBase].DataContext.Widget.Settings.EnableAilments.Value}"
-                    />
-        </Style>
         <Style Selector=".hideInactiveAilments local|BossMonsterAilmentView:not(:active)">
             <Setter Property="IsVisible" Value="False" />
-        </Style>
-        <Style Selector="local|BossMonsterPartView">
-            <Setter Property="IsVisible"
-                    Value="{Binding !$parent[components:WidgetBase].DataContext.Widget.Settings.EnableParts.Value}"
-                    />
         </Style>
         <Style Selector=".hideInactiveParts local|BossMonsterPartView:not(:active)">
             <Setter Property="IsVisible" Value="False" />

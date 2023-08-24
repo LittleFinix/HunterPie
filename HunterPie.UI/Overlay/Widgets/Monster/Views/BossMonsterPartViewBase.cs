@@ -5,7 +5,7 @@ using System;
 
 namespace HunterPie.UI.Overlay.Widgets.Monster.Views;
 
-public class BossMonsterPartViewBase : UserControl
+public class BossMonsterPartViewBase : AutoVisibilityBase
 {
     public static readonly StyledProperty<bool> IsPartBrokenProperty = AvaloniaProperty.Register<BossMonsterPartViewBase, bool>(
         "IsPartBroken");
@@ -25,15 +25,6 @@ public class BossMonsterPartViewBase : UserControl
         set => SetValue(IsPartSeveredProperty, value);
     }
 
-    public static readonly StyledProperty<bool> IsActiveProperty = AvaloniaProperty.Register<BossMonsterPartViewBase, bool>(
-        "IsActive");
-
-    public bool IsActive
-    {
-        get => GetValue(IsActiveProperty);
-        set => SetValue(IsActiveProperty, value);
-    }
-
     public static readonly StyledProperty<bool> IsKnownPartProperty = DependencyObject.Register<BossMonsterPartViewBase, bool>(
         "IsKnownPart");
 
@@ -48,13 +39,11 @@ public class BossMonsterPartViewBase : UserControl
         base.OnInitialized();
 
         this[!IsPartBrokenProperty] = new Binding("IsPartBroken"); 
-        this[!IsPartSeveredProperty] = new Binding("IsPartSevered"); 
-        this[!IsActiveProperty] = new Binding("IsActive"); 
+        this[!IsPartSeveredProperty] = new Binding("IsPartSevered");
         this[!IsKnownPartProperty] = new Binding("IsKnownPart"); 
         
         PseudoClasses.Set(":part-broken", this.GetObservable(IsPartBrokenProperty));
         PseudoClasses.Set(":part-severed", this.GetObservable(IsPartSeveredProperty));
-        PseudoClasses.Set(":active", this.GetObservable(IsActiveProperty));
         PseudoClasses.Set(":known", this.GetObservable(IsKnownPartProperty));
     }
 }
