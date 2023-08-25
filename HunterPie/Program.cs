@@ -24,9 +24,7 @@ public class Program
     private static AppBuilder BuildAvaloniaApp()
     {
         return AppBuilder.Configure<App>()
-            .UseAvaloniaNative()
-            .UsePlatformDetect()
-            .UseSkia();
+            .UsePlatformDetect();
     }
 
     private static void RegisterPlatformSubsystem()

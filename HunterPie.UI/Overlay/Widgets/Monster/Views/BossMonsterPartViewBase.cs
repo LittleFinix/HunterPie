@@ -1,10 +1,12 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Metadata;
 using Avalonia.Data;
 using System;
 
 namespace HunterPie.UI.Overlay.Widgets.Monster.Views;
 
+[PseudoClasses(":known", ":part-broken", ":part-severed")]
 public class BossMonsterPartViewBase : AutoVisibilityBase
 {
     public static readonly StyledProperty<bool> IsPartBrokenProperty = AvaloniaProperty.Register<BossMonsterPartViewBase, bool>(

@@ -17,9 +17,6 @@
              xmlns:components="clr-namespace:HunterPie.UI.Overlay.Components"
              xmlns:templates="clr-namespace:HunterPie.UI.Architecture.Templates"
              x:DataType="viewmodels:BossMonsterViewModel"
-             Classes.isEnraged="{Binding IsEnraged}"
-             Classes.isAlive="{Binding IsAlive}"
-             Classes.isCapturable="{Binding IsCapturable}"
              Classes.hideInactiveAilments="{Binding $parent[components:WidgetBase].Widget.Settings.AutomaticallyHideAilments.Value}"
              Classes.hideInactiveParts="{Binding $parent[components:WidgetBase].Widget.Settings.AutoHideParts.Value}"
              Classes.hideUnknownParts="{Binding $parent[components:WidgetBase].Widget.Settings.HideUnknownParts.Value}"
@@ -56,10 +53,10 @@
         </templates:MonsterPartDataTemplate>
     </UserControl.DataTemplates>
     <UserControl.Styles>
-        <Style Selector=".hideInactiveAilments local|BossMonsterAilmentView:not(:active)">
+        <Style Selector=".hideInactiveAilments :is(local|BossMonsterAilmentView):not(:active)">
             <Setter Property="IsVisible" Value="False" />
         </Style>
-        <Style Selector=".hideInactiveParts local|BossMonsterPartView:not(:active)">
+        <Style Selector=".hideInactiveParts :is(local|BossMonsterPartViewBase):not(:active)">
             <Setter Property="IsVisible" Value="False" />
         </Style>
     </UserControl.Styles>
@@ -82,7 +79,7 @@
             </ItemsControl.ItemsPanel>
 
             <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type system:String}">
+                <DataTemplate DataType="system:String">
                     <Border Padding="2"
                             Background="{StaticResource GRAY_50}"
                             BorderBrush="{StaticResource GRAY}"
@@ -183,8 +180,7 @@
 
             <!-- Health bar -->
             <overlay:Bar Height="15"
-                         Foreground="{StaticResource MonsterHealthUnenraged}"
-                         ForegroundDelayed="{StaticResource MonsterHealthUnenragedDelayed}"
+                         Name="PART_HealthBar"
                          Maximum="{Binding MaxHealth, Mode=OneWay}"
                          Background="#B2181A1B"
                          d:Maximum="100"
@@ -204,7 +200,11 @@
                     </TransformGroup>
                 </overlay:Bar.RenderTransform>
                 <overlay:Bar.Styles>
-                    <Style Selector="local|BossMonsterView.isEnraged overlay|Bar">
+                    <Style Selector="local|BossMonsterView overlay|Bar">
+                        <Setter Property="Foreground" Value="{StaticResource MonsterHealthUnenraged}" />
+                        <Setter Property="ForegroundDelayed" Value="{StaticResource MonsterHealthUnenragedDelayed}" />
+                    </Style>
+                    <Style Selector="local|BossMonsterView:enraged overlay|Bar">
                         <Setter Property="Foreground" Value="{StaticResource MonsterHealthEnraged}" />
                         <Setter Property="ForegroundDelayed" Value="{StaticResource MonsterHealthEnragedDelayed}" />
                     </Style>
@@ -338,20 +338,33 @@
                     IsVisible="{Binding TargetType, Converter={StaticResource TargetTypeToVisibility}}">
             
             <!-- Ailments -->
-            <ItemsControl ItemsSource="{Binding Ailments, Mode=OneWay}">
+            <ItemsControl ItemsSource="{Binding Ailments}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel Orientation="Horizontal"
-                                   IsVisible="{Binding $parent[components:WidgetBase].Widget.Settings.EnableAilments.Value}"/>
+                                   IsVisible="{Binding $parent[components:WidgetBase].Widget.Settings.EnableAilments.Value}"
+                                   />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
-
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <view:BossMonsterAilmentView Width="80"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
+            <!-- <ItemsControl ItemsSource="{Binding Ailments, Mode=OneWay}"> -->
+            <!--     <ItemsControl.ItemsPanel> -->
+            <!--         <ItemsPanelTemplate> -->
+            <!--             <WrapPanel Orientation="Horizontal" -->
+            <!--                        IsVisible="{Binding $parent[components:WidgetBase].Widget.Settings.EnableAilments.Value}"/> -->
+            <!--         </ItemsPanelTemplate> -->
+            <!--     </ItemsControl.ItemsPanel> -->
+            <!--     <ItemsControl.ItemTemplate> -->
+            <!--         <DataTemplate> -->
+            <!--             <view:BossMonsterAilmentView Width="80"/> -->
+            <!--         </DataTemplate> -->
+            <!--     </ItemsControl.ItemTemplate> -->
+            <!-- </ItemsControl> -->
 
             <!-- Parts -->
             <ItemsControl ItemsSource="{Binding Parts, Mode=OneWay}">

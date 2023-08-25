@@ -9,7 +9,6 @@
              xmlns:image="clr-namespace:HunterPie.UI.Controls.Image;assembly=HunterPie.UI"
              xmlns:vm="using:HunterPie.GUI.Parts.Backup.ViewModels"
              mc:Ignorable="d" 
-             
              d:DesignHeight="50" 
              d:DesignWidth="600"
              Margin="2.5">
@@ -38,7 +37,7 @@
                                  Mode="OneWay"/>
                         <Binding Path="BytesToDownload"
                                  Mode="OneWay"/>
-                        <Binding Path="Width"
+                        <Binding Path="Bounds.Width"
                                  RelativeSource="{RelativeSource AncestorType={x:Type Grid}}"/>
                     </MultiBinding>
                 </Rectangle.Width>

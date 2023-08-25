@@ -1,17 +1,17 @@
-﻿<UserControl x:Class="HunterPie.UI.Overlay.Widgets.Monster.Views.BossMonsterAilmentView"
-             xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="using:HunterPie.UI.Overlay.Widgets.Monster.Views"
-             xmlns:vm="using:HunterPie.UI.Overlay.Widgets.Monster.ViewModels"
-             xmlns:overlay="using:HunterPie.UI.Overlay.Controls"
-             xmlns:converters="using:HunterPie.UI.Architecture.Converters"
-             x:DataType="vm:MonsterAilmentViewModel"
-             mc:Ignorable="d"
-             Classes.isActive="{Binding IsActive}"
-             Padding="0,0,0,2"
-             Width="80">
+﻿<local:AutoVisibilityBase x:Class="HunterPie.UI.Overlay.Widgets.Monster.Views.BossMonsterAilmentView"
+                    xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                    xmlns:local="using:HunterPie.UI.Overlay.Widgets.Monster.Views"
+                    xmlns:vm="using:HunterPie.UI.Overlay.Widgets.Monster.ViewModels"
+                    xmlns:overlay="using:HunterPie.UI.Overlay.Controls"
+                    xmlns:converters="using:HunterPie.UI.Architecture.Converters"
+                    x:DataType="vm:MonsterAilmentViewModel"
+                    mc:Ignorable="d"
+                    Classes.isActive="{Binding IsActive}"
+                    Padding="0,0,0,2"
+                    Width="80">
     <UserControl.Resources>
         <converters:RatioToArcSweepAngleConverter x:Key="RatioConverter"/>
         <converters:SecondsToTimeString x:Key="SecondsToTimeString"/>
@@ -105,4 +105,4 @@
                    Margin="0,18,0,0" 
                    Grid.Row="1"/>
     </Grid>
-</UserControl>
+</local:AutoVisibilityBase>

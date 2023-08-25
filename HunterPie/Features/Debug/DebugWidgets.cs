@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HunterPie.Core.Domain.Constants;
+using HunterPie.Core.Domain.Features;
+using System;
 using System.Linq;
 
 namespace HunterPie.Features.Debug;
@@ -17,6 +19,9 @@ internal static class DebugWidgets
 
     public static void MockIfNeeded()
     {
+        if (!FeatureFlagManager.IsEnabled(FeatureFlags.FEATURE_ADVANCED_DEV))
+            return;
+        
         foreach (IWidgetMocker mocker in Mockers.Value)
             mocker.Mock();
     }

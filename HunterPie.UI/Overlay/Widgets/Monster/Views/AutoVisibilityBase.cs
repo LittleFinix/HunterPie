@@ -1,10 +1,12 @@
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Metadata;
 using Avalonia.Data;
 using System;
 
 namespace HunterPie.UI.Overlay.Widgets.Monster.Views;
 
+[PseudoClasses(":active")]
 public class AutoVisibilityBase : UserControl
 {
     public static readonly StyledProperty<bool> IsActiveProperty = AvaloniaProperty.Register<AutoVisibilityBase, bool>(

@@ -95,13 +95,24 @@
                 <Button.Content>
                     <TextBlock ClipToBounds="False" Text="_" />
                 </Button.Content>
+                <Button.Clip>
+                    <EllipseGeometry RadiusX="10"
+                                     RadiusY="10"
+                                     Center="12,14"/>
+                </Button.Clip>
             </Button>
             <Button 
                 Content="✕"
                 Background="{StaticResource HUNTERPIE_ACCENT_COLOR}"
                 FontSize="15"
                 Command="{Binding CloseApplication}"
-                HorizontalAlignment="Right" />
+                HorizontalAlignment="Right">
+                <Button.Clip>
+                    <EllipseGeometry RadiusX="10"
+                                     RadiusY="10"
+                                     Center="12,14"/>
+                </Button.Clip>
+            </Button>
 
         </StackPanel>
     </Grid>
