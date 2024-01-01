@@ -17,7 +17,7 @@
         <SignAssembly>True</SignAssembly>
         <PlatformTarget>AnyCPU</PlatformTarget>
         <Nullable>enable</Nullable>
-        <LangVersion>10.0</LangVersion>
+        <LangVersion>12.0</LangVersion>
         <DelaySign>False</DelaySign>
         
         <WarningsAsErrors>CA1416;CS0108;AVA2001</WarningsAsErrors>
