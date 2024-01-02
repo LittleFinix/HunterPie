@@ -29,4 +29,6 @@ public partial class AccountLoginFlowView : View<AccountLoginFlowViewModel>
     }
 
     private void OnForgotPasswordClick(object sender, RoutedEventArgs e) => ViewModel.NavigateToPasswordResetFlow();
+
+    private void OnResendVerificationClick(object sender, RoutedEventArgs e) => ViewModel.NavigateToAccountVerificationFlow();
 }

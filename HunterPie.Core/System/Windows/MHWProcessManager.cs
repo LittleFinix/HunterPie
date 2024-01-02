@@ -32,15 +32,14 @@ internal class MHWProcessManager : ProcessManagerBase
             _ = AddressMap.ParseLatest(ClientInfo.AddressPath);
         }
         else
-        {
             _ = IsICE(parsedVersion)
                 ? AddressMap.ParseLatest(ClientInfo.AddressPath)
                 : AddressMap.Parse(Path.Combine(ClientInfo.AddressPath, $"MonsterHunterWorld.{version}.map"));
-        }
 
         if (!AddressMap.IsLoaded)
         {
             Log.Error("Failed to parse map file");
+            ShouldPollProcess = false;
             return false;
         }
 

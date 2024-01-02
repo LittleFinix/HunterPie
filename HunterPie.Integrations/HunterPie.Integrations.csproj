@@ -5,8 +5,8 @@
   <PropertyGroup>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <AssemblyVersion>2.8.0.78</AssemblyVersion>
-    <FileVersion>2.8.0.78</FileVersion>
+    <AssemblyVersion>2.8.0.106</AssemblyVersion>
+    <FileVersion>2.8.0.106</FileVersion>
     <Version>2.2022.1208.2323</Version>
     <IncrementVersionOnBuild>2.yyyy.Mdd.Hmm</IncrementVersionOnBuild>
   </PropertyGroup>
