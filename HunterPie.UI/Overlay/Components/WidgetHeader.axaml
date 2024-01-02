@@ -43,11 +43,11 @@
                            Margin="0,0,5,0">
                     <Run Text="x:"/>
                     <Run d:Text="1000"
-                         Text="{Binding $parent[local:WidgetBase].Left, StringFormat=\{0:F0\}}"
+                         Text="{Binding $parent[local:WidgetBase].Position.X, StringFormat=\{0:F0\}}"
                          Foreground="{StaticResource WHITE_100}"/>
                     <Run Text="y:"/>
                     <Run d:Text="800"
-                         Text="{Binding $parent[local:WidgetBase].Top, StringFormat=\{0:F0\}}"
+                         Text="{Binding $parent[local:WidgetBase].Position.Y, StringFormat=\{0:F0\}}"
                          Foreground="{StaticResource WHITE_100}"/>
                 </TextBlock>
                 <Button Width="20"

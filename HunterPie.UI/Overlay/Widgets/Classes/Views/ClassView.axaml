@@ -36,5 +36,7 @@
     </UserControl.Resources>
 
     <ContentControl Content="{Binding Current, Mode=OneWay}"
-                    IsVisible="{Binding InHuntingZone, Mode=OneWay}"/>
+                    IsVisible="{Binding InHuntingZone, Mode=OneWay}"
+                    ContentTemplate="{StaticResource ClassTemplateSelector}"
+                    />
 </architecture:View>

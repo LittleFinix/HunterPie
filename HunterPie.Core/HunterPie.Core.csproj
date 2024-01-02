@@ -1,20 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <Import Project="../Common/Common.csproj"/>
+    <Import Project="../Common/Avalonia.csproj"/>
 
     <PropertyGroup>
         <OutputType>Library</OutputType>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <AvaloniaAccessUnstablePrivateApis>true</AvaloniaAccessUnstablePrivateApis>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="ClrHeapAllocationAnalyzer" Version="3.0.0" Condition="'$(ConfigurationName)' == 'Debug'"/>
         <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0"/>
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
-        <PackageReference Include="Avalonia" Version="[11.0.3]"/>
-        <PackageReference Include="Avalonia.X11" Version="[11.0.3]"/>
-        <PackageReference Include="Avalonia.Win32" Version="[11.0.3]"/>
         <PackageReference Include="X11" Version="1.0.6" />
         <PackageReference Include="YamlDotNet" Version="13.0.0" />
     </ItemGroup>

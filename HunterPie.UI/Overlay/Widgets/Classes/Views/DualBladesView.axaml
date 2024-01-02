@@ -108,7 +108,7 @@
                 <MultiBinding Converter="{StaticResource PercentageToRelativeSizeConverter}">
                     <Binding Path="PiercingBindTimer" Mode="OneWay"/>
                     <Binding Path="PiercingBindMaxTimer" Mode="OneWay"/>
-                    <Binding Path="Width" ElementName="PART_PiercingBindGauge" Mode="OneWay"/>
+                    <Binding Path="Bounds.Width" ElementName="PART_PiercingBindGauge" Mode="OneWay"/>
                 </MultiBinding>
             </Border.Width>
         </Border>
@@ -179,7 +179,7 @@
                 <MultiBinding Converter="{StaticResource PercentageToRelativeSizeConverter}">
                     <Binding Path="DemonBuildUp" Mode="OneWay"/>
                     <Binding Path="DemonMaxBuildUp" Mode="OneWay"/>
-                    <Binding Path="Width" ElementName="PART_DemonGauge" Mode="OneWay"/>
+                    <Binding Path="Bounds.Width" ElementName="PART_DemonGauge" Mode="OneWay"/>
                 </MultiBinding>
             </Border.Width>
             <Border.Styles>
@@ -188,7 +188,7 @@
                 </Style>
                 <Style Selector="local|DualBladesView.isArch Border">
                     <Style.Animations>
-                        <Animation IterationCount="INFINITE">
+                        <Animation Duration="1.0" IterationCount="INFINITE">
                             <KeyFrame KeyTime="0.4">
                                 <Setter Property="Background" Value="{StaticResource DUAL_BLADES_ARCH_DEMON_BLINK_BACKGROUND_BRUSH}" />
                                 <Setter Property="BorderBrush" Value="{StaticResource DUAL_BLADES_ARCH_DEMON_BLINK_BRUSH}" />
@@ -233,21 +233,17 @@
                     <Style Selector="local|DualBladesView:not(.isDemon) image|Icon">
                         <Setter Property="Foreground" Value="{StaticResource GRAY_50}"/>
                         <Setter Property="Effect">
-                            <Template>
-                                <DropShadowEffect 
-                                    BlurRadius="2"
-                                    Color="{Binding Color, Source={StaticResource WHITE_600}}"/>
-                            </Template>
+                            <DropShadowEffect 
+                                BlurRadius="2"
+                                Color="{Binding Color, Source={StaticResource WHITE_600}}"/>
                         </Setter>
                     </Style>
                     <Style Selector="local|DualBladesView.isDemon image|Icon">
                         <Setter Property="Foreground" Value="{StaticResource DUAL_BLADES_DEMON_BRUSH}"/>
                         <Setter Property="Effect">
-                            <Template>
-                                <DropShadowEffect 
-                                    BlurRadius="2"
-                                    Color="{StaticResource DUAL_BLADES_DEMON_COLOR}"/>
-                            </Template>
+                            <DropShadowEffect 
+                                BlurRadius="2"
+                                Color="{StaticResource DUAL_BLADES_DEMON_COLOR}"/>
                         </Setter>
                     </Style>
                 </image:Icon.Styles>

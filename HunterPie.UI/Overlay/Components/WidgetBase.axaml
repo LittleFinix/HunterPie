@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="using:HunterPie.UI.Overlay.Components"
-        xmlns:overlay="using:HunterPie.UI.Overlay"
+        xmlns:local="clr-namespace:HunterPie.UI.Overlay.Components"
+        xmlns:overlay="clr-namespace:HunterPie.UI.Overlay"
         xmlns:client="clr-namespace:HunterPie.Core.Client;assembly=HunterPie.Core"
         xmlns:DEBUG="DEBUG_MODE"
         xmlns:enums="using:HunterPie.UI.Overlay.Enums"
@@ -32,6 +32,22 @@
         Classes.isDesignModeEnabled="{Binding IsDesignModeEnabled, Source={x:Static overlay:WidgetManager.Instance}}"
         Classes.overlayEnabled="{Binding Overlay.IsEnabled.Value, Source={x:Static client:ClientConfig.Config}}"
         PointerWheelChanged="InputElement_OnPointerWheelChanged">
+    <!-- <Window.Styles> -->
+    <!--     <Style Selector=":is(Window)"> -->
+    <!--         <Setter Property="IsVisible" Value="True" /> -->
+    <!--         ~1~ <Setter Property="IsVisible" Value="{Binding Overlay.IsEnabled.Value, Source={x:Static client:ClientConfig.Config}}" /> @1@ -->
+    <!--          -->
+    <!--         <Style Selector="^.hideWhenUIOpen.gameHudOpen"> -->
+    <!--             <Setter Property="IsVisible" Value="False" /> -->
+    <!--         </Style> -->
+    <!--         <Style Selector="^.hideWhenUnfocus:not(.isGameFocused)"> -->
+    <!--             <Setter Property="IsVisible" Value="False" /> -->
+    <!--         </Style> -->
+    <!--         <Style Selector="^.isDesignModeEnabled"> -->
+    <!--             <Setter Property="IsVisible" Value="True" /> -->
+    <!--         </Style> -->
+    <!--     </Style> -->
+    <!-- </Window.Styles> -->
     <Panel>
         <Grid x:Name="PART_Base"
               IsVisible="{Binding IsDesignModeEnabled, Source={x:Static overlay:WidgetManager.Instance}}"
@@ -63,18 +79,15 @@
                     <Style Selector="ContentControl">
                         <Setter Property="IsVisible" Value="{Binding Widget.Settings.Enabled.Value}"/>
                         
-                        <!-- <Style Selector="^.hideWhenUIOpen.isGameHudOpen"> -->
-                        <!--     <Setter Property="IsVisible" Value="False"/> -->
-                        <!-- </Style> -->
-                        <!-- <Style Selector="^.hideWhenUnfocus:not(.isGameFocused)"> -->
-                        <!--     <Setter Property="IsVisible" Value="False"/> -->
-                        <!-- </Style> -->
-                        <!-- <Style Selector="^.isDesignModeEnabled"> -->
-                        <!--     <Setter Property="IsVisible" Value="True"/> -->
-                        <!-- </Style> -->
-                        <!-- <Style Selector="^:not(.overlayEnabled)"> -->
-                        <!--     <Setter Property="IsVisible" Value="False"/> -->
-                        <!-- </Style> -->
+                        <Style Selector=":is(Window).hideWhenUIOpen.isGameHudOpen ^">
+                            <Setter Property="IsVisible" Value="False"/>
+                        </Style>
+                        <Style Selector=":is(Window).hideWhenUnfocus:not(.isGameFocused) ^">
+                            <Setter Property="IsVisible" Value="False"/>
+                        </Style>
+                        <Style Selector=":is(Window).isDesignModeEnabled ^">
+                            <Setter Property="IsVisible" Value="True"/>
+                        </Style>
                     </Style>
                 </ContentControl.Styles>
                 <ContentControl.RenderTransform>

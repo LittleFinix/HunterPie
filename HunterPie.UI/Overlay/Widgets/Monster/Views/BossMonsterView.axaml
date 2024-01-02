@@ -244,7 +244,7 @@
                                       BlurRadius="4" 
                                       />
                 </TextBlock.Effect>
-            <Run Text="{Binding HealthPercentage, Mode=OneWay, StringFormat={}{0:N0}}"
+            <Run Text="{Binding HealthPercentage, Mode=OneWay, Converter={StaticResource FloatFloorConverter}, StringFormat={}{0:N0}}"
                  d:Text="90"
                  FontWeight="Normal"
                  FontSize="16"/><!--

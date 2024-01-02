@@ -18,12 +18,8 @@
         </LinearGradientBrush>
         <SolidColorBrush x:Key="MonsterTenderizeBarDelayed" Color="#FFFFDB9C"/>
     </UserControl.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="7*"/>
-            <ColumnDefinition Width="33*"/>
-        </Grid.ColumnDefinitions>
-        <TextBlock Text="{Binding Breaks}"
+    <Grid ColumnDefinitions="7*,33*" RowDefinitions="Auto,Auto">
+        <TextBlock Grid.RowSpan="2"
                    d:Text="3"
                    Foreground="{StaticResource WHITE_50}"
                    FontFamily="{StaticResource HUNTERPIE_DEFAULT_FONT}"
@@ -31,10 +27,16 @@
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center">
             <TextBlock.Effect>
-                <DropShadowEffect Color="Black"
-                                      BlurRadius="4" 
-                                      />
+                <DropShadowEffect Color="Black" BlurRadius="4" />
             </TextBlock.Effect>
+            <Run Text="{Binding Breaks}"
+            /><Run Text="/"
+                   Foreground="{StaticResource WHITE_200}"
+                   FontWeight="Light"
+            /><Run Text="{Binding MaxBreaks}" 
+                   Foreground="{StaticResource WHITE_200}"
+                   FontWeight="Light"
+            />
         </TextBlock>
         <TextBlock Text="{Binding Name, Converter={StaticResource MonsterPartIdToNameConverter}, Mode=OneTime}"
                    d:Text="Head"
@@ -51,7 +53,7 @@
             </TextBlock.Effect>
         </TextBlock>
 
-        <Grid Margin="30,15,0,0" Grid.ColumnSpan="2">
+        <Grid Grid.Column="1" Grid.Row="1">
             <overlay:Bar Foreground="{StaticResource MonsterTenderizeBar}"
                          ForegroundDelayed="{StaticResource MonsterTenderizeBarDelayed}"
                          Height="10"

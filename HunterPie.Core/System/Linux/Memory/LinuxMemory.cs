@@ -21,6 +21,7 @@ public class LinuxMemory : IMemory, IDisposable
     public LinuxMemory(Process process)
     {
         _process = process;
+        _process.EnableRaisingEvents = true;
         
         Posix.Attach(_process.Id);
         _mem = new ThreadLocal<FileStream>();
@@ -29,10 +30,10 @@ public class LinuxMemory : IMemory, IDisposable
     private Stream GetMem(long addr, FileAccess access)
     {
         if (_process.HasExited)
-            throw new InvalidOperationException();
+            throw new IOException();
         
         if ((ulong)addr < 4 * 1024) // lowest page is definitely unmapped
-            throw new NullReferenceException();
+            throw new IOException();
         
         if (!_mem.IsValueCreated)
         {
@@ -80,7 +81,7 @@ public class LinuxMemory : IMemory, IDisposable
         }
         catch (IOException)
         {
-            return null!;
+            return string.Empty;
         }
         finally
         {
@@ -133,7 +134,7 @@ public class LinuxMemory : IMemory, IDisposable
         }
         catch (IOException)
         {
-            return null!;
+            return new T[count];
         }
         finally
         {

@@ -35,6 +35,5 @@
                 </Grid>
             </ControlTemplate>
         </Setter>
-        <!-- ... -->
     </Style>
 </Styles>

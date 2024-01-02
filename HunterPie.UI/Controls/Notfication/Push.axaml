@@ -22,7 +22,7 @@
             ClipToBounds="True">
         <Border.Clip>
             <MultiBinding Converter="{StaticResource BorderClipConverter}">
-                <Binding Path="Width"
+                <Binding Path="Bounds.Width"
                          RelativeSource="{RelativeSource Self}"/>
                 <Binding Path="Height"
                          RelativeSource="{RelativeSource Self}"/>

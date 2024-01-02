@@ -10,10 +10,10 @@ public class DynamicMonsterBarSizeConverter : IMultiValueConverter
     public object Convert(IList<object?> values, Type targetType, object parameter, CultureInfo culture)
     {
         if (values[0] is not double)
-            return 0;
+            return double.NaN;
 
         if (values[1] is not int)
-            return 0;
+            return double.NaN;
 
         double minWidth = (double)values[0];
         int monstersVisible = (int)values[1];

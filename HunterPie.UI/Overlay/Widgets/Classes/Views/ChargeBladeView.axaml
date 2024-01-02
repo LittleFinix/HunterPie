@@ -132,7 +132,7 @@
                         <MultiBinding Converter="{StaticResource CurrentValueToWidthConverter}">
                             <Binding Path="ChargeBuildUp"/>
                             <Binding Path="ChargeMaxBuildUp"/>
-                            <Binding Path="Width" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Grid}}"/>
+                            <Binding Path="Bounds.Width" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Grid}}"/>
                             <Binding Path="BorderThickness" RelativeSource="{RelativeSource Self}"/>
                         </MultiBinding>
                     </Border.Width>
@@ -145,7 +145,7 @@
                       Fill="{Binding Source={StaticResource CHARGE_BLADE_YELLOW_CHARGE}, Converter={StaticResource ColorToBrushConverter}}">
                     <Path.Margin>
                         <MultiBinding Converter="{StaticResource PercentageToLeftMarginDistanceConverter}">
-                            <Binding Path="Width" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Grid}}"/>
+                            <Binding Path="Bounds.Width" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Grid}}"/>
                             <Binding Source="{StaticResource YellowThreshold}"/>
                         </MultiBinding>
                     </Path.Margin>
@@ -161,7 +161,7 @@
                       Fill="{Binding Source={StaticResource CHARGE_BLADE_RED_CHARGE}, Converter={StaticResource ColorToBrushConverter}}">
                     <Path.Margin>
                         <MultiBinding Converter="{StaticResource PercentageToLeftMarginDistanceConverter}">
-                            <Binding Path="Width" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Grid}}"/>
+                            <Binding Path="Bounds.Width" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Grid}}"/>
                             <Binding Source="{StaticResource RedThreshold}"/>
                         </MultiBinding>
                     </Path.Margin>
@@ -177,7 +177,7 @@
                       Fill="{Binding Source={StaticResource CHARGE_BLADE_OVER_CHARGE}, Converter={StaticResource ColorToBrushConverter}}">
                     <Path.Margin>
                         <MultiBinding Converter="{StaticResource PercentageToLeftMarginDistanceConverter}">
-                            <Binding Path="Width" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Grid}}"/>
+                            <Binding Path="Bounds.Width" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Grid}}"/>
                             <Binding Source="{StaticResource OverChargeThreshold}"/>
                         </MultiBinding>
                     </Path.Margin>
@@ -197,7 +197,7 @@
                                        ItemHeight="6">
                                 <WrapPanel.ItemWidth>
                                     <MultiBinding Converter="{StaticResource SizeAndCountToSizeConverter}">
-                                        <Binding Path="Width" RelativeSource="{RelativeSource Self}"/>
+                                        <Binding Path="Bounds.Width" RelativeSource="{RelativeSource Self}"/>
                                         <Binding Path="Phials.Count"/>
                                     </MultiBinding>
                                 </WrapPanel.ItemWidth>

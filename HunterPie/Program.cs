@@ -1,8 +1,10 @@
 using Avalonia;
+using Avalonia.Media;
 using Avalonia.Platform;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Reflection;
@@ -23,7 +25,15 @@ public class Program
 
     private static AppBuilder BuildAvaloniaApp()
     {
+        FontManagerOptions options;
+        
+        if (OperatingSystem.IsLinux())
+            options = new() { DefaultFamilyName = "DejaVu Sans" };
+        else
+            options = new() { DefaultFamilyName = "Arial" };
+    
         return AppBuilder.Configure<App>()
+            .With(options)
             .UsePlatformDetect();
     }
 

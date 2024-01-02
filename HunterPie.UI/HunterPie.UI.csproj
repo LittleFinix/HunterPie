@@ -38,6 +38,9 @@
         <Compile Update="Overlay\Components\WidgetBase*.axaml.cs">
             <DependentUpon>Overlay\Components\WidgetBase.axaml</DependentUpon>
         </Compile>
+        <Compile Update="Overlay\Components\WidgetBase.Windows.xaml.cs">
+          <DependentUpon>WidgetBase.axaml</DependentUpon>
+        </Compile>
     </ItemGroup>
 
     <Import Project="../Common/Avalonia.csproj"/>

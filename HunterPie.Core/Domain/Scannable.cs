@@ -65,6 +65,9 @@ public abstract class Scannable
         {
             try
             {
+                if (Process.HasExitedNormally is not null)
+                    return;
+                    
                 _ = scanner.DynamicInvoke();
 
                 if (_troublesomeScannables.ContainsKey(scanner))
@@ -80,20 +83,20 @@ public abstract class Scannable
             }
             catch (Exception err)
             {
-                // if (!_troublesomeScannables.ContainsKey(scanner))
-                //     _troublesomeScannables.Add(scanner, 0);
-                //
-                // _troublesomeScannables[scanner]++;
-                //
-                // if (_troublesomeScannables[scanner] >= 3)
-                // {
-                //     Log.Warn(
-                //         $"Scanner: {scanner.Method.Name} had multiple exceptions. Disabling scanner for now;\n{err}");
-                //
-                //     _scanners.Remove(scanner);
-                //
-                //     _troublesomeScannables.Remove(scanner);
-                // }
+                if (!_troublesomeScannables.ContainsKey(scanner))
+                    _troublesomeScannables.Add(scanner, 0);
+                
+                _troublesomeScannables[scanner]++;
+                
+                if (_troublesomeScannables[scanner] >= 3)
+                {
+                    Log.Warn(
+                        $"Scanner: {scanner.Method.Name} had multiple exceptions. Disabling scanner for now;\n{err}");
+                
+                    _scanners.Remove(scanner);
+                
+                    _troublesomeScannables.Remove(scanner);
+                }
             }
         }
     }

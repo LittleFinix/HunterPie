@@ -4,15 +4,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:buttons="using:HunterPie.UI.Controls.Buttons"
              Height="30"
              mc:Ignorable="d" 
              d:DesignHeight="30" d:DesignWidth="120"
              ClipToBounds="True"
              ToolTip.Tip="{Binding Description, ElementName=TabItemControl}"
              Cursor="Hand">
-    <UserControl.Resources>
-        
-    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="31"/>
@@ -25,18 +23,15 @@
                     Height="{Binding Path=Width, RelativeSource={RelativeSource Self}}"
                     VerticalAlignment="Top"/>
         </Canvas>
-        <Rectangle HorizontalAlignment="Stretch"
-                   VerticalAlignment="Stretch"
-                   Width="20"
-                   Height="{Binding Width, RelativeSource={RelativeSource Self}}"
-                   Fill="{Binding Foreground, ElementName=PART_HeaderTitle}">
-            <Rectangle.OpacityMask>
-                <ImageBrush d:Source="{StaticResource ICON_DISCORD}"
-                            Source="{Binding Icon, ElementName=TabItemControl}"
-                            TileMode="Tile" 
-                            Stretch="Uniform"/>
-            </Rectangle.OpacityMask>
-        </Rectangle>
+        <Image Grid.Column="0"
+               Source="{Binding Icon, ElementName=TabItemControl}"
+               d:Source="{StaticResource ICON_DISCORD}"
+               HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch"
+               ClipToBounds="True"
+               Width="20"
+               Height="{Binding $self.Width}">
+        </Image>
         <TextBlock Text="{Binding Title, ElementName=TabItemControl}"
                    x:Name="PART_HeaderTitle"
                    Grid.Column="1"

@@ -16,6 +16,7 @@
              xmlns:types="clr-namespace:HunterPie.Core.Settings.Types;assembly=HunterPie.Core"
              xmlns:generics="clr-namespace:HunterPie.Core.Domain.Generics;assembly=HunterPie.Core"
              xmlns:misc="clr-namespace:HunterPie.UI.Controls.Misc"
+             xmlns:overlay="clr-namespace:HunterPie.Core.Client.Configuration.Overlay;assembly=HunterPie.Core"
              Background="Transparent"
              d:DesignWidth="400"
              x:DataType="viewModel:SettingElementViewModel"
@@ -40,6 +41,17 @@
                            Maximum="{Binding Max}"
                            Increment="{Binding Step}"
             />
+        </DataTemplate>
+        <DataTemplate DataType="types:AbnormalityTrays">
+            <ScrollViewer >
+                <ItemsControl ItemsSource="{Binding Trays}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <overlay:AbnormalityWidgetConfig />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
         </DataTemplate>
         <DataTemplate DataType="types:IFileSelector">
             <misc:FilePicker SingleFile="{Binding Current}" AllowMultiple="False" />

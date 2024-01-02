@@ -21,7 +21,7 @@ public class CurrentValueToWidthConverter : IMultiValueConverter
             double sides = border.Left + border.Right;
 
             double width = (maxWidth * (currentValue / Math.Max(maxValue, 1))) - sides;
-            return Math.Max(1.0, width);
+            return double.IsNaN(width) ? 1 : Math.Max(1.0, width);
         }
         catch
         {

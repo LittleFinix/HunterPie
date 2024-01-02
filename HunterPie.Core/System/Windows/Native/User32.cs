@@ -24,5 +24,16 @@ public static class User32
 
     [DllImport("user32.dll")]
     public static extern bool SetProcessDPIAware();
+    
+    [DllImport("user32.dll")]
+    public static extern bool GetClientRect(IntPtr hWnd, out RECT lprect);
+}
 
+[StructLayout(LayoutKind.Sequential)]
+public struct RECT
+{  
+    public long Left;
+    public long Top;
+    public long Right;
+    public long Bottom;
 }

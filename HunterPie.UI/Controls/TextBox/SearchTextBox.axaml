@@ -57,7 +57,7 @@
                     <RectangleGeometry>
                         <RectangleGeometry.Rect>
                             <MultiBinding Converter="{StaticResource RelativeSizeRectConverter}">
-                                <Binding Path="Width" RelativeSource="{RelativeSource AncestorType=TextBox}"/>
+                                <Binding Path="Bounds.Width" RelativeSource="{RelativeSource AncestorType=TextBox}"/>
                                 <Binding Path="Height" RelativeSource="{RelativeSource AncestorType=TextBox}"/>
                             </MultiBinding>
                         </RectangleGeometry.Rect>

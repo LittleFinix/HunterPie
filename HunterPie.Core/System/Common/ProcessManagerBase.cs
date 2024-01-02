@@ -117,8 +117,7 @@ internal abstract class ProcessManagerBase : IProcessManager, IEventDispatcher
 
         if (Process is not null)
         {
-            // IsProcessForeground = User32.GetForegroundWindow() == Process.MainWindowHandle;
-            IsProcessForeground = true;
+            IsProcessForeground = Process.GetMainWindow()?.IsFocused == true;
             mhProcess.Dispose();
             return;
         }

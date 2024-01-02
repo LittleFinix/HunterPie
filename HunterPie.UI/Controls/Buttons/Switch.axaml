@@ -39,13 +39,13 @@
             <Rectangle.Margin>
                 <MultiBinding Converter="{StaticResource SizeToDoubleSizeConverter}" ConverterParameter="5.0">
                     <Binding ElementName="PART_Bubble"
-                             Path="Width"
+                             Path="Bounds.Width"
                              Mode="OneWay" />
                     <Binding ElementName="PART_Slider"
                              Path="Margin"
                              Mode="OneWay" />
                     <Binding ElementName="PART_Slider"
-                             Path="Width"
+                             Path="Bounds.Width"
                              Mode="OneWay" />
                 </MultiBinding>
             </Rectangle.Margin>

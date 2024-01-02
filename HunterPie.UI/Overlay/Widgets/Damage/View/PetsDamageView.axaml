@@ -27,7 +27,7 @@
                     <local:DamageBarView Height="38">
                         <local:DamageBarView.Width>
                             <MultiBinding Converter="{StaticResource ParentSizePercentageConverter}">
-                                <Binding Path="Width" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Grid}}"/>
+                                <Binding Path="Bounds.Width" RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type Grid}}"/>
                                 <Binding Path="DataContext.Percentage" RelativeSource="{RelativeSource Self}"/>
                             </MultiBinding>
                         </local:DamageBarView.Width>

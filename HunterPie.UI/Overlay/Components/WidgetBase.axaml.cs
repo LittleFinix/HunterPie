@@ -58,7 +58,6 @@ public partial class WidgetBase : Window
                 _widget.Settings.Enabled.PropertyChanged += EnabledOnPropertyChanged;
 
                 SetPosition();
-                IsVisible = _widget.Settings.Enabled;
             }
         }
     }
@@ -90,8 +89,7 @@ public partial class WidgetBase : Window
             .AddSeries(_renderPoints, "Render", Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF))
             .Build();
 #endif
-
-        IsVisible = false;
+        
         InitializeComponent();
         DataContext = this;
 
@@ -99,7 +97,7 @@ public partial class WidgetBase : Window
 
     private void EnabledOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        IsVisible = Widget.Settings.Enabled;
+        // IsVisible = Widget.Settings.Enabled;
     }
 
     private int _counter;
@@ -160,7 +158,10 @@ public partial class WidgetBase : Window
 
     private void ForceAlwaysOnTop()
     {
+        Topmost = false;
         Topmost = true;
+        ShowInTaskbar = true;
+        ShowInTaskbar = false;
     }
 
     private void OnWidgetTypeChange(object sender, WidgetType e)
@@ -218,10 +219,7 @@ public partial class WidgetBase : Window
             {
                 // When visibility is changed, the task bar icon reappears and topmost is lost.
                 // This fixes this.
-                Topmost = false;
-                Topmost = true;
-                ShowInTaskbar = true;
-                ShowInTaskbar = false;
+                ForceAlwaysOnTop();
             }
         }
     }

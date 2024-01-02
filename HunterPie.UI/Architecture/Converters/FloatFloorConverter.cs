@@ -10,8 +10,8 @@ public class FloatFloorConverter : IValueConverter
     {
         return value switch
         {
-            float f => Math.Floor(f),
-            double d => Math.Floor(d),
+            float f when float.IsNormal(f) => Math.Floor(f),
+            double d when double.IsNormal(d) => Math.Floor(d),
             _ => 0
         };
     }

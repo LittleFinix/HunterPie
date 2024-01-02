@@ -17,11 +17,13 @@ internal class MHWProcessManager : ProcessManagerBase
     protected override bool ShouldOpenProcess(Process process)
     {
         // If our process is in either another window, or not initialized yet
+
+        string title = process.GetMainWindow()?.Title ?? string.Empty; 
         
-        if (OperatingSystem.IsWindows() && !process.MainWindowTitle.ToUpperInvariant().StartsWith("MONSTER HUNTER: WORLD"))
+        if (!title.ToUpperInvariant().StartsWith("MONSTER HUNTER: WORLD"))
             return false;
 
-        string version = OperatingSystem.IsWindows() ? process.MainWindowTitle.Split('(')[1].Trim(')') : string.Empty;
+        string version = title.Split('(')[1].Trim(')');
         bool parsed = int.TryParse(version, out int parsedVersion);
 
         if (!parsed)
