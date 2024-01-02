@@ -49,18 +49,18 @@ public static class IEnumerableExtensions
             action(item);
     }
 
-    public static IEnumerable<T> TakeRolling<T>(this T[] array, int skip, int take)
+    public static IEnumerable<T> TakeRolling<T>(this IReadOnlyList<T> array, int skip, int take)
     {
         int lastIndex = skip + take;
 
-        if (lastIndex < array.Length)
+        if (lastIndex < array.Count)
             return array.Skip(skip)
                 .Take(take);
 
-        int takeFromStart = lastIndex - array.Length;
+        int takeFromStart = lastIndex - array.Count;
 
         return array.Take(takeFromStart)
             .Concat(array.Skip(skip)
-                .Take(array.Length));
+                .Take(array.Count));
     }
 }

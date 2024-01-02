@@ -45,16 +45,16 @@ public class WindowsMemory : IMemory
         return nullCharIdx < 0 ? raw : raw[..nullCharIdx];
     }
 
-    public T Read<T>(long address) where T : struct => Read<T>(address, 1)[0];
+    public T Read<T>(long address) where T : unmanaged => Read<T>(address, 1)[0];
 
-    public T[] Read<T>(long address, uint count) where T : struct
+    public T[] Read<T>(long address, uint count) where T : unmanaged
     {
         Type type = typeof(T);
 
         return type.IsPrimitive ? ReadPrimitive<T>(address, count) : ReadStructure<T>(address, count);
     }
 
-    private T[] ReadStructure<T>(long address, uint count) where T : struct
+    private T[] ReadStructure<T>(long address, uint count) where T : unmanaged
     {
         int size = Marshal.SizeOf<T>() * (int)count;
         IntPtr bufferAddress = Marshal.AllocHGlobal(size);
@@ -67,7 +67,7 @@ public class WindowsMemory : IMemory
         return structures;
     }
 
-    private T[] ReadPrimitive<T>(long address, uint count) where T : struct
+    private T[] ReadPrimitive<T>(long address, uint count) where T : unmanaged
     {
         int lpByteCount = Marshal.SizeOf<T>() * (int)count;
         var buffer = new T[count];
@@ -77,9 +77,9 @@ public class WindowsMemory : IMemory
         return buffer;
     }
 
-    public void Write<T>(long address, T data) where T : struct => throw new NotImplementedException();
+    public void Write<T>(long address, T data) where T : unmanaged => throw new NotImplementedException();
 
-    public void Write<T>(long address, T[] data) where T : struct
+    public void Write<T>(long address, T[] data) where T : unmanaged
     {
         byte[] buffer = StructureToBuffer(data);
 
@@ -96,7 +96,7 @@ public class WindowsMemory : IMemory
             throw new Win32Exception();
     }
 
-    public byte[] StructureToBuffer<T>(T[] array) where T : struct
+    public byte[] StructureToBuffer<T>(T[] array) where T : unmanaged
     {
         int size = Marshal.SizeOf<T>() * array.Length;
         IntPtr malloced = Marshal.AllocHGlobal(size);

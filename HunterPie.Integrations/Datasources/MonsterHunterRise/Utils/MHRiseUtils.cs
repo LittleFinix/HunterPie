@@ -53,13 +53,13 @@ public static class MHRiseUtils
     public static double CalculateMaxPlayerStamina(this MHRPetalaceStatsStructure stats) =>
         (stats.StaminaUp * PETALACE_STAMINA_MULTIPLIER) + MAX_DEFAULT_STAMINA + FOOD_BONUS_STAMINA;
 
-    public static T[] ReadArray<T>(this IMemory memory, long address) where T : struct
+    public static T[] ReadArray<T>(this IMemory memory, long address) where T : unmanaged
     {
         uint arraySize = memory.Read<uint>(address + 0x1C);
         return memory.Read<T>(address + 0x20, arraySize);
     }
 
-    public static T[] ReadArrayOfPtrs<T>(this IMemory memory, long address) where T : struct
+    public static T[] ReadArrayOfPtrs<T>(this IMemory memory, long address) where T : unmanaged
     {
         return memory.ReadArray<long>(address)
             .Select(memory.Read<T>)
@@ -73,7 +73,7 @@ public static class MHRiseUtils
         return MHRCrypto.DecodeHealth(structure.GetValue(), structure.Key);
     }
 
-    public static T[] ReadArraySafe<T>(this IMemory memory, long address, uint size) where T : struct
+    public static T[] ReadArraySafe<T>(this IMemory memory, long address, uint size) where T : unmanaged
     {
         uint arraySize = memory.Read<uint>(address + 0x1C);
         arraySize = Math.Min(size, arraySize);

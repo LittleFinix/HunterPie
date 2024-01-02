@@ -3,13 +3,12 @@
 namespace HunterPie.Integrations.Datasources.MonsterHunterRise.Definitions;
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct MHRCryptoFloatStructure
+public unsafe struct MHRCryptoFloatStructure
 {
     public uint Key;
     public uint Index;
 
-    [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
-    public uint[] Values;
+    public fixed uint Values[4];
 
     public uint GetValue()
     {

@@ -89,7 +89,7 @@ public class LinuxMemory : IMemory, IDisposable
         }
     }
 
-    public T Read<T>(long address) where T : struct
+    public T Read<T>(long address) where T : unmanaged
     {
         int size = Marshal.SizeOf<T>();
         byte[] bytes = _bufferPool.Rent(size);
@@ -112,7 +112,7 @@ public class LinuxMemory : IMemory, IDisposable
         }
     }
 
-    public T[] Read<T>(long address, uint count) where T : struct
+    public T[] Read<T>(long address, uint count) where T : unmanaged
     {
         int size = Marshal.SizeOf<T>();
         byte[] bytes = _bufferPool.Rent(size);
@@ -142,7 +142,7 @@ public class LinuxMemory : IMemory, IDisposable
         }
     }
 
-    public void Write<T>(long address, T data) where T : struct
+    public void Write<T>(long address, T data) where T : unmanaged
     {
         int size = Marshal.SizeOf<T>();
         byte[] bytes = _bufferPool.Rent(size);
@@ -161,7 +161,7 @@ public class LinuxMemory : IMemory, IDisposable
         }
     }
 
-    public void Write<T>(long address, T[] data) where T : struct
+    public void Write<T>(long address, T[] data) where T : unmanaged
     {
         int size = Marshal.SizeOf<T>();
         byte[] bytes = _bufferPool.Rent(size);

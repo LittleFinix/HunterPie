@@ -74,21 +74,11 @@
                 </Button>
             </UniformGrid>
 
-            <StackPanel.Style>
-                <Style TargetType="StackPanel">
-                    <Setter Property="Visibility" Value="Visible"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding AccountVerificationResendFlowViewModel.IsFlowActive, Mode=OneWay}"
-                                     Value="True">
-                            <Setter Property="Visibility" Value="Hidden"/>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding PasswordResetFlowViewModel.IsFlowActive, Mode=OneWay}"
-                                     Value="True">
-                            <Setter Property="Visibility" Value="Hidden"/>
-                        </DataTrigger>
-                    </Style.Triggers>
+            <StackPanel.Styles>
+                <Style Selector="StackPanel">
+                    <Setter Property="IsVisible" Value="True"/>
                 </Style>
-            </StackPanel.Style>
+            </StackPanel.Styles>
         </StackPanel>
 
         <local:RequestAccountVerificationFlowView DataContext="{Binding AccountVerificationResendFlowViewModel, Mode=OneTime}"

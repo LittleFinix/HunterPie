@@ -194,7 +194,7 @@ public sealed class MHWInsectGlaive : MHWMeleeWeapon, IInsectGlaive
         MHWKinsectStructure kinsectStructure = Memory.Read<MHWKinsectStructure>(structure.KinsectPointer);
 
         KinsectBuff[] buffs = structure.QueuedBuffsCount > 0
-            ? structure.BuffsQueue.TakeRolling(structure.QueuedIndex, structure.QueuedBuffsCount)
+            ? structure.BuffsQueue[..].ToArray().TakeRolling(structure.QueuedIndex, structure.QueuedBuffsCount)
                                   .Select(it => it.ToBuff())
                                   .ToArray()
             : EmptyBuffs;

@@ -37,7 +37,7 @@ public static class MemoryExtensions
         return address;
     }
 
-    public static T Deref<T>(this IMemoryReader reader, long address, int[] offsets) where T : struct
+    public static T Deref<T>(this IMemoryReader reader, long address, int[] offsets) where T : unmanaged
     {
         long ptr = reader.Read(address, offsets);
 
@@ -47,7 +47,7 @@ public static class MemoryExtensions
         return reader.Read<T>(ptr);
     }
 
-    public static T DerefPtr<T>(this IMemoryReader reader, long address, int[] offsets) where T : struct
+    public static T DerefPtr<T>(this IMemoryReader reader, long address, int[] offsets) where T : unmanaged
     {
         long ptr = reader.ReadPtr(address, offsets);
         
